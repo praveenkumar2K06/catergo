@@ -1,6 +1,6 @@
+import { animated } from "@react-spring/web";
 import { cva, type VariantProps } from "class-variance-authority";
 import { Slot as SlotPrimitive } from "radix-ui";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
@@ -53,5 +53,7 @@ function Button({
 		/>
 	);
 }
+
+export const AnimatedButton = animated(Button);
 
 export { Button, buttonVariants };

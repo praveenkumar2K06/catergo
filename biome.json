@@ -10,6 +10,7 @@
 		"includes": [
 			"**",
 			"!**/dist",
+			"!**/prisma",
 			"!**/node_modules",
 			"!**/build",
 			"!**/.turbo",
