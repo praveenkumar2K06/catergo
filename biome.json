@@ -31,6 +31,9 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"complexity": {
+				"noImportantStyles": "off"
+			},
 			"correctness": {
 				"useExhaustiveDependencies": "info"
 			},
@@ -61,7 +64,6 @@
 		},
 		"domains": {
 			"react": "recommended",
-			"next": "recommended",
 			"tailwind": "recommended"
 		}
 	},
