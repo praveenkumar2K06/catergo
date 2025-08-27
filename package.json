@@ -10,7 +10,6 @@
 		"dev": "turbo dev",
 		"build": "turbo build",
 		"check-types": "turbo check-types",
-		"dev:web": "turbo -F web dev",
 		"dev:web-user": "turbo -F web-user dev",
 		"dev:server": "turbo -F server dev",
 		"db:push": "turbo -F server db:push",
