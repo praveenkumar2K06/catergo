@@ -1,13 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { containerPage, itemPage } from "@/lib/animations";
 import {
 	type CreateCartItemRequest,
 	createCartItem,
 	type UpdateCartQuantityRequest,
 	updateCartQuantity,
 } from "@/lib/api/cart";
+import { commonAnimations } from "@/lib/common-animations";
 import {
 	handleMutationError,
 	handleMutationSuccess,
@@ -123,13 +123,13 @@ export function MenuPage({
 
 	return (
 		<motion.div
-			variants={containerPage}
+			variants={commonAnimations.container}
 			initial="hidden"
 			animate="show"
 			className="min-h-screen bg-background"
 		>
 			{/* Header */}
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<MenuHeader
 					userData={userData}
 					onBack={onBack}
@@ -143,12 +143,12 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Welcome Banner */}
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<WelcomeBanner userData={userData} />
 			</motion.div>
 
 			{/* Categories */}
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<MenuCategories
 					activeCategory={activeCategory}
 					onCategoryChange={setActiveCategory}
@@ -156,7 +156,7 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Menu Items */}
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<MenuItems
 					activeCategory={activeCategory}
 					menuItems={menuItems}
@@ -167,7 +167,7 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Floating Cart Button */}
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<FloatingCartButton
 					cartItems={cartItems}
 					onProceedToCart={onProceedToCart}

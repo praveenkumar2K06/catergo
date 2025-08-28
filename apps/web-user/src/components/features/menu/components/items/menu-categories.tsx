@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { categories } from "./menu-data";
+import { categories } from "../filters/categories";
 
 interface MenuCategoriesProps {
 	activeCategory: string;

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { AnimatedButton } from "@/components/ui/button";
 import { useCartCalculations } from "@/hooks/use-cart-calculations";
-import { containerPage, itemPage } from "@/lib/animations";
+import { commonAnimations } from "@/lib/common-animations";
 import type { CartItem, UserData } from "@/lib/types";
 import { CartItemsList } from "./components/items/cart-items-list";
 import { CartHeader } from "./components/layout/cart-header";
@@ -37,12 +37,12 @@ export function CartPage({
 
 	return (
 		<motion.div
-			variants={containerPage}
+			variants={commonAnimations.container}
 			initial="hidden"
 			animate="show"
 			className="min-h-screen bg-background text-foreground"
 		>
-			<motion.div variants={itemPage}>
+			<motion.div variants={commonAnimations.item}>
 				<CartHeader
 					totalItems={totalItems}
 					userData={userData}
@@ -51,11 +51,11 @@ export function CartPage({
 			</motion.div>
 
 			<div className="mx-auto max-w-2xl space-y-4 p-4">
-				<motion.div variants={itemPage}>
+				<motion.div variants={commonAnimations.item}>
 					<DeliveryInfo userData={userData} />
 				</motion.div>
 
-				<motion.div variants={itemPage}>
+				<motion.div variants={commonAnimations.item}>
 					<CartItemsList
 						cartItems={cartItems}
 						userData={userData}
@@ -64,7 +64,7 @@ export function CartPage({
 					/>
 				</motion.div>
 
-				<motion.div variants={itemPage}>
+				<motion.div variants={commonAnimations.item}>
 					<BillSummary
 						totalItems={totalItems}
 						subtotal={subtotal}
@@ -74,7 +74,7 @@ export function CartPage({
 					/>
 				</motion.div>
 
-				<motion.div variants={itemPage}>
+				<motion.div variants={commonAnimations.item}>
 					<div className="flex w-full flex-row items-center justify-between gap-4">
 						<AnimatedButton
 							whileHover={{ scale: 1.02 }}

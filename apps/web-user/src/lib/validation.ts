@@ -10,13 +10,7 @@ export const validateCartQuantity = (quantity: number): boolean => {
 };
 
 export const validateMenuItem = (item: MenuItem): boolean => {
-	return !!(
-		item.id &&
-		item.name &&
-		item.price > 0 &&
-		item.category &&
-		typeof item.isVeg === "boolean"
-	);
+	return !!(item.id && item.name && item.price > 0 && item.category && true);
 };
 
 export const validateCartItem = (cartItem: CartItem): boolean => {
@@ -49,7 +43,7 @@ export const sanitizeQuantity = (quantity: number): number => {
 };
 
 export const formatPrice = (price: number, currency?: string): string => {
-	if (typeof price !== "number" || Number.isNaN(price))
+	if (Number.isNaN(price))
 		return `${currency || APP_CONSTANTS.CURRENCY.SYMBOL}0`;
 	return `${currency || APP_CONSTANTS.CURRENCY.SYMBOL}${price.toFixed(0)}`;
 };

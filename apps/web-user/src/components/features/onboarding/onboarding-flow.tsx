@@ -1,6 +1,8 @@
 import { animated, useSpring } from "@react-spring/web";
 import type { UseMutationResult } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { AutoHeightTransition } from "@/components/shared/animations/AutoHeightTransition";
+import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import {
 	Card,
 	CardContent,
@@ -8,10 +10,8 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { useOnboardingValidation } from "@/hooks/use-onboarding-validation";
 import type { UserData } from "@/lib/types";
-import { useOnboardingValidation } from "../../hooks/use-onboarding-validation";
-import { AutoHeightTransition } from "../animations/AutoHeightTransition";
-import { ModeToggle } from "../mode-toggle";
 import { NavigationButtons } from "./navigation-buttons";
 import { ProgressIndicator } from "./progress-indicator";
 import { AddressDetails } from "./steps/address-details";

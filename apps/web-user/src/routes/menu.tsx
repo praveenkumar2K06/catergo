@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
-import ErrorDisplay from "@/components/error";
-import Loader from "@/components/loader";
-import { MenuPage } from "@/components/menu/menu-page";
+import { MenuPage } from "@/components/features/menu/menu-page";
 import { useOrder } from "@/components/providers/order-provider";
+import ErrorDisplay from "@/components/shared/layout/error";
+import Loader from "@/components/shared/layout/loader";
 import { menuQueryOptions } from "@/lib/api/menu-items";
 import type { CartItem } from "@/lib/types";
 

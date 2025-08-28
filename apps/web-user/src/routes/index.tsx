@@ -4,7 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { toast } from "sonner";
-import { OnboardingFlow } from "@/components/onboarding/onboarding-flow";
+import { OnboardingFlow } from "@/components/features/onboarding/onboarding-flow";
 import { useOrder } from "@/components/providers/order-provider";
 import { createUser, updateUser } from "@/lib/api/users";
 import type { UserData } from "@/lib/types";

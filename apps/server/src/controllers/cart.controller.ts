@@ -32,8 +32,6 @@ export const updateCartQuantity = async (req: Request, res: Response) => {
 			return res.status(400).json({ error: "Missing required fields" });
 		}
 
-		console.log("Updating cart item:", id, quantity);
-
 		const existingCartItem = await prisma.cartItem.findUnique({
 			where: { id },
 		});

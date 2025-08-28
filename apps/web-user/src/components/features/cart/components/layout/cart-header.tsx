@@ -1,7 +1,7 @@
 import { ArrowLeft } from "lucide-react";
+import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import { Button } from "@/components/ui/button";
 import type { UserData } from "@/lib/types";
-import { ModeToggle } from "../mode-toggle";
 
 interface CartHeaderProps {
 	totalItems: number;
