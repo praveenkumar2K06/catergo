@@ -1,7 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { motion } from "motion/react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { containerPage, itemPage } from "@/lib/animations";
 import {
 	type CreateCartItemRequest,
@@ -9,6 +8,10 @@ import {
 	type UpdateCartQuantityRequest,
 	updateCartQuantity,
 } from "@/lib/api/cart";
+import {
+	handleMutationError,
+	handleMutationSuccess,
+} from "@/lib/error-handlers";
 import type { CartItem, MenuItem, UserData } from "@/lib/types";
 import {
 	CartButton,
@@ -71,14 +74,17 @@ export function MenuPage({
 					quantity: newQuantity,
 				},
 				{
-					onError: () => {
+					onError: (error) => {
 						updateQuantity(item.id, prevQuantity);
-						toast.error(
-							"Failed to update item quantity. Please try again.",
+						handleMutationError(
+							error,
+							"Failed to update item quantity",
 						);
 					},
 					onSuccess: () => {
-						toast.success("Item quantity updated successfully.");
+						handleMutationSuccess(
+							"Item quantity updated successfully",
+						);
 					},
 				},
 			);
@@ -89,10 +95,11 @@ export function MenuPage({
 			addToCartMutation.mutate(
 				{ menuId: item.id, quantity },
 				{
-					onError: () => {
+					onError: (error) => {
 						setCartItems(prevCartItems);
-						toast.error(
-							"Failed to add item to cart. Please try again.",
+						handleMutationError(
+							error,
+							"Failed to add item to cart",
 						);
 					},
 					onSuccess(data, variables, _) {
@@ -100,7 +107,14 @@ export function MenuPage({
 							...prev,
 							{ id: data.id, item, quantity: variables.quantity },
 						]);
-						toast.success("Item added to cart successfully.");
+						handleMutationSuccess(
+							`${item.name} added to cart`,
+							`Quantity: ${quantity}`,
+							{
+								label: "View Cart",
+								onClick: () => onProceedToCart(cartItems),
+							},
+						);
 					},
 				},
 			);

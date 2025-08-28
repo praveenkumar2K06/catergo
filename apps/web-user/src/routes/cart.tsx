@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { CartPage } from "@/components/cart/cart-page";
-import Loader from "@/components/loader";
+import { CartPage } from "@/components/features/cart/cart-page";
 import { useOrder } from "@/components/providers/order-provider";
+import Loader from "@/components/shared/layout/loader";
 import {
 	removeCartItem,
 	type UpdateCartQuantityRequest,
