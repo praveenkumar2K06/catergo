@@ -1,8 +1,13 @@
-import { useTransition } from "@react-spring/web";
 import { Minus, Plus, RotateCcw } from "lucide-react";
+import { AnimatePresence } from "motion/react";
 import { Badge } from "@/components/ui/badge";
-import { AnimatedButton, Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+} from "@/components/ui/card";
 import type { MenuItem } from "@/lib/types";
 import NextImageLoading from "../ui/image-loader";
 
@@ -25,19 +30,6 @@ export function MenuItemCard({
 	cartQuantity,
 	numberOfPeople,
 }: MenuItemCardProps) {
-	const buttonTransition = useTransition(quantity !== suggestedQuantity, {
-		from: {
-			opacity: 0,
-		},
-		enter: {
-			opacity: 1,
-		},
-		leave: {
-			opacity: 0,
-		},
-		config: { duration: 150 },
-	});
-
 	return (
 		<Card className="group overflow-hidden border-border/40 transition-all duration-300 hover:border-primary/20 hover:shadow-xl">
 			<CardHeader>
@@ -77,11 +69,11 @@ export function MenuItemCard({
 					<span className="font-medium text-primary text-xs">
 						Suggested for {numberOfPeople} people:{" "}
 						{suggestedQuantity} {item.metrics}
-						{suggestedQuantity > 1 ? "s" : ""}
 					</span>
 				</div>
-
-				<div className="flex items-center justify-between">
+			</CardContent>
+			<CardFooter className="flex-col items-start">
+				<div className="flex w-full items-center justify-between">
 					<div className="flex items-center gap-2">
 						<Button
 							size="icon"
@@ -94,7 +86,6 @@ export function MenuItemCard({
 						</Button>
 						<span className="min-w-[2rem] text-center font-medium text-foreground">
 							{quantity} {item.metrics}
-							{quantity > 1 ? "s" : ""}
 						</span>
 						<Button
 							size="icon"
@@ -104,22 +95,20 @@ export function MenuItemCard({
 						>
 							<Plus className="h-3 w-3" />
 						</Button>
-						{buttonTransition(
-							(style, show) =>
-								show && (
-									<AnimatedButton
-										size="icon"
-										variant="outline"
-										onClick={() =>
-											onQuantityChange(suggestedQuantity)
-										}
-										style={style}
-										className="h-8 w-8"
-									>
-										<RotateCcw className="h-3 w-3" />
-									</AnimatedButton>
-								),
-						)}
+						<AnimatePresence>
+							{suggestedQuantity !== quantity && (
+								<Button
+									size="icon"
+									variant="outline"
+									onClick={() =>
+										onQuantityChange(suggestedQuantity)
+									}
+									className="h-8 w-8"
+								>
+									<RotateCcw className="h-3 w-3" />
+								</Button>
+							)}
+						</AnimatePresence>
 					</div>
 
 					<Button
@@ -133,10 +122,10 @@ export function MenuItemCard({
 
 				{cartQuantity && (
 					<div className="mt-2 font-medium text-chart-3 text-xs">
-						✓ {cartQuantity} in cart
+						✓ {cartQuantity} {item.metrics} in cart
 					</div>
 				)}
-			</CardContent>
+			</CardFooter>
 		</Card>
 	);
 }
