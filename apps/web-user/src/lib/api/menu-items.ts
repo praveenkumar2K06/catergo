@@ -1,4 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
+import axios from "axios";
 import type { MenuItem } from "../types";
 
 interface Response {
@@ -9,9 +10,9 @@ interface Response {
 
 const fetchMenuItems = async () => {
 	await new Promise((r) => setTimeout(r, 500));
-	return fetch(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`).then(
-		(res) => res.json() as Promise<Response>,
-	);
+	return axios
+		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`)
+		.then((res) => res.data as Promise<Response>);
 };
 
 export const menuQueryOptions = queryOptions({

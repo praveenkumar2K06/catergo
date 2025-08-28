@@ -1,3 +1,4 @@
+import axios from "axios";
 import type { CartItem } from "../types";
 
 export interface CreateCartItemRequest {
@@ -23,23 +24,24 @@ export const createCartItem = async (
 		quantity: data.quantity,
 	};
 
-	return fetch(`${import.meta.env.VITE_SERVER_URL}/api/cart`, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(requestData),
-	}).then((res) => res.json() as Promise<CartItem>);
+	return axios
+		.post(`${import.meta.env.VITE_SERVER_URL}/api/cart`, requestData, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		.then((res) => res.data as Promise<CartItem>);
 };
 
 export const removeCartItem = async (id: string) => {
 	await new Promise((r) => setTimeout(r, 500));
-	return fetch(`${import.meta.env.VITE_SERVER_URL}/api/cart/${id}`, {
-		method: "DELETE",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	}).then((res) => res.json() as Promise<void>);
+	return axios
+		.delete(`${import.meta.env.VITE_SERVER_URL}/api/cart/${id}`, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		.then((res) => res.data as Promise<void>);
 };
 
 export const updateCartQuantity = async (data: UpdateCartQuantityRequest) => {
@@ -49,11 +51,11 @@ export const updateCartQuantity = async (data: UpdateCartQuantityRequest) => {
 		id: data.id,
 		quantity: data.quantity,
 	};
-	return fetch(`${import.meta.env.VITE_SERVER_URL}/api/cart`, {
-		method: "PATCH",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify(request),
-	}).then((res) => res.json() as Promise<CartItem>);
+	return axios
+		.patch(`${import.meta.env.VITE_SERVER_URL}/api/cart`, request, {
+			headers: {
+				"Content-Type": "application/json",
+			},
+		})
+		.then((res) => res.data as Promise<CartItem>);
 };
