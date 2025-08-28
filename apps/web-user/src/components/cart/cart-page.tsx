@@ -1,11 +1,11 @@
 import { motion, type Variants } from "motion/react";
 import { AnimatedButton } from "@/components/ui/button";
 import type { CartItem, UserData } from "@/lib/types";
-import { BillSummary } from "./bill-summary";
-import { CartHeader } from "./cart-header";
-import { CartItemsList } from "./cart-items-list";
-import { DeliveryInfo } from "./delivery-info";
-import { EmptyCart } from "./empty-cart";
+import { CartItemsList } from "./components/items/cart-items-list";
+import { CartHeader } from "./components/layout/cart-header";
+import { EmptyCart } from "./components/layout/empty-cart";
+import { BillSummary } from "./components/summary/bill-summary";
+import { DeliveryInfo } from "./components/summary/delivery-info";
 
 interface CartPageProps {
 	userData: UserData;

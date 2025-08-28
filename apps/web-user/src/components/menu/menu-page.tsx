@@ -9,11 +9,11 @@ import {
 	updateCartQuantity,
 } from "@/lib/api/cart";
 import type { CartItem, MenuItem, UserData } from "@/lib/types";
-import { CartButton, FloatingCartButton } from "./cart-components";
-import { MenuCategories } from "./menu-categories";
-import { MenuHeader } from "./menu-header";
-import { MenuItems } from "./menu-items";
-import { WelcomeBanner } from "./welcome-banner";
+import { CartButton, FloatingCartButton } from "./cart/cart-components";
+import { MenuHeader } from "./header/menu-header";
+import { WelcomeBanner } from "./header/welcome-banner";
+import { MenuCategories } from "./items/menu-categories";
+import { MenuItems } from "./items/menu-items";
 
 interface MenuPageProps {
 	userData: UserData;
