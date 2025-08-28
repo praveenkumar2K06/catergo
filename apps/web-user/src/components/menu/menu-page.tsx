@@ -1,7 +1,8 @@
 import { useMutation } from "@tanstack/react-query";
-import { motion, type Variants } from "motion/react";
+import { motion } from "motion/react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { containerPage, itemPage } from "@/lib/animations";
 import {
 	type CreateCartItemRequest,
 	createCartItem,
@@ -9,11 +10,14 @@ import {
 	updateCartQuantity,
 } from "@/lib/api/cart";
 import type { CartItem, MenuItem, UserData } from "@/lib/types";
-import { CartButton, FloatingCartButton } from "./cart/cart-components";
-import { MenuHeader } from "./header/menu-header";
-import { WelcomeBanner } from "./header/welcome-banner";
-import { MenuCategories } from "./items/menu-categories";
-import { MenuItems } from "./items/menu-items";
+import {
+	CartButton,
+	FloatingCartButton,
+} from "./components/cart/cart-components";
+import { MenuHeader } from "./components/header/menu-header";
+import { WelcomeBanner } from "./components/header/welcome-banner";
+import { MenuCategories } from "./components/items/menu-categories";
+import { MenuItems } from "./components/items/menu-items";
 
 interface MenuPageProps {
 	userData: UserData;
@@ -103,41 +107,15 @@ export function MenuPage({
 		}
 	};
 
-	const container = {
-		hidden: { opacity: 0, y: 8 },
-		show: {
-			opacity: 1,
-			y: 0,
-			transition: {
-				staggerChildren: 0.08,
-				when: "beforeChildren",
-			},
-		},
-	} as Variants;
-
-	const item = {
-		hidden: { opacity: 0, y: 6, scale: 0.995 },
-		show: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: {
-				type: "spring",
-				stiffness: 300,
-				damping: 24,
-			},
-		},
-	} as Variants;
-
 	return (
 		<motion.div
-			variants={container}
+			variants={containerPage}
 			initial="hidden"
 			animate="show"
 			className="min-h-screen bg-background"
 		>
 			{/* Header */}
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<MenuHeader
 					userData={userData}
 					onBack={onBack}
@@ -151,12 +129,12 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Welcome Banner */}
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<WelcomeBanner userData={userData} />
 			</motion.div>
 
 			{/* Categories */}
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<MenuCategories
 					activeCategory={activeCategory}
 					onCategoryChange={setActiveCategory}
@@ -164,7 +142,7 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Menu Items */}
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<MenuItems
 					activeCategory={activeCategory}
 					menuItems={menuItems}
@@ -175,7 +153,7 @@ export function MenuPage({
 			</motion.div>
 
 			{/* Floating Cart Button */}
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<FloatingCartButton
 					cartItems={cartItems}
 					onProceedToCart={onProceedToCart}

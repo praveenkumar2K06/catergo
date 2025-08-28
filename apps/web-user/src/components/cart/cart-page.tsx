@@ -1,5 +1,7 @@
-import { motion, type Variants } from "motion/react";
+import { motion } from "motion/react";
 import { AnimatedButton } from "@/components/ui/button";
+import { useCartCalculations } from "@/hooks/use-cart-calculations";
+import { containerPage, itemPage } from "@/lib/animations";
 import type { CartItem, UserData } from "@/lib/types";
 import { CartItemsList } from "./components/items/cart-items-list";
 import { CartHeader } from "./components/layout/cart-header";
@@ -26,43 +28,8 @@ export function CartPage({
 	onProceedToCheckout,
 	onCreateNewOrder,
 }: CartPageProps) {
-	const totalItems = cartItems.reduce(
-		(sum, { quantity }) => sum + quantity,
-		0,
-	);
-	const subtotal = cartItems.reduce(
-		(sum, { item, quantity }) => sum + item.price * quantity,
-		0,
-	);
-	const deliveryFee = subtotal > 500 ? 0 : 40;
-	const taxes = Math.round(subtotal * 0.05); // 5% tax
-	const total = subtotal + deliveryFee + taxes;
-
-	const container = {
-		hidden: { opacity: 0, y: 8 },
-		show: {
-			opacity: 1,
-			y: 0,
-			transition: {
-				staggerChildren: 0.08,
-				when: "beforeChildren",
-			},
-		},
-	} as Variants;
-
-	const item = {
-		hidden: { opacity: 0, y: 6, scale: 0.995 },
-		show: {
-			opacity: 1,
-			y: 0,
-			scale: 1,
-			transition: {
-				type: "spring",
-				stiffness: 300,
-				damping: 24,
-			},
-		},
-	} as Variants;
+	const { totalItems, subtotal, deliveryFee, taxes, total } =
+		useCartCalculations(cartItems);
 
 	if (cartItems.length === 0) {
 		return <EmptyCart onBack={onBack} />;
@@ -70,12 +37,12 @@ export function CartPage({
 
 	return (
 		<motion.div
-			variants={container}
+			variants={containerPage}
 			initial="hidden"
 			animate="show"
 			className="min-h-screen bg-background text-foreground"
 		>
-			<motion.div variants={item}>
+			<motion.div variants={itemPage}>
 				<CartHeader
 					totalItems={totalItems}
 					userData={userData}
@@ -84,11 +51,11 @@ export function CartPage({
 			</motion.div>
 
 			<div className="mx-auto max-w-2xl space-y-4 p-4">
-				<motion.div variants={item}>
+				<motion.div variants={itemPage}>
 					<DeliveryInfo userData={userData} />
 				</motion.div>
 
-				<motion.div variants={item}>
+				<motion.div variants={itemPage}>
 					<CartItemsList
 						cartItems={cartItems}
 						userData={userData}
@@ -97,7 +64,7 @@ export function CartPage({
 					/>
 				</motion.div>
 
-				<motion.div variants={item}>
+				<motion.div variants={itemPage}>
 					<BillSummary
 						totalItems={totalItems}
 						subtotal={subtotal}
@@ -107,7 +74,7 @@ export function CartPage({
 					/>
 				</motion.div>
 
-				<motion.div variants={item}>
+				<motion.div variants={itemPage}>
 					<div className="flex w-full flex-row items-center justify-between gap-4">
 						<AnimatedButton
 							whileHover={{ scale: 1.02 }}

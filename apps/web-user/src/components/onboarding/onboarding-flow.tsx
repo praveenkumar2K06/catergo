@@ -9,8 +9,8 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import type { UserData } from "@/lib/types";
+import { useOnboardingValidation } from "../../hooks/use-onboarding-validation";
 import { AutoHeightTransition } from "../animations/AutoHeightTransition";
-import { useOnboardingValidation } from "../hooks/use-onboarding-validation";
 import { ModeToggle } from "../mode-toggle";
 import { NavigationButtons } from "./navigation-buttons";
 import { ProgressIndicator } from "./progress-indicator";
