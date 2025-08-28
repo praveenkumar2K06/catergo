@@ -1,4 +1,5 @@
 export interface UserData {
+	id?: string;
 	name: string;
 	phone: string;
 	address: string;
@@ -19,11 +20,8 @@ export interface MenuItem {
 	metrics: string;
 }
 
-export interface CartItems {
-	[key: string]: CartItem;
-}
-
 export interface CartItem {
+	id?: string;
 	item: MenuItem;
 	quantity: number;
 }

@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated"
+  provider     = "prisma-client"
+  output       = "../generated"
   moduleFormat = "esm"
 }
 
@@ -9,22 +9,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id             String     @id @default(auto()) @map("_id") @db.ObjectId
+  name           String
+  phone          String
+  address        String
+  pincode        String
+  numberOfPeople Int
+  selectedDate   DateTime
+  createdAt      DateTime   @default(now())
+  cartItems      CartItem[]
+}
+
 model MenuItem {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String   
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
   description String
-  price      Float
-  image      String
-  category   String
-  isVeg      Boolean
-  qtyPerUnit Float    @default(1)
-  metrics    Metrics  @default(Piece)
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  price       Float
+  image       String
+  category    String
+  isVeg       Boolean
+  qtyPerUnit  Float      @default(1)
+  metrics     Metrics    @default(Piece)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  CartItem    CartItem[]
 }
 
 enum Metrics {
   Piece
   Kg
   Litre
+}
+
+model CartItem {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String   @db.ObjectId
+  menuItem   MenuItem @relation(fields: [menuItemId], references: [id])
+  menuItemId String   @db.ObjectId
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

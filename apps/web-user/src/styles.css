@@ -31,8 +31,8 @@ body {
 	--foreground: oklch(0.3351 0.0331 260.912);
 	--card: oklch(1 0 0);
 	--card-foreground: var(--foreground);
-	--popover: var(--card);
-	--popover-foreground: var(--foreground);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.141 0.005 285.823);
 
 	--primary: oklch(0.7045 0.1926 39.2308);
 	--primary-foreground: oklch(1 0 0);
@@ -80,8 +80,8 @@ body {
 
 	--card: oklch(0.2345 0.0273 262.5024);
 	--card-foreground: var(--foreground);
-	--popover: var(--card);
-	--popover-foreground: var(--foreground);
+	--popover: oklch(0.2345 0.0273 262.5024);
+	--popover-foreground: oklch(0.985 0 0);
 
 	--secondary: oklch(0.3351 0.0331 260.912);
 	--secondary-foreground: var(--foreground);

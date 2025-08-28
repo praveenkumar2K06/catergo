@@ -1,12 +1,12 @@
 import { clientOnly, createIsomorphicFn } from "@tanstack/react-start";
 import { createContext, type ReactNode, use, useEffect, useState } from "react";
-import type { CartItems, UserData } from "@/lib/types";
+import type { CartItem, UserData } from "@/lib/types";
 
 interface OrderContextType {
 	userData: UserData | null;
 	setUserData: (data: UserData) => void;
-	cartItems: CartItems;
-	setCartItems: (items: CartItems) => void;
+	cartItems: CartItem[];
+	setCartItems: (value: React.SetStateAction<CartItem[]>) => void;
 	updateQuantity: (itemId: string, quantity: number) => void;
 	removeItem: (itemId: string) => void;
 	clearOrder: () => void;
@@ -15,20 +15,20 @@ interface OrderContextType {
 const orderStorageKey = "cater-go-order";
 
 const getStoredOrder = createIsomorphicFn()
-	.server(() => ({ userData: null, cartItems: {} }))
+	.server(() => ({ userData: null, cartItems: [] }))
 	.client(() => {
 		try {
 			const stored = localStorage.getItem(orderStorageKey);
 			return stored
 				? JSON.parse(stored)
-				: { userData: null, cartItems: {} };
+				: { userData: null, cartItems: [] };
 		} catch {
-			return { userData: null, cartItems: {} };
+			return { userData: null, cartItems: [] };
 		}
 	});
 
 const setStoredOrder = clientOnly(
-	(orderData: { userData: UserData | null; cartItems: CartItems }) => {
+	(orderData: { userData: UserData | null; cartItems: CartItem[] }) => {
 		localStorage.setItem(orderStorageKey, JSON.stringify(orderData));
 	},
 );
@@ -40,7 +40,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	const [userData, setUserData] = useState<UserData | null>(
 		storedOrder.userData,
 	);
-	const [cartItems, setCartItems] = useState<CartItems>(
+	const [cartItems, setCartItems] = useState<CartItem[]>(
 		storedOrder.cartItems,
 	);
 
@@ -50,23 +50,21 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	}, [userData, cartItems]);
 
 	const updateQuantity = (itemId: string, quantity: number) => {
-		setCartItems((prev) => ({
-			...prev,
-			[itemId]: { ...prev[itemId], quantity },
-		}));
+		const cartItem = cartItems.find((ci) => ci.id === itemId);
+		if (cartItem) {
+			setCartItems((prev) =>
+				prev.map((ci) => (ci.id === itemId ? { ...ci, quantity } : ci)),
+			);
+		}
 	};
 
 	const removeItem = (itemId: string) => {
-		setCartItems((prev) => {
-			const newItems = { ...prev };
-			delete newItems[itemId];
-			return newItems;
-		});
+		setCartItems((prev) => prev.filter((ci) => ci.id !== itemId));
 	};
 
 	const clearOrder = () => {
 		setUserData(null);
-		setCartItems({});
+		setCartItems([]);
 	};
 
 	return (

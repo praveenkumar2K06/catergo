@@ -26,8 +26,8 @@ export * as $Enums from './enums'
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more MenuItems
- * const menuItems = await prisma.menuItem.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  * 
  * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
@@ -42,10 +42,20 @@ path.join(__dirname, "query_engine-windows.dll.node")
 path.join(process.cwd(), "prisma/generated/query_engine-windows.dll.node")
 
 /**
+ * Model User
+ * 
+ */
+export type User = Prisma.UserModel
+/**
  * Model MenuItem
  * 
  */
 export type MenuItem = Prisma.MenuItemModel
+/**
+ * Model CartItem
+ * 
+ */
+export type CartItem = Prisma.CartItemModel
 
 export type Metrics = $Enums.Metrics
 export const Metrics = $Enums.Metrics

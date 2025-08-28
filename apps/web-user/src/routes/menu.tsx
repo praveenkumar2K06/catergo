@@ -6,7 +6,7 @@ import Loader from "@/components/loader";
 import { MenuPage } from "@/components/menu/menu-page";
 import { useOrder } from "@/components/providers/order-provider";
 import { menuQueryOptions } from "@/lib/api/menu-items";
-import type { CartItems } from "@/lib/types";
+import type { CartItem } from "@/lib/types";
 
 export const Route = createFileRoute("/menu")({
 	loader: async ({ context }) => {
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/menu")({
 
 function RouteComponent() {
 	const navigate = useNavigate();
-	const { userData, setCartItems } = useOrder();
+	const { userData, cartItems, setCartItems, updateQuantity } = useOrder();
 	const {
 		data: menuItems,
 		isPending,
@@ -28,21 +28,22 @@ function RouteComponent() {
 		refetch,
 	} = useQuery(menuQueryOptions);
 
-	const handleBackToOnboarding = () => {
-		navigate({ to: "/" });
-	};
-
-	const handleProceedToCart = (items: CartItems) => {
-		setCartItems(items);
-
-		//TODO: Go to Cart
-	};
-
 	useEffect(() => {
 		if (!userData) {
 			navigate({ to: "/" });
 		}
 	}, [userData, navigate]);
+
+	const handleBackToOnboarding = () => {
+		navigate({ to: "/" });
+	};
+
+	const handleProceedToCart = (items: CartItem[]) => {
+		setCartItems(items);
+
+		//TODO: Go to Cart
+		navigate({ to: "/cart" });
+	};
 
 	if (!userData || isPending) return <Loader variant="catering" />;
 
@@ -53,6 +54,9 @@ function RouteComponent() {
 			<MenuPage
 				userData={userData}
 				menuItems={menuItems.data}
+				cartItems={cartItems}
+				setCartItems={setCartItems}
+				updateQuantity={updateQuantity}
 				onBack={handleBackToOnboarding}
 				onProceedToCart={handleProceedToCart}
 			/>

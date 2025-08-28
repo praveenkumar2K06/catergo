@@ -267,6 +267,7 @@ export type MenuItemWhereInput = {
   metrics?: Prisma.EnumMetricsFilter<"MenuItem"> | $Enums.Metrics
   createdAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
+  CartItem?: Prisma.CartItemListRelationFilter
 }
 
 export type MenuItemOrderByWithRelationInput = {
@@ -281,6 +282,7 @@ export type MenuItemOrderByWithRelationInput = {
   metrics?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  CartItem?: Prisma.CartItemOrderByRelationAggregateInput
 }
 
 export type MenuItemWhereUniqueInput = Prisma.AtLeast<{
@@ -298,6 +300,7 @@ export type MenuItemWhereUniqueInput = Prisma.AtLeast<{
   metrics?: Prisma.EnumMetricsFilter<"MenuItem"> | $Enums.Metrics
   createdAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
+  CartItem?: Prisma.CartItemListRelationFilter
 }, "id">
 
 export type MenuItemOrderByWithAggregationInput = {
@@ -348,6 +351,7 @@ export type MenuItemCreateInput = {
   metrics?: $Enums.Metrics
   createdAt?: Date | string
   updatedAt?: Date | string
+  CartItem?: Prisma.CartItemCreateNestedManyWithoutMenuItemInput
 }
 
 export type MenuItemUncheckedCreateInput = {
@@ -362,6 +366,7 @@ export type MenuItemUncheckedCreateInput = {
   metrics?: $Enums.Metrics
   createdAt?: Date | string
   updatedAt?: Date | string
+  CartItem?: Prisma.CartItemUncheckedCreateNestedManyWithoutMenuItemInput
 }
 
 export type MenuItemUpdateInput = {
@@ -375,6 +380,7 @@ export type MenuItemUpdateInput = {
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CartItem?: Prisma.CartItemUpdateManyWithoutMenuItemNestedInput
 }
 
 export type MenuItemUncheckedUpdateInput = {
@@ -388,6 +394,7 @@ export type MenuItemUncheckedUpdateInput = {
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  CartItem?: Prisma.CartItemUncheckedUpdateManyWithoutMenuItemNestedInput
 }
 
 export type MenuItemCreateManyInput = {
@@ -482,8 +489,9 @@ export type MenuItemSumOrderByAggregateInput = {
   qtyPerUnit?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type MenuItemScalarRelationFilter = {
+  is?: Prisma.MenuItemWhereInput
+  isNot?: Prisma.MenuItemWhereInput
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -502,10 +510,119 @@ export type EnumMetricsFieldUpdateOperationsInput = {
   set?: $Enums.Metrics
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type MenuItemCreateNestedOneWithoutCartItemInput = {
+  create?: Prisma.XOR<Prisma.MenuItemCreateWithoutCartItemInput, Prisma.MenuItemUncheckedCreateWithoutCartItemInput>
+  connectOrCreate?: Prisma.MenuItemCreateOrConnectWithoutCartItemInput
+  connect?: Prisma.MenuItemWhereUniqueInput
 }
 
+export type MenuItemUpdateOneRequiredWithoutCartItemNestedInput = {
+  create?: Prisma.XOR<Prisma.MenuItemCreateWithoutCartItemInput, Prisma.MenuItemUncheckedCreateWithoutCartItemInput>
+  connectOrCreate?: Prisma.MenuItemCreateOrConnectWithoutCartItemInput
+  upsert?: Prisma.MenuItemUpsertWithoutCartItemInput
+  connect?: Prisma.MenuItemWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MenuItemUpdateToOneWithWhereWithoutCartItemInput, Prisma.MenuItemUpdateWithoutCartItemInput>, Prisma.MenuItemUncheckedUpdateWithoutCartItemInput>
+}
+
+export type MenuItemCreateWithoutCartItemInput = {
+  id?: string
+  name: string
+  description: string
+  price: number
+  image: string
+  category: string
+  isVeg: boolean
+  qtyPerUnit?: number
+  metrics?: $Enums.Metrics
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MenuItemUncheckedCreateWithoutCartItemInput = {
+  id?: string
+  name: string
+  description: string
+  price: number
+  image: string
+  category: string
+  isVeg: boolean
+  qtyPerUnit?: number
+  metrics?: $Enums.Metrics
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type MenuItemCreateOrConnectWithoutCartItemInput = {
+  where: Prisma.MenuItemWhereUniqueInput
+  create: Prisma.XOR<Prisma.MenuItemCreateWithoutCartItemInput, Prisma.MenuItemUncheckedCreateWithoutCartItemInput>
+}
+
+export type MenuItemUpsertWithoutCartItemInput = {
+  update: Prisma.XOR<Prisma.MenuItemUpdateWithoutCartItemInput, Prisma.MenuItemUncheckedUpdateWithoutCartItemInput>
+  create: Prisma.XOR<Prisma.MenuItemCreateWithoutCartItemInput, Prisma.MenuItemUncheckedCreateWithoutCartItemInput>
+  where?: Prisma.MenuItemWhereInput
+}
+
+export type MenuItemUpdateToOneWithWhereWithoutCartItemInput = {
+  where?: Prisma.MenuItemWhereInput
+  data: Prisma.XOR<Prisma.MenuItemUpdateWithoutCartItemInput, Prisma.MenuItemUncheckedUpdateWithoutCartItemInput>
+}
+
+export type MenuItemUpdateWithoutCartItemInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
+  metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type MenuItemUncheckedUpdateWithoutCartItemInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.StringFieldUpdateOperationsInput | string
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
+  image?: Prisma.StringFieldUpdateOperationsInput | string
+  category?: Prisma.StringFieldUpdateOperationsInput | string
+  isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
+  metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+
+/**
+ * Count Type MenuItemCountOutputType
+ */
+
+export type MenuItemCountOutputType = {
+  CartItem: number
+}
+
+export type MenuItemCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  CartItem?: boolean | MenuItemCountOutputTypeCountCartItemArgs
+}
+
+/**
+ * MenuItemCountOutputType without action
+ */
+export type MenuItemCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the MenuItemCountOutputType
+   */
+  select?: Prisma.MenuItemCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * MenuItemCountOutputType without action
+ */
+export type MenuItemCountOutputTypeCountCartItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CartItemWhereInput
+}
 
 
 export type MenuItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -520,6 +637,8 @@ export type MenuItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   metrics?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  CartItem?: boolean | Prisma.MenuItem$CartItemArgs<ExtArgs>
+  _count?: boolean | Prisma.MenuItemCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["menuItem"]>
 
 
@@ -539,10 +658,16 @@ export type MenuItemSelectScalar = {
 }
 
 export type MenuItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "price" | "image" | "category" | "isVeg" | "qtyPerUnit" | "metrics" | "createdAt" | "updatedAt", ExtArgs["result"]["menuItem"]>
+export type MenuItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  CartItem?: boolean | Prisma.MenuItem$CartItemArgs<ExtArgs>
+  _count?: boolean | Prisma.MenuItemCountOutputTypeDefaultArgs<ExtArgs>
+}
 
 export type $MenuItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "MenuItem"
-  objects: {}
+  objects: {
+    CartItem: Prisma.$CartItemPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     name: string
@@ -918,6 +1043,7 @@ readonly fields: MenuItemFieldRefs;
  */
 export interface Prisma__MenuItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  CartItem<T extends Prisma.MenuItem$CartItemArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MenuItem$CartItemArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -975,6 +1101,10 @@ export type MenuItemFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inte
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * Filter, which MenuItem to fetch.
    */
   where: Prisma.MenuItemWhereUniqueInput
@@ -993,6 +1123,10 @@ export type MenuItemFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * Filter, which MenuItem to fetch.
    */
   where: Prisma.MenuItemWhereUniqueInput
@@ -1010,6 +1144,10 @@ export type MenuItemFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the MenuItem
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
   /**
    * Filter, which MenuItem to fetch.
    */
@@ -1059,6 +1197,10 @@ export type MenuItemFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * Filter, which MenuItem to fetch.
    */
   where?: Prisma.MenuItemWhereInput
@@ -1107,6 +1249,10 @@ export type MenuItemFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * Filter, which MenuItems to fetch.
    */
   where?: Prisma.MenuItemWhereInput
@@ -1150,6 +1296,10 @@ export type MenuItemCreateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * The data needed to create a MenuItem.
    */
   data: Prisma.XOR<Prisma.MenuItemCreateInput, Prisma.MenuItemUncheckedCreateInput>
@@ -1177,6 +1327,10 @@ export type MenuItemUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the MenuItem
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
   /**
    * The data needed to update a MenuItem.
    */
@@ -1218,6 +1372,10 @@ export type MenuItemUpsertArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
+  /**
    * The filter to search for the MenuItem to update in case it exists.
    */
   where: Prisma.MenuItemWhereUniqueInput
@@ -1243,6 +1401,10 @@ export type MenuItemDeleteArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the MenuItem
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
   /**
    * Filter which MenuItem to delete.
    */
@@ -1292,6 +1454,30 @@ export type MenuItemAggregateRawArgs<ExtArgs extends runtime.Types.Extensions.In
 }
 
 /**
+ * MenuItem.CartItem
+ */
+export type MenuItem$CartItemArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CartItem
+   */
+  select?: Prisma.CartItemSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CartItem
+   */
+  omit?: Prisma.CartItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CartItemInclude<ExtArgs> | null
+  where?: Prisma.CartItemWhereInput
+  orderBy?: Prisma.CartItemOrderByWithRelationInput | Prisma.CartItemOrderByWithRelationInput[]
+  cursor?: Prisma.CartItemWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CartItemScalarFieldEnum | Prisma.CartItemScalarFieldEnum[]
+}
+
+/**
  * MenuItem without action
  */
 export type MenuItemDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1303,4 +1489,8 @@ export type MenuItemDefaultArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the MenuItem
    */
   omit?: Prisma.MenuItemOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.MenuItemInclude<ExtArgs> | null
 }

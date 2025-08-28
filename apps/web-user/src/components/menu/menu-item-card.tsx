@@ -120,7 +120,7 @@ export function MenuItemCard({
 					</Button>
 				</div>
 
-				{cartQuantity && (
+				{cartQuantity !== 0 && (
 					<div className="mt-2 font-medium text-chart-3 text-xs">
 						✓ {cartQuantity} {item.metrics} in cart
 					</div>

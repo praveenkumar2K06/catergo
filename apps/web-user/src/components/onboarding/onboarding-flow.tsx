@@ -1,4 +1,5 @@
 import { animated, useSpring } from "@react-spring/web";
+import type { UseMutationResult } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
 	Card,
@@ -19,10 +20,10 @@ import { PersonalDetails } from "./steps/personal-details";
 
 interface OnboardingProps {
 	userData: UserData | null;
-	onProceedToMenu: (userData: UserData) => void;
+	mutation: UseMutationResult<UserData, Error, UserData>;
 }
 
-export function OnboardingFlow({ userData, onProceedToMenu }: OnboardingProps) {
+export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
 	const [currentStep, setCurrentStep] = useState(1);
 	const [direction, setDirection] = useState(1);
 	const isAnimatingRef = useRef(false);
@@ -74,9 +75,9 @@ export function OnboardingFlow({ userData, onProceedToMenu }: OnboardingProps) {
 				isAnimatingRef.current = false;
 			}, 300);
 		} else {
-			onProceedToMenu(data);
+			mutation.mutate(data);
 		}
-	}, [currentStep, data, onProceedToMenu]);
+	}, [currentStep, data, mutation.mutate]);
 
 	const prevStep = useCallback(() => {
 		if (isAnimatingRef.current) return;
@@ -208,6 +209,7 @@ export function OnboardingFlow({ userData, onProceedToMenu }: OnboardingProps) {
 							isStepValid={isCurrentStepValid}
 							onPrevious={prevStep}
 							onNext={nextStep}
+							isLoading={mutation.isPending}
 						/>
 					</CardContent>
 				</Card>

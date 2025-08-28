@@ -4,11 +4,11 @@ import { useMemo } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { fadeAnimation } from "@/lib/animations";
-import type { CartItems } from "@/lib/types";
+import type { CartItem } from "@/lib/types";
 
 interface FloatingCartButtonProps {
-	cartItems: CartItems;
-	onProceedToCart: (cartItems: CartItems) => void;
+	cartItems: CartItem[];
+	onProceedToCart: (cartItems: CartItem[]) => void;
 }
 
 export function FloatingCartButton({
@@ -16,14 +16,11 @@ export function FloatingCartButton({
 	onProceedToCart,
 }: FloatingCartButtonProps) {
 	const getTotalItems = () => {
-		return Object.values(cartItems).reduce(
-			(total, { quantity }) => total + quantity,
-			0,
-		);
+		return cartItems.reduce((total, { quantity }) => total + quantity, 0);
 	};
 
 	const getTotalPrice = () => {
-		return Object.values(cartItems).reduce(
+		return cartItems.reduce(
 			(total, { item, quantity }) => total + item.price * quantity,
 			0,
 		);
@@ -57,8 +54,8 @@ export function FloatingCartButton({
 }
 
 interface CartButtonProps {
-	cartItems: CartItems;
-	onProceedToCart: (cartItems: CartItems) => void;
+	cartItems: CartItem[];
+	onProceedToCart: (cartItems: CartItem[]) => void;
 }
 
 export function CartButton({ cartItems, onProceedToCart }: CartButtonProps) {
@@ -78,11 +75,7 @@ export function CartButton({ cartItems, onProceedToCart }: CartButtonProps) {
 	return (
 		<AnimatePresence>
 			{getTotalItems() > 0 && (
-				<motion.div
-					className="fixed right-4 bottom-4 z-20"
-					{...fadeAnimation}
-					tabIndex={-1}
-				>
+				<motion.div {...fadeAnimation} tabIndex={-1}>
 					<Button onClick={() => onProceedToCart(cartItems)}>
 						<ShoppingCart className="mr-2 h-4 w-4" />
 						Cart

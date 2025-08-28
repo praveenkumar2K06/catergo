@@ -1,6 +1,7 @@
 import { ArrowLeft, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import type { UserData } from "@/lib/types";
+import { ModeToggle } from "../mode-toggle";
 
 interface MenuHeaderProps {
 	userData: UserData;
@@ -48,7 +49,10 @@ export function MenuHeader({ userData, onBack, cartButton }: MenuHeaderProps) {
 					</div>
 				</div>
 
-				{cartButton}
+				<div className="flex flex-col items-end justify-end gap-2">
+					<ModeToggle />
+					{cartButton}
+				</div>
 			</div>
 		</div>
 	);

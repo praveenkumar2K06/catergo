@@ -7,6 +7,7 @@ interface NavigationButtonsProps {
 	isStepValid: boolean;
 	onPrevious: () => void;
 	onNext: () => void;
+	isLoading: boolean;
 }
 
 export function NavigationButtons({
@@ -15,6 +16,7 @@ export function NavigationButtons({
 	isStepValid,
 	onPrevious,
 	onNext,
+	isLoading,
 }: NavigationButtonsProps) {
 	const sharedConfig = { tension: 200, friction: 20 };
 
@@ -61,10 +63,15 @@ export function NavigationButtons({
 			<animated.div style={nextButtonSpring} className={"p-1"}>
 				<Button
 					onClick={onNext}
-					disabled={!isStepValid}
+					disabled={!isStepValid || isLoading}
 					className="w-full whitespace-nowrap transition-colors duration-200"
 				>
-					{currentStep === totalSteps ? "Continue to Menu" : "Next"}
+					{" "}
+					{isLoading
+						? "Loading..."
+						: currentStep === totalSteps
+							? "Continue to Menu"
+							: "Next"}
 				</Button>
 			</animated.div>
 		</animated.div>
