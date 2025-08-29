@@ -1,4 +1,4 @@
-import { TanstackDevtools } from "@tanstack/react-devtools";
+import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import {
 	createRootRouteWithContext,
@@ -58,7 +58,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			<body>
 				<ThemeProvider>
 					<OrderProvider>{children}</OrderProvider>
-					<TanstackDevtools
+					<TanStackDevtools
 						config={{
 							position: "bottom-left",
 						}}
