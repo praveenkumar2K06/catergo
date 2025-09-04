@@ -9,9 +9,7 @@ export const handleMutationError = (
 
 	// Show user-friendly error message
 	toast.error(fallbackMessage, {
-		description: error.message?.includes("Network")
-			? "Please check your internet connection"
-			: "Please try again",
+		description: error.message,
 		action: customAction
 			? {
 					label: "Retry",
