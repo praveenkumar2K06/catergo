@@ -1,19 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
+import ErrorDisplay from "@/components/shared/layout/error";
+import Loader from "@/components/shared/layout/loader";
 import { Button } from "@/components/ui/button";
 import { fetchMenuQuery } from "@/lib/api/menu-items";
 import { MenuItemTable } from "./menu-items";
 
 export default function MenuPage() {
 	// Use React Query to fetch data
-	const { data, isPending, isError } = useQuery(fetchMenuQuery);
+	const { data, isPending, isError, error } = useQuery(fetchMenuQuery);
 
 	if (isPending) {
-		return <div>Loading...</div>;
+		return <Loader variant="catering" />;
 	}
 
 	if (isError) {
-		return <div>Error loading users</div>;
+		return <ErrorDisplay type="server" message={error.message} />;
 	}
 
 	return (

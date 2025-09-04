@@ -8,8 +8,8 @@ import {
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { NotFound } from "@/components/not-found";
 import { PathBreadcrumbs } from "@/components/path-breadcrumbs";
+import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import { AppSidebar } from "@/components/ui/app-sidebar";
-import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Separator } from "@/components/ui/separator";
 import {
 	SidebarInset,
