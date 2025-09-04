@@ -13,7 +13,9 @@ export function PathBreadcrumbs() {
 
 	if (matches.some((match) => match.status === "pending")) return null;
 
-	const matchesWithCrumbs = matches.filter((match) => match.loaderData?.crumb);
+	const matchesWithCrumbs = matches.filter(
+		(match) => match.loaderData?.crumb,
+	);
 
 	if (matchesWithCrumbs.length === 0) {
 		return null;
@@ -35,7 +37,9 @@ export function PathBreadcrumbs() {
 						<BreadcrumbSeparator />
 						<BreadcrumbItem>
 							<BreadcrumbLink asChild>
-								<Link to={match.pathname}>{match.loaderData?.crumb}</Link>
+								<Link to={match.pathname}>
+									{match.loaderData?.crumb}
+								</Link>
 							</BreadcrumbLink>
 						</BreadcrumbItem>
 					</div>

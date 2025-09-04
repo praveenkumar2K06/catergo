@@ -54,7 +54,9 @@ export function DataTable<TData, TValue>({
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+		{},
+	);
 	const [rowSelection, setRowSelection] = useState({});
 
 	const table = useReactTable({
@@ -97,7 +99,10 @@ export function DataTable<TData, TValue>({
 							typeof updaterOrValue === "function"
 								? updaterOrValue(table.getState().pagination)
 								: updaterOrValue;
-						onPaginationChange(newValue.pageIndex, newValue.pageSize);
+						onPaginationChange(
+							newValue.pageIndex,
+							newValue.pageSize,
+						);
 					}
 				}
 			: undefined,
@@ -126,10 +131,14 @@ export function DataTable<TData, TValue>({
 					<Input
 						placeholder={`Filter by ${searchKey}...`}
 						value={
-							(table.getColumn(searchKey)?.getFilterValue() as string) ?? ""
+							(table
+								.getColumn(searchKey)
+								?.getFilterValue() as string) ?? ""
 						}
 						onChange={(event) =>
-							table.getColumn(searchKey)?.setFilterValue(event.target.value)
+							table
+								.getColumn(searchKey)
+								?.setFilterValue(event.target.value)
 						}
 						className="max-w-sm"
 					/>
@@ -146,7 +155,8 @@ export function DataTable<TData, TValue>({
 										{header.isPlaceholder
 											? null
 											: flexRender(
-													header.column.columnDef.header,
+													header.column.columnDef
+														.header,
 													header.getContext(),
 												)}
 									</TableHead>
@@ -159,7 +169,9 @@ export function DataTable<TData, TValue>({
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 									onClick={() => onRowClick?.(row.original)}
 								>
 									{row.getVisibleCells().map((cell) => (

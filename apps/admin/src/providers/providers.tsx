@@ -8,7 +8,11 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
 	return (
-		<NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+		<NextThemesProvider
+			attribute="class"
+			defaultTheme="system"
+			enableSystem
+		>
 			{children}
 			<Toaster richColors />
 		</NextThemesProvider>

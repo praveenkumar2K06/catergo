@@ -1,14 +1,6 @@
-import { LayoutDashboard, Package, Settings } from "lucide-react";
+import { LayoutDashboard, Package, Settings, User } from "lucide-react";
 
-export interface NavigationItem {
-	title: string;
-	href: string;
-	icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-	badge?: string | number;
-	children?: NavigationItem[];
-}
-
-export const navigationItems: NavigationItem[] = [
+export const navigationItems = [
 	{
 		title: "Dashboard",
 		href: "/",
@@ -17,6 +9,11 @@ export const navigationItems: NavigationItem[] = [
 	{
 		title: "Users",
 		href: "/users",
+		icon: User,
+	},
+	{
+		title: "Menu",
+		href: "/menu",
 		icon: Package,
 	},
 	{

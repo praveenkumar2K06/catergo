@@ -1,9 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import UsersPage from "@/features/users";
 
 export const Route = createFileRoute("/users")({
-	component: RouteComponent,
+	component: UsersPage,
+	loader: async () => {
+		return {
+			crumb: "Users",
+		};
+	},
 });
-
-function RouteComponent() {
-	return <div>Hello "/users"!</div>;
-}

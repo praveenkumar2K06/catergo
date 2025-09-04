@@ -15,6 +15,8 @@ export function Provider({
 	queryClient: QueryClient;
 }) {
 	return (
-		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+		<QueryClientProvider client={queryClient}>
+			{children}
+		</QueryClientProvider>
 	);
 }
