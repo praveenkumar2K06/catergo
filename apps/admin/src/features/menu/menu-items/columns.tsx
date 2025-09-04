@@ -87,6 +87,17 @@ export const createColumns = ({
 		enableSorting: false,
 	},
 	{
+		accessorKey: "qtyPerUnit",
+		header: ({ column }) => (
+			<DataTableColumnHeader
+				column={column}
+				title="Quantity per Person"
+			/>
+		),
+		cell: ({ row }) => <div>{row.getValue("qtyPerUnit")}</div>,
+		enableSorting: false,
+	},
+	{
 		accessorKey: "metrics",
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Metrics" />
@@ -97,7 +108,7 @@ export const createColumns = ({
 	{
 		id: "actions",
 		cell: ({ row }) => {
-			const user = row.original;
+			const menu = row.original;
 
 			return (
 				<DropdownMenu>
@@ -111,21 +122,21 @@ export const createColumns = ({
 						<DropdownMenuLabel>Actions</DropdownMenuLabel>
 						<DropdownMenuItem
 							onClick={() =>
-								navigator.clipboard.writeText(user.id)
+								navigator.clipboard.writeText(menu.id)
 							}
 						>
-							Copy user ID
+							Copy menu ID
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 						<DropdownMenuItem>View details</DropdownMenuItem>
-						<DropdownMenuItem onClick={() => onEdit?.(user)}>
-							Edit user
+						<DropdownMenuItem onClick={() => onEdit?.(menu)}>
+							Edit menu
 						</DropdownMenuItem>
 						<DropdownMenuItem
-							onClick={() => onDelete?.(user)}
+							onClick={() => onDelete?.(menu)}
 							className="text-destructive"
 						>
-							Delete user
+							Delete menu
 						</DropdownMenuItem>
 					</DropdownMenuContent>
 				</DropdownMenu>
