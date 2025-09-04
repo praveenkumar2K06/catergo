@@ -53,7 +53,6 @@ export function OrderDetails({
 				<Input
 					id="people"
 					type="number"
-					min="1"
 					placeholder="How many people will be dining?"
 					value={numberOfPeople || ""}
 					onChange={(e) =>
