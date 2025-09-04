@@ -7,8 +7,8 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { OrderProvider } from "@/components/providers/order-provider";
-import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
 import appCss from "../styles.css?url";
@@ -56,7 +56,11 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 				<HeadContent />
 			</head>
 			<body>
-				<ThemeProvider>
+				<NextThemesProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+				>
 					<OrderProvider>{children}</OrderProvider>
 					<TanStackDevtools
 						config={{
@@ -70,9 +74,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 							TanStackQueryDevtools,
 						]}
 					/>
-
 					<Toaster richColors />
-				</ThemeProvider>
+				</NextThemesProvider>
 				<Scripts />
 			</body>
 		</html>
