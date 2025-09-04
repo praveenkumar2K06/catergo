@@ -11,6 +11,7 @@
     "apps/admin": {
       "name": "admin",
       "dependencies": {
+        "@radix-ui/react-slot": "^1.2.3",
         "@tailwindcss/vite": "^4.1.12",
         "@tanstack/react-devtools": "^0.5.3",
         "@tanstack/react-form": "^1.19.3",
@@ -117,23 +118,6 @@
         "vite": "^7.1.3",
         "vitest": "^3.2.4",
         "web-vitals": "^5.1.0",
-      },
-    },
-    "packages/shared": {
-      "name": "shared",
-      "dependencies": {
-        "@radix-ui/react-slot": "^1.2.3",
-        "class-variance-authority": "^0.7.1",
-        "clsx": "^2.1.1",
-        "lucide-react": "^0.542.0",
-        "tailwind-merge": "^3.3.1",
-        "tw-animate-css": "^1.3.8",
-      },
-      "devDependencies": {
-        "@types/bun": "latest",
-      },
-      "peerDependencies": {
-        "typescript": "^5",
       },
     },
   },
@@ -1555,8 +1539,6 @@
     "server": ["server@workspace:apps/server"],
 
     "setprototypeof": ["setprototypeof@1.2.0", "", {}, "sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw=="],
-
-    "shared": ["shared@workspace:packages/shared"],
 
     "shebang-command": ["shebang-command@2.0.0", "", { "dependencies": { "shebang-regex": "^3.0.0" } }, "sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA=="],
 

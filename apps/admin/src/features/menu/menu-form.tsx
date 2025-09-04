@@ -1,0 +1,365 @@
+import type { AnyFieldApi } from "@tanstack/react-form";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { LoaderCircleIcon } from "lucide-react";
+import { useCallback, useEffect } from "react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import {
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { useAppForm } from "@/components/ui/tanstack-form";
+import { addMenuItem, updateMenuItem } from "@/lib/api/menu-items";
+import type { MenuItem } from "@/types";
+import { Categories, Metrics, menuItemFormSchema } from "@/types/menu-items";
+
+const METRICS = [
+	{ value: Metrics.Piece, label: "Piece" },
+	{ value: Metrics.Kg, label: "Kilogram" },
+	{ value: Metrics.Litre, label: "Litre" },
+];
+
+const CATEGORIES = [
+	{ value: Categories.starters, label: "Starters" },
+	{ value: Categories.mains, label: "Mains" },
+	{ value: Categories.desserts, label: "Desserts" },
+	{ value: Categories.beverages, label: "Beverages" },
+	{ value: Categories.specials, label: "Specials" },
+];
+
+interface MenuFormProps {
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+	onSuccess?: (menuItem: MenuItem) => void;
+	initialData?: Partial<MenuItem>;
+}
+
+export function MenuForm({
+	open,
+	onOpenChange,
+	onSuccess,
+	initialData,
+}: MenuFormProps) {
+	const queryClient = useQueryClient();
+	const isEditing = !!initialData?.id;
+
+	const addItemMutation = useMutation({
+		mutationFn: addMenuItem,
+		onError: (error) => {
+			console.error("Error adding menu item:", error);
+			toast.error("Failed to add menu item. Please try again.", {
+				description: error.message,
+			});
+		},
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ["menu"] });
+			if (onSuccess) onSuccess(data.data);
+		},
+	});
+
+	const updateItemMutation = useMutation({
+		mutationFn: updateMenuItem,
+		onError: (error) => {
+			console.error("Error updating menu item:", error);
+			toast.error("Failed to update menu item. Please try again.", {
+				description: error.message,
+			});
+		},
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ["menu"] });
+			if (onSuccess) onSuccess(data.data);
+		},
+	});
+
+	// Create form with validation
+	const form = useAppForm({
+		validators: {
+			onChange: ({ value }) => {
+				const result = menuItemFormSchema.safeParse(value);
+				if (result.error) {
+					return {
+						fields: result.error.flatten((issue) => issue.message)
+							.fieldErrors,
+					};
+				}
+			},
+		},
+		defaultValues: {
+			id: initialData?.id,
+			name: initialData?.name || "",
+			description: initialData?.description || "",
+			price: initialData?.price || 0,
+			image: initialData?.image || "",
+			category: initialData?.category || Categories.mains,
+			isVeg: initialData?.isVeg || false,
+			qtyPerUnit: initialData?.qtyPerUnit || 1,
+			metrics: initialData?.metrics || Metrics.Piece,
+		},
+		onSubmit: async ({ value }) => {
+			console.log("Form submitted:", value);
+
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			if (value.id) {
+				updateItemMutation.mutate({ ...value, id: value.id });
+			} else {
+				addItemMutation.mutate(value);
+			}
+		},
+	});
+
+	useEffect(() => {
+		if (open) {
+			form.reset();
+		}
+	}, [open, form]);
+
+	const handleSubmit = useCallback(
+		(e: React.FormEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+			form.handleSubmit();
+		},
+		[form],
+	);
+
+	function FieldInfo({ field }: { field: AnyFieldApi }) {
+		return (
+			<p data-slot="form-message" className={"text-destructive text-sm"}>
+				{field.state.meta.isTouched && !field.state.meta.isValid ? (
+					<em>{field.state.meta.errors.join(",")}</em>
+				) : null}
+				{field.state.meta.isValidating ? "Validating..." : null}
+			</p>
+		);
+	}
+
+	return (
+		<Dialog open={open} onOpenChange={onOpenChange}>
+			<DialogContent className="sm:max-w-[425px]">
+				<DialogHeader>
+					<DialogTitle>
+						{isEditing ? "Edit Product" : "Add New Product"}
+					</DialogTitle>
+				</DialogHeader>
+				<form.AppForm>
+					<form className="space-y-4" onSubmit={handleSubmit}>
+						<form.AppField name="name">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>Name</field.FormLabel>
+									<field.FormControl>
+										<Input
+											value={field.state.value}
+											onChange={(e) =>
+												field.handleChange(
+													e.target.value,
+												)
+											}
+											onBlur={field.handleBlur}
+										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="description">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>
+										Description
+									</field.FormLabel>
+									<field.FormControl>
+										<Input
+											value={field.state.value}
+											onChange={(e) =>
+												field.handleChange(
+													e.target.value,
+												)
+											}
+											onBlur={field.handleBlur}
+										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="price">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>Price</field.FormLabel>
+									<field.FormControl>
+										<Input
+											type="number"
+											value={field.state.value}
+											onChange={(e) =>
+												field.handleChange(
+													Number(
+														e.target.valueAsNumber,
+													),
+												)
+											}
+											onBlur={field.handleBlur}
+										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="category">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>Category</field.FormLabel>
+									<field.FormControl>
+										<Select
+											value={field.state.value}
+											onValueChange={(
+												value: MenuItem["category"],
+											) => {
+												field.handleChange(value);
+											}}
+											onOpenChange={field.handleBlur}
+										>
+											<SelectTrigger>
+												<SelectValue placeholder="Select a Category" />
+											</SelectTrigger>
+											<SelectContent>
+												{CATEGORIES.map((category) => (
+													<SelectItem
+														key={category.value}
+														value={category.value}
+													>
+														{category.label}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="isVeg">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>
+										Is Vegetarian
+									</field.FormLabel>
+									<field.FormControl>
+										<Checkbox
+											checked={field.state.value}
+											onCheckedChange={(checked) =>
+												checked
+													? field.handleChange(true)
+													: field.handleChange(false)
+											}
+											onBlur={field.handleBlur}
+										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="qtyPerUnit">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>
+										Quantity Per Person
+									</field.FormLabel>
+									<field.FormControl>
+										<Input
+											type="number"
+											value={field.state.value}
+											onChange={(e) =>
+												field.handleChange(
+													Number(
+														e.target.valueAsNumber,
+													),
+												)
+											}
+											onBlur={field.handleBlur}
+										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="metrics">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>Metrics</field.FormLabel>
+									<field.FormControl>
+										<Select
+											value={field.state.value}
+											onValueChange={(
+												value: MenuItem["metrics"],
+											) => {
+												field.handleChange(value);
+											}}
+											onOpenChange={field.handleBlur}
+										>
+											<SelectTrigger>
+												<SelectValue placeholder="Select a Metric" />
+											</SelectTrigger>
+											<SelectContent>
+												{METRICS.map((metric) => (
+													<SelectItem
+														key={metric.value}
+														value={metric.value}
+													>
+														{metric.label}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<div className="flex justify-end space-x-2 pt-4">
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => onOpenChange(false)}
+							>
+								Cancel
+							</Button>
+							<Button type="submit">
+								{addItemMutation.isPending ||
+								updateItemMutation.isPending ? (
+									<>
+										<LoaderCircleIcon className="animate-spin" />
+										Loading
+									</>
+								) : isEditing ? (
+									"Update Product"
+								) : (
+									"Add Product"
+								)}
+							</Button>
+						</div>
+					</form>
+				</form.AppForm>
+			</DialogContent>
+		</Dialog>
+	);
+}

@@ -12,6 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { MenuItem } from "@/types";
+import { Categories, Metrics } from "@/types/menu-items";
 
 interface MenuItemActionsProps {
 	onEdit?: (menuItem: MenuItem) => void;
@@ -75,7 +76,12 @@ export const createColumns = ({
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Category" />
 		),
-		cell: ({ row }) => <div>{row.getValue("category")}</div>,
+		cell: ({ row }) => {
+			const categoryValue = row.getValue("category");
+			const categoryEnumValue =
+				Categories[categoryValue as keyof typeof Categories];
+			return <div>{categoryEnumValue}</div>;
+		},
 		enableSorting: false,
 	},
 	{
@@ -102,7 +108,12 @@ export const createColumns = ({
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Metrics" />
 		),
-		cell: ({ row }) => <div>{row.getValue("metrics")}</div>,
+		cell: ({ row }) => {
+			const metricsValue = row.getValue("metrics");
+			const metricsEnumValue =
+				Metrics[metricsValue as keyof typeof Metrics];
+			return <div>{metricsEnumValue}</div>;
+		},
 		enableSorting: false,
 	},
 	{
@@ -128,7 +139,6 @@ export const createColumns = ({
 							Copy menu ID
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>View details</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => onEdit?.(menu)}>
 							Edit menu
 						</DropdownMenuItem>

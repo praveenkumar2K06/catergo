@@ -59,3 +59,69 @@ export const getAllMenuItems = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+export const createMenuItem = async (req: Request, res: Response) => {
+	try {
+		const menuItemData: Prisma.MenuItemCreateInput = req.body;
+
+		const newMenuItem = await prisma.menuItem.create({
+			data: menuItemData,
+		});
+
+		res.status(201).json({
+			success: true,
+			data: newMenuItem,
+		});
+	} catch (error) {
+		res.status(500).json({
+			success: false,
+			message: "Error creating menu item",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};
+
+export const updateMenuItem = async (req: Request, res: Response) => {
+	const menuItemId = req.params.id;
+	const menuItemData: Prisma.MenuItemUpdateInput = req.body;
+
+	try {
+		const updatedMenuItem = await prisma.menuItem.update({
+			where: { id: menuItemId },
+			data: menuItemData,
+		});
+
+		res.status(200).json({
+			success: true,
+			data: updatedMenuItem,
+		});
+	} catch (error) {
+		console.error("Error updating menu item:", error);
+		res.status(500).json({
+			success: false,
+			message: "Error updating menu item",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};
+
+export const deleteMenuItem = async (req: Request, res: Response) => {
+	const menuItemId = req.params.id;
+
+	try {
+		await prisma.menuItem.delete({
+			where: { id: menuItemId },
+		});
+
+		res.status(204).json({
+			success: true,
+		});
+	} catch (error) {
+		console.error("Error deleting menu item:", error);
+		res.status(500).json({
+			success: false,
+			message: "Error deleting menu item",
+			error: error instanceof Error ? error.message : "Unknown error",
+		});
+	}
+};
