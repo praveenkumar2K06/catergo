@@ -5,7 +5,12 @@ import type { MenuItem } from "@/types";
 interface GetMenuResponse {
 	success: boolean;
 	data: MenuItem[];
-	count: number;
+	total: number;
+	pagination: {
+		page: number;
+		pageSize: number;
+		totalPages: number;
+	};
 }
 
 interface CreateOrUpdateMenuResponse {
@@ -14,10 +19,20 @@ interface CreateOrUpdateMenuResponse {
 	error?: string;
 }
 
-const fetchMenuItems = async () => {
+const fetchMenuItems = async (
+	page: number,
+	pageSize: number,
+	search?: string,
+) => {
 	await new Promise((r) => setTimeout(r, 500));
 	return axios
-		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`)
+		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`, {
+			params: {
+				page,
+				pageSize,
+				search,
+			},
+		})
 		.then((res) => res.data as Promise<GetMenuResponse>);
 };
 
@@ -40,7 +55,12 @@ export const deleteMenuItem = async (id: string) => {
 		.then((res) => res.data as Promise<CreateOrUpdateMenuResponse>);
 };
 
-export const fetchMenuQuery = queryOptions({
-	queryKey: ["menu"],
-	queryFn: () => fetchMenuItems(),
-});
+export const fetchMenuQuery = (
+	page: number,
+	pageSize: number,
+	search?: string,
+) =>
+	queryOptions({
+		queryKey: ["menu", { page, pageSize, search }],
+		queryFn: () => fetchMenuItems(page, pageSize, search),
+	});

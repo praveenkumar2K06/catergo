@@ -1,22 +1,45 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import type { ColumnFiltersState } from "@tanstack/react-table";
 import { toast } from "sonner";
-import ErrorDisplay from "@/components/shared/layout/error";
-import Loader from "@/components/shared/layout/loader";
+import { useDebouncedCallback } from "use-debounce";
 import { Button } from "@/components/ui/button";
-import { usersQueryOptions } from "@/lib/api/users";
+import { fetchUsersQuery } from "@/lib/api/users";
 import { UserTable } from "./users-table";
 
 export default function UsersPage() {
-	// Use React Query to fetch data
-	const { data, isPending, isError, error } = useQuery(usersQueryOptions);
+	const navigate = useNavigate();
+	const search = useSearch({ from: "/users" });
+	const { data } = useSuspenseQuery(
+		fetchUsersQuery(search.page ?? 0, search.pageSize ?? 10, search.name),
+	);
 
-	if (isPending) {
-		return <Loader variant="catering" />;
-	}
+	const handlePaginationChange = (page: number, pageSize: number) => {
+		navigate({
+			to: "/users",
+			search: {
+				...search,
+				page,
+				pageSize,
+			},
+			replace: true,
+		});
+	};
 
-	if (isError) {
-		return <ErrorDisplay type="server" message={error.message} />;
-	}
+	const handleFilterChange = (filters: ColumnFiltersState) => {
+		const searchField = filters.find((field) => field.id === "name");
+
+		navigate({
+			to: "/users",
+			search: {
+				...search,
+				page: 0,
+				name: searchField?.value as string | undefined,
+			},
+		});
+	};
+
+	const handleFilterDebounce = useDebouncedCallback(handleFilterChange, 500);
 
 	return (
 		<div>
@@ -49,24 +72,14 @@ export default function UsersPage() {
 								pageSize: 10,
 							},
 						}}
-						handlePaginationChange={() =>
-							toast.info("To be implemented", {
-								description:
-									"This feature is not yet available.",
-							})
-						}
+						handlePaginationChange={handlePaginationChange}
 						handleSortingChange={() =>
 							toast.info("To be implemented", {
 								description:
 									"This feature is not yet available.",
 							})
 						}
-						handleFilterChange={() =>
-							toast.info("To be implemented", {
-								description:
-									"This feature is not yet available.",
-							})
-						}
+						handleFilterChange={handleFilterDebounce}
 						onEditUser={() =>
 							toast.info("To be implemented", {
 								description:

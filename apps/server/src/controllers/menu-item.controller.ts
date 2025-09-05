@@ -4,7 +4,7 @@ import prisma from "../client";
 
 export const getAllMenuItems = async (req: Request, res: Response) => {
 	try {
-		const { category, isVeg, search } = req.query;
+		const { category, isVeg, search, page = 0, pageSize = 10 } = req.query;
 
 		const where: Prisma.MenuItemWhereInput = {};
 
@@ -39,17 +39,32 @@ export const getAllMenuItems = async (req: Request, res: Response) => {
 			];
 		}
 
+		// Pagination
+		const pageNumber = Number.parseInt(page as string, 10);
+		const limit = Number.parseInt(pageSize as string, 10);
+		const skip = pageNumber * limit;
+		const take = limit;
+
 		const menuItems = await prisma.menuItem.findMany({
 			where,
 			orderBy: {
 				createdAt: "desc",
 			},
+			skip,
+			take,
 		});
+
+		const totalItems = await prisma.menuItem.count({ where });
 
 		res.status(200).json({
 			success: true,
 			data: menuItems,
-			count: menuItems.length,
+			total: totalItems,
+			pagination: {
+				page: pageNumber,
+				pageSize: limit,
+				totalPages: Math.ceil(totalItems / limit),
+			},
 		});
 	} catch (error) {
 		res.status(500).json({

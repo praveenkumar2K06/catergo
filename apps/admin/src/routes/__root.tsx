@@ -4,10 +4,13 @@ import {
 	createRootRouteWithContext,
 	HeadContent,
 	Scripts,
+	useRouter,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 import { NotFound } from "@/components/not-found";
 import { PathBreadcrumbs } from "@/components/path-breadcrumbs";
+import ErrorDisplay from "@/components/shared/layout/error";
+import Loader from "@/components/shared/layout/loader";
 import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import { AppSidebar } from "@/components/ui/app-sidebar";
 import { Separator } from "@/components/ui/separator";
@@ -45,6 +48,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 			},
 		],
 	}),
+	errorComponent: (params) => {
+		const router = useRouter();
+		return (
+			<ErrorDisplay
+				type="server"
+				onRetry={router.invalidate}
+				showRetry
+				message={params.error.message}
+			/>
+		);
+	},
+	pendingComponent: () => <Loader variant="catering" />,
 	notFoundComponent: () => <NotFound />,
 	shellComponent: RootDocument,
 });

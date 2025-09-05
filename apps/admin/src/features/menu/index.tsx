@@ -1,8 +1,9 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
+import { useNavigate, useSearch } from "@tanstack/react-router";
+import type { ColumnFiltersState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
-import ErrorDisplay from "@/components/shared/layout/error";
-import Loader from "@/components/shared/layout/loader";
+import { useDebouncedCallback } from "use-debounce";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -23,7 +24,11 @@ export default function MenuPage() {
 	const [isFormOpen, setIsFormOpen] = useState(false);
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [formItem, setFormItem] = useState<MenuItem | null>(null);
-	const { data, isPending, isError, error } = useQuery(fetchMenuQuery);
+	const navigate = useNavigate();
+	const search = useSearch({ from: "/menu" });
+	const { data } = useSuspenseQuery(
+		fetchMenuQuery(search.page ?? 0, search.pageSize ?? 10, search.name),
+	);
 
 	const deleteItemMutation = useMutation({
 		mutationFn: deleteMenuItem,
@@ -38,13 +43,32 @@ export default function MenuPage() {
 		},
 	});
 
-	if (isPending) {
-		return <Loader variant="catering" />;
-	}
+	const handlePaginationChange = (page: number, pageSize: number) => {
+		navigate({
+			to: "/menu",
+			search: {
+				...search,
+				page,
+				pageSize,
+			},
+			replace: true,
+		});
+	};
 
-	if (isError) {
-		return <ErrorDisplay type="server" message={error.message} />;
-	}
+	const handleFilterChange = (filters: ColumnFiltersState) => {
+		const searchField = filters.find((field) => field.id === "name");
+
+		navigate({
+			to: "/menu",
+			search: {
+				...search,
+				page: 0,
+				name: searchField?.value as string | undefined,
+			},
+		});
+	};
+
+	const handleFilterDebounce = useDebouncedCallback(handleFilterChange, 500);
 
 	return (
 		<div>
@@ -70,30 +94,16 @@ export default function MenuPage() {
 						<MenuItemTable
 							data={{
 								menuItems: data.data,
-								pagination: {
-									page: 0,
-									totalPages: 1,
-									pageSize: 10,
-								},
+								pagination: data.pagination,
 							}}
-							handlePaginationChange={() =>
-								toast.info("To be implemented", {
-									description:
-										"This feature is not yet available.",
-								})
-							}
+							handlePaginationChange={handlePaginationChange}
 							handleSortingChange={() =>
 								toast.info("To be implemented", {
 									description:
 										"This feature is not yet available.",
 								})
 							}
-							handleFilterChange={() =>
-								toast.info("To be implemented", {
-									description:
-										"This feature is not yet available.",
-								})
-							}
+							handleFilterChange={handleFilterDebounce}
 							onEditMenuItem={(menuItem) => {
 								setFormItem(menuItem);
 								setIsFormOpen(true);
