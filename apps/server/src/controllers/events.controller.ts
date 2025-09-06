@@ -1,4 +1,4 @@
-import { endOfMonth, startOfMonth } from "date-fns";
+import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 import type { Request, Response } from "express";
 import prisma from "../client";
 
@@ -39,6 +39,31 @@ export const getEvents = async (req: Request, res: Response) => {
 export const createEvent = async (req: Request, res: Response) => {
 	try {
 		const { userId, name, date } = req.body;
+
+		const settings = await prisma.settings.findFirst();
+
+		if (settings?.enableDailyOrderLimit && settings.maxOrdersPerDay) {
+			const eventDate = new Date(date);
+			const dayStart = startOfDay(eventDate);
+			const dayEnd = endOfDay(eventDate);
+
+			const ordersForDay = await prisma.event.count({
+				where: {
+					date: {
+						gte: dayStart,
+						lte: dayEnd,
+					},
+				},
+			});
+
+			if (ordersForDay >= settings.maxOrdersPerDay) {
+				return res.status(400).json({
+					success: false,
+					error: "Order limit reached",
+					message: `Maximum ${settings.maxOrdersPerDay} orders per day allowed. Please select a different date.`,
+				});
+			}
+		}
 
 		const newEvent = await prisma.event.create({
 			data: {

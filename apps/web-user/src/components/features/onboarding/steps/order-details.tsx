@@ -3,11 +3,11 @@ import { DateTimePicker } from "@/components/form/date-time-picker";
 import NextImageLoading from "@/components/ui/image-loader";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useUnavailableDates } from "@/hooks/use-settings";
 
 interface OrderDetailsProps {
 	numberOfPeople: number;
 	selectedDate: Date | undefined;
-	blockedDates: Date[];
 	illustration?: string;
 	onNumberOfPeopleChange: (count: number) => void;
 	onDateChange: (date: Date | undefined) => void;
@@ -16,11 +16,15 @@ interface OrderDetailsProps {
 export function OrderDetails({
 	numberOfPeople,
 	selectedDate,
-	blockedDates,
 	illustration,
 	onNumberOfPeopleChange,
 	onDateChange,
 }: OrderDetailsProps) {
+	const { data: unavailableDatesData } = useUnavailableDates();
+	const blockedDates =
+		unavailableDatesData?.unavailableDates?.map((date) => new Date(date)) ||
+		[];
+
 	return (
 		<div className="space-y-6">
 			{illustration && (

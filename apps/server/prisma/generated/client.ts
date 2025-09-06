@@ -61,6 +61,11 @@ export type MenuItem = Prisma.MenuItemModel
  * 
  */
 export type CartItem = Prisma.CartItemModel
+/**
+ * Model Settings
+ * 
+ */
+export type Settings = Prisma.SettingsModel
 
 export type Metrics = $Enums.Metrics
 export const Metrics = $Enums.Metrics
