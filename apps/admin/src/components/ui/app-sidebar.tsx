@@ -8,7 +8,6 @@ import {
 	SidebarGroupLabel,
 	SidebarHeader,
 	SidebarMenu,
-	SidebarMenuBadge,
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
@@ -50,9 +49,6 @@ export function AppSidebar() {
 										<Link
 											to={item.href}
 											className="flex items-center gap-2"
-											activeOptions={{
-												exact: true,
-											}}
 											activeProps={{
 												className:
 													"bg-primary text-primary-foreground",
@@ -60,11 +56,6 @@ export function AppSidebar() {
 										>
 											<item.icon className="size-4" />
 											<span>{item.title}</span>
-											{item.badge && (
-												<SidebarMenuBadge>
-													{item.badge}
-												</SidebarMenuBadge>
-											)}
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
