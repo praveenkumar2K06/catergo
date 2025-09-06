@@ -14,7 +14,6 @@ export interface UserResponse {
 
 const fetchUsers = async (page: number, pageSize: number, search?: string) => {
 	await new Promise((r) => setTimeout(r, 500));
-	console.log("Fetching users...");
 	return axios
 		.get(`${import.meta.env.VITE_SERVER_URL}/api/users/v2`, {
 			params: {

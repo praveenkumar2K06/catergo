@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { ArrowLeft, Users } from "lucide-react";
 import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import { Button } from "@/components/ui/button";
@@ -34,9 +35,10 @@ export function MenuHeader({ userData, onBack, cartButton }: MenuHeaderProps) {
 							<span className="text-xs">•</span>
 							<span>
 								{userData.selectedDate
-									? new Date(
+									? format(
 											userData.selectedDate,
-										).toLocaleDateString()
+											"EEEE dd/MM/yyyy hh:mm aa",
+										)
 									: "Date Not Specified"}
 							</span>
 						</div>

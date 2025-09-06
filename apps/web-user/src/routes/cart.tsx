@@ -10,6 +10,11 @@ import {
 	type UpdateCartQuantityRequest,
 	updateCartQuantity,
 } from "@/lib/api/cart";
+import { type CreateEventRequest, createEvent } from "@/lib/api/event";
+import {
+	handleMutationError,
+	handleMutationSuccess,
+} from "@/lib/error-handlers";
 import type { CartItem } from "@/lib/types";
 
 export const Route = createFileRoute("/cart")({
@@ -56,6 +61,23 @@ export default function Cart() {
 		mutationFn: removeCartItem,
 	});
 
+	const createEventMutation = useMutation<
+		CreateEventRequest,
+		Error,
+		CreateEventRequest
+	>({
+		mutationFn: createEvent,
+		onError(error) {
+			handleMutationError(
+				error,
+				"Failed to create event. Please try again.",
+			);
+		},
+		onSuccess() {
+			handleMutationSuccess("Event created successfully.");
+		},
+	});
+
 	const handleUpdateQuantity = (itemId: string, quantity: number) => {
 		const cartItem = cartItems.find((item) => item.id === itemId);
 		const prevCartItemQuantity = cartItem?.quantity || 0;
@@ -100,7 +122,14 @@ export default function Cart() {
 	};
 
 	const handleProceedToCheckout = () => {
-		// navigate({ to: "/checkout" });
+		if (userData?.id && userData.selectedDate) {
+			const selectedDate = new Date(userData.selectedDate);
+			createEventMutation.mutate({
+				userId: userData.id,
+				name: "New Event",
+				date: selectedDate.toISOString(),
+			});
+		}
 	};
 
 	if (!userData) return <Loader variant="catering" />;

@@ -1,42 +1,84 @@
-import { createFileRoute } from "@tanstack/react-router";
-import logo from "../logo.svg";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import {
+	createFileRoute,
+	useNavigate,
+	useSearch,
+} from "@tanstack/react-router";
+import { addHours } from "date-fns";
+import { useMemo, useState } from "react";
+import z from "zod";
+import Calendar from "@/components/calendar/calendar";
+import { EVENT_COLORS } from "@/components/calendar/calendar-tailwind-classes";
+import type { CalendarEvent, Mode } from "@/components/calendar/calendar-types";
+import Loader from "@/components/shared/layout/loader";
+import { fetchEventsQuery } from "@/lib/api/events";
+
+const calendarSearchSchema = z.object({
+	month: z
+		.number()
+		.min(1)
+		.max(12)
+		.default(new Date().getMonth() + 1),
+});
 
 export const Route = createFileRoute("/")({
 	component: App,
-	loader: () => ({
-		crumb: "Home",
-	}),
+	validateSearch: calendarSearchSchema,
+	loaderDeps: ({ search }) => {
+		return {
+			month: search.month,
+		};
+	},
+	loader: async ({ context, deps }) => {
+		await context.queryClient.ensureQueryData(fetchEventsQuery(deps.month));
+
+		return {
+			crumb: "Home",
+		};
+	},
+	pendingComponent: () => <Loader variant="catering" />,
 });
 
 function App() {
+	const search = useSearch({ from: "/" });
+	const navigate = useNavigate();
+
+	const [mode, setMode] = useState<Mode>("month");
+	const [date, setDate] = useState(
+		new Date(new Date().getFullYear(), search.month - 1),
+	);
+	const { data } = useSuspenseQuery(fetchEventsQuery(date.getMonth() + 1));
+
+	const events = useMemo<CalendarEvent[]>(() => {
+		return data.data.map((event, idx) => {
+			const start = new Date(event.date);
+			return {
+				id: event.id,
+				title: event.name,
+				color: EVENT_COLORS[idx % EVENT_COLORS.length],
+				start,
+				end: addHours(start, 1),
+			};
+		});
+	}, [data]);
+
+	const setNewDate = (newDate: Date) => {
+		setDate(newDate);
+		navigate({
+			to: "/",
+			search: { month: newDate.getMonth() + 1 },
+			replace: true,
+		});
+	};
+
 	return (
-		<div className="h-full text-center">
-			<header className="flex h-full flex-col items-center justify-center bg-[#282c34] text-[calc(10px+2vmin)] text-white">
-				<img
-					src={logo}
-					className="pointer-events-none h-[40vmin] animate-[spin_20s_linear_infinite]"
-					alt="logo"
-				/>
-				<p>
-					Edit <code>src/routes/index.tsx</code> and save to reload.
-				</p>
-				<a
-					className="text-[#61dafb] hover:underline"
-					href="https://reactjs.org"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn React
-				</a>
-				<a
-					className="text-[#61dafb] hover:underline"
-					href="https://tanstack.com"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					Learn TanStack
-				</a>
-			</header>
-		</div>
+		<Calendar
+			events={events}
+			setEvents={() => {}}
+			mode={mode}
+			setMode={setMode}
+			date={date}
+			setDate={setNewDate}
+		/>
 	);
 }

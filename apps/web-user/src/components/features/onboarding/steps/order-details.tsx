@@ -1,16 +1,8 @@
-import { format, isSameDay } from "date-fns";
 import { CalendarIcon, Users } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { DateTimePicker } from "@/components/form/date-time-picker";
 import NextImageLoading from "@/components/ui/image-loader";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-	Popover,
-	PopoverContent,
-	PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 
 interface OrderDetailsProps {
 	numberOfPeople: number;
@@ -72,38 +64,19 @@ export function OrderDetails({
 					</div>
 					Delivery Date
 				</Label>
-				<Popover>
-					<PopoverTrigger asChild>
-						<Button
-							variant="outline"
-							className={cn(
-								"h-12 w-full justify-start text-left font-normal text-base transition-all duration-200 hover:bg-muted/50 focus:ring-2 focus:ring-primary/20",
-								!selectedDate && "text-muted-foreground",
-								selectedDate && "text-foreground",
-							)}
-						>
-							<CalendarIcon className="mr-3 h-4 w-4" />
-							{selectedDate
-								? format(selectedDate, "EEEE, MMMM do, yyyy")
-								: "Select your preferred delivery date"}
-						</Button>
-					</PopoverTrigger>
-					<PopoverContent
-						className="w-auto border-border/50 p-0 shadow-lg"
-						align="start"
-					>
-						<Calendar
-							mode="single"
-							selected={selectedDate}
-							onSelect={onDateChange}
-							disabled={(date) =>
-								blockedDates.some((d) => isSameDay(d, date)) ||
-								date < new Date()
-							}
-							className="rounded-lg"
-						/>
-					</PopoverContent>
-				</Popover>
+				<DateTimePicker
+					blockedDates={blockedDates}
+					field={{
+						value:
+							selectedDate !== undefined
+								? selectedDate.toString()
+								: "",
+						onChange: (value) => {
+							const date = new Date(value);
+							onDateChange(date);
+						},
+					}}
+				/>
 			</div>
 		</div>
 	);

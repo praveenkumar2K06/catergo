@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import type { UserData } from "@/lib/types";
 
 interface WelcomeBannerProps {
@@ -29,13 +30,10 @@ export function WelcomeBanner({ userData }: WelcomeBannerProps) {
 				<div className="rounded-xl bg-primary-foreground/10 p-3 text-center backdrop-blur-sm">
 					<p className="font-medium text-sm">
 						{userData.selectedDate
-							? new Date(
+							? format(
 									userData.selectedDate,
-								).toLocaleDateString("en-US", {
-									weekday: "short",
-									month: "short",
-									day: "numeric",
-								})
+									"dd/MM/yyyy hh:mm aa",
+								)
 							: "Date TBD"}
 					</p>
 					<p className="text-xs opacity-75">Delivery</p>

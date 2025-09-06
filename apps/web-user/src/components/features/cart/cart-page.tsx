@@ -78,30 +78,18 @@ export function CartPage({
 					<div className="flex w-full flex-row items-center justify-between gap-4">
 						<AnimatedButton
 							whileHover={{ scale: 1.02 }}
-							whileTap={{ scale: 0.98 }}
-							transition={{
-								type: "spring",
-								stiffness: 300,
-								damping: 24,
-							}}
-							size="lg"
+							whileTap={{ scale: 0.85 }}
 							onClick={onCreateNewOrder}
-							className="flex-1 font-medium text-lg"
+							className="flex-1"
+							variant="secondary"
 						>
 							Create New Order
 						</AnimatedButton>
 						<AnimatedButton
 							whileHover={{ scale: 1.02 }}
-							whileTap={{ scale: 0.98 }}
-							transition={{
-								type: "spring",
-								stiffness: 300,
-								damping: 24,
-							}}
-							variant="secondary"
+							whileTap={{ scale: 0.85 }}
 							onClick={onProceedToCheckout}
-							className="flex-1 font-medium text-lg"
-							size="lg"
+							className="flex-1"
 						>
 							Proceed to Checkout • ₹{total}
 						</AnimatedButton>
