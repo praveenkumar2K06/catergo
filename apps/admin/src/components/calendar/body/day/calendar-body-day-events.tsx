@@ -2,8 +2,7 @@ import { isSameDay } from "date-fns";
 import { useCalendarContext } from "../../calendar-context";
 
 export default function CalendarBodyDayEvents() {
-	const { events, date, setManageEventDialogOpen, setSelectedEvent } =
-		useCalendarContext();
+	const { events, date, setSelectedEvent } = useCalendarContext();
 	const dayEvents = events.filter((event) => isSameDay(event.start, date));
 
 	return dayEvents.length ? (
@@ -18,7 +17,6 @@ export default function CalendarBodyDayEvents() {
 						className="flex cursor-pointer items-center gap-2 px-2"
 						onClick={() => {
 							setSelectedEvent(event);
-							setManageEventDialogOpen(true);
 						}}
 					>
 						<div className="flex items-center gap-2">

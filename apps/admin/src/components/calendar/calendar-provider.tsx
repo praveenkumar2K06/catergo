@@ -1,8 +1,6 @@
-import { useState } from "react";
+import { useNavigate } from "@tanstack/react-router";
 import { CalendarContext } from "./calendar-context";
 import type { CalendarEvent, Mode } from "./calendar-types";
-import CalendarManageEventDialog from "./dialog/calendar-manage-event-dialog";
-import CalendarNewEventDialog from "./dialog/calendar-new-event-dialog";
 
 export default function CalendarProvider({
 	events,
@@ -23,11 +21,14 @@ export default function CalendarProvider({
 	calendarIconIsToday: boolean;
 	children: React.ReactNode;
 }) {
-	const [newEventDialogOpen, setNewEventDialogOpen] = useState(false);
-	const [manageEventDialogOpen, setManageEventDialogOpen] = useState(false);
-	const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(
-		null,
-	);
+	const navigate = useNavigate();
+
+	const handleSelectedEventChange = (event: CalendarEvent) => {
+		navigate({
+			to: "/event/$id",
+			params: { id: event.id },
+		});
+	};
 
 	return (
 		<CalendarContext.Provider
@@ -39,16 +40,9 @@ export default function CalendarProvider({
 				date,
 				setDate,
 				calendarIconIsToday,
-				newEventDialogOpen,
-				setNewEventDialogOpen,
-				manageEventDialogOpen,
-				setManageEventDialogOpen,
-				selectedEvent,
-				setSelectedEvent,
+				setSelectedEvent: handleSelectedEventChange,
 			}}
 		>
-			<CalendarNewEventDialog />
-			<CalendarManageEventDialog />
 			{children}
 		</CalendarContext.Provider>
 	);

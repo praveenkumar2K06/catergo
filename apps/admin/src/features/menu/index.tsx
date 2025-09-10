@@ -1,5 +1,5 @@
 import { useMutation, useSuspenseQuery } from "@tanstack/react-query";
-import { useNavigate, useSearch } from "@tanstack/react-router";
+import { useLoaderData, useNavigate, useSearch } from "@tanstack/react-router";
 import type { ColumnFiltersState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -25,7 +25,8 @@ export default function MenuPage() {
 	const [isDialogOpen, setIsDialogOpen] = useState(false);
 	const [formItem, setFormItem] = useState<MenuItem | null>(null);
 	const navigate = useNavigate();
-	const search = useSearch({ from: "/menu" });
+	const loader = useLoaderData({ from: "/_authed/menu" });
+	const search = useSearch({ from: "/_authed/menu" });
 	const { data } = useSuspenseQuery(
 		fetchMenuQuery(search.page ?? 0, search.pageSize ?? 10, search.name),
 	);
@@ -81,14 +82,25 @@ export default function MenuPage() {
 								Manage your menu items
 							</p>
 						</div>
-						<Button
-							onClick={() => {
-								setFormItem(null);
-								setIsFormOpen(true);
-							}}
-						>
-							Add Menu Item
-						</Button>
+						<div className="flex gap-2">
+							<Button
+								onClick={() => {
+									navigator.clipboard.writeText(
+										`${import.meta.env.VITE_FRONTEND_URL}/caterer/${loader.adminId}`,
+									);
+								}}
+							>
+								Copy your unique link
+							</Button>
+							<Button
+								onClick={() => {
+									setFormItem(null);
+									setIsFormOpen(true);
+								}}
+							>
+								Add Menu Item
+							</Button>
+						</div>
 					</div>
 					<div>
 						<MenuItemTable

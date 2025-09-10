@@ -1,12 +1,22 @@
 import type { Request, Response } from "express";
 import type { Prisma } from "prisma/generated/client";
+import type { AuthRequest } from "@/types/auth-request";
 import prisma from "../client";
 
-export const getUsersV2 = async (req: Request, res: Response) => {
+export const getUsersV2 = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const { search, page = 0, pageSize = 10 } = req.query;
 
-		const where: Prisma.UserWhereInput = {};
+		const where: Prisma.UserWhereInput = {
+			adminId: req.admin.id,
+		};
 
 		if (search && typeof search === "string") {
 			where.OR = [
@@ -71,8 +81,30 @@ export const getUsers = async (_: Request, res: Response) => {
 
 export const createUser = async (req: Request, res: Response) => {
 	try {
-		const { name, phone, address, pincode, numberOfPeople, selectedDate } =
-			req.body;
+		const {
+			name,
+			phone,
+			address,
+			pincode,
+			numberOfPeople,
+			selectedDate,
+			adminId,
+		} = req.body;
+
+		if (
+			!name ||
+			!phone ||
+			!address ||
+			!pincode ||
+			!numberOfPeople ||
+			!selectedDate ||
+			!adminId
+		) {
+			return res.status(400).json({
+				success: false,
+				message: "All fields are required",
+			});
+		}
 
 		const newUser = await prisma.user.create({
 			data: {
@@ -82,6 +114,7 @@ export const createUser = async (req: Request, res: Response) => {
 				pincode,
 				numberOfPeople,
 				selectedDate,
+				adminId,
 			},
 		});
 

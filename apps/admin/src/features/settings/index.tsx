@@ -25,7 +25,7 @@ export default function SettingsPage() {
 					</p>
 				</div>
 			</div>
-			<div className="m-4 w-full">
+			<div className="m-4">
 				<Tabs defaultValue="orders" className="gap-4">
 					<TabsList className="gap-1 bg-background">
 						{tabs.map((tab) => (

@@ -3,6 +3,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
+import { CatererEntry } from "@/components/features/onboarding/caterer-selector";
 import { OnboardingFlow } from "@/components/features/onboarding/onboarding-flow";
 import { useOrder } from "@/components/providers/order-provider";
 import { createUser, updateUser } from "@/lib/api/users";
@@ -15,10 +16,10 @@ export const Route = createFileRoute("/")({
 });
 
 function App() {
-	const { userData, setUserData } = useOrder();
+	const { userData, setUserData, catererId, setCatererId } = useOrder();
 	const navigate = useNavigate();
 
-	const createUserMutation = useMutation<UserData, Error, UserData>({
+	const createUserMutation = useMutation({
 		mutationFn: createUser,
 		onError(error) {
 			handleMutationError(
@@ -26,7 +27,7 @@ function App() {
 				"Failed to create profile. Please try again.",
 			);
 		},
-		onSuccess(data, _variables, _context) {
+		onSuccess(data) {
 			onProceedToMenu(data);
 		},
 	});
@@ -54,10 +55,18 @@ function App() {
 
 	return (
 		<div className="h-screen w-screen">
-			<OnboardingFlow
-				userData={userData}
-				mutation={userData ? updateUserMutation : createUserMutation}
-			/>
+			{catererId ? (
+				<OnboardingFlow
+					userData={userData}
+					catererId={catererId}
+					mutation={
+						userData ? updateUserMutation : createUserMutation
+					}
+					onChangeCatererClick={() => setCatererId(null)}
+				/>
+			) : (
+				<CatererEntry onComplete={(id) => setCatererId(id)} />
+			)}
 		</div>
 	);
 }

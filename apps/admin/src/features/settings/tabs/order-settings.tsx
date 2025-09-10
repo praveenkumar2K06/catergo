@@ -1,6 +1,7 @@
 import { Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ErrorDisplay from "@/components/shared/layout/error";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -13,9 +14,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useSettings, useUpdateSettings } from "@/hooks/use-settings";
+import OrderSettingsSkeleton from "../skeleton/order-settings-skeleton";
 
 export const OrderSettings = () => {
-	const { data: settings, isLoading } = useSettings();
+	const { data: settings, isLoading, isError } = useSettings();
 	const updateSettingsMutation = useUpdateSettings();
 
 	const [maxOrdersPerDay, setMaxOrdersPerDay] = useState<number>(50);
@@ -41,46 +43,13 @@ export const OrderSettings = () => {
 	};
 
 	if (isLoading) {
-		return (
-			<div className="space-y-6">
-				<div>
-					<h2 className="font-bold text-lg">
-						Order Management Settings
-					</h2>
-					<p className="text-muted-foreground text-sm">
-						Configure order limits, quantities, and management
-						options.
-					</p>
-				</div>
-
-				<Card>
-					<CardHeader>
-						<div className="space-y-2">
-							<div className="h-6 w-48 animate-pulse rounded bg-muted" />
-							<div className="h-4 w-64 animate-pulse rounded bg-muted" />
-						</div>
-					</CardHeader>
-					<CardContent className="space-y-4">
-						<div className="grid grid-cols-2 gap-4">
-							<div className="space-y-2">
-								<div className="h-4 w-32 animate-pulse rounded bg-muted" />
-								<div className="h-10 w-full animate-pulse rounded bg-muted" />
-							</div>
-						</div>
-						<div className="flex items-center space-x-2">
-							<div className="h-4 w-4 animate-pulse rounded bg-muted" />
-							<div className="h-4 w-36 animate-pulse rounded bg-muted" />
-						</div>
-						<div className="h-20 w-full animate-pulse rounded-lg bg-muted/50" />
-					</CardContent>
-				</Card>
-
-				<div className="flex justify-end">
-					<div className="h-10 w-40 animate-pulse rounded bg-muted" />
-				</div>
-			</div>
-		);
+		return <OrderSettingsSkeleton />;
 	}
+
+	if (isError) {
+		return <ErrorDisplay type="server" className="h-max" />;
+	}
+
 	return (
 		<div className="space-y-6">
 			<div>
@@ -132,14 +101,14 @@ export const OrderSettings = () => {
 						</Label>
 					</div>
 					{enableDailyLimit && (
-						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950">
 							<div className="flex items-start gap-2">
-								<Info className="mt-0.5 h-4 w-4 text-blue-600" />
+								<Info className="mt-0.5 h-4 w-4 text-blue-600 dark:text-blue-400" />
 								<div className="text-sm">
-									<p className="font-medium text-blue-900">
+									<p className="font-medium text-blue-900 dark:text-blue-100">
 										Daily limit is enabled
 									</p>
-									<p className="text-blue-700">
+									<p className="text-blue-700 dark:text-blue-300">
 										New orders will be rejected once the
 										daily limit of {maxOrdersPerDay} orders
 										is reached.

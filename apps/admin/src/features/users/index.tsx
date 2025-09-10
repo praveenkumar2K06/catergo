@@ -9,7 +9,7 @@ import { UserTable } from "./users-table";
 
 export default function UsersPage() {
 	const navigate = useNavigate();
-	const search = useSearch({ from: "/users" });
+	const search = useSearch({ from: "/_authed/users" });
 	const { data } = useSuspenseQuery(
 		fetchUsersQuery(search.page ?? 0, search.pageSize ?? 10, search.name),
 	);

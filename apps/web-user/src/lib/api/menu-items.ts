@@ -8,14 +8,19 @@ interface Response {
 	count: number;
 }
 
-const fetchMenuItems = async () => {
+const fetchMenuItems = async (catererId: string | null) => {
 	await new Promise((r) => setTimeout(r, 500));
+
+	if (!catererId)
+		throw new Error("Caterer ID is required to fetch menu items");
+
 	return axios
-		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`)
+		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items/${catererId}`)
 		.then((res) => res.data as Promise<Response>);
 };
 
-export const menuQueryOptions = queryOptions({
-	queryKey: ["menu"],
-	queryFn: () => fetchMenuItems(),
-});
+export const menuQueryOptions = (catererId: string | null) =>
+	queryOptions({
+		queryKey: ["menu", catererId],
+		queryFn: () => fetchMenuItems(catererId),
+	});

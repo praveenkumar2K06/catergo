@@ -14,6 +14,12 @@ const config = defineConfig({
 		tanstackStart({
 			customViteReactPlugin: true,
 			target: "bun",
+			spa: {
+				enabled: true,
+				prerender: {
+					enabled: true,
+				},
+			},
 		}),
 		viteReact(),
 	],

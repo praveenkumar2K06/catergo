@@ -1,4 +1,5 @@
 import axios from "axios";
+import { apiClient } from "./client";
 
 export interface Settings {
 	id: string;
@@ -28,17 +29,15 @@ interface BlockedDatesResponse {
 }
 
 export const getSettings = async (): Promise<Settings> => {
-	const response = await axios.get<SettingsResponse>(
-		`${import.meta.env.VITE_SERVER_URL}/api/settings`,
-	);
+	const response = await apiClient.get<SettingsResponse>("/api/settings");
 	return response.data.data;
 };
 
 export const updateSettings = async (
 	settings: SettingsUpdateRequest,
 ): Promise<Settings> => {
-	const response = await axios.put<SettingsResponse>(
-		`${import.meta.env.VITE_SERVER_URL}/api/settings`,
+	const response = await apiClient.put<SettingsResponse>(
+		"/api/settings",
 		settings,
 	);
 	return response.data.data;
@@ -52,16 +51,16 @@ export const getBlockedDates = async (): Promise<string[]> => {
 };
 
 export const addBlockedDate = async (date: string): Promise<Settings> => {
-	const response = await axios.post<SettingsResponse>(
-		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
+	const response = await apiClient.post<SettingsResponse>(
+		"/api/settings/blocked-dates",
 		{ date },
 	);
 	return response.data.data;
 };
 
 export const removeBlockedDate = async (date: string): Promise<Settings> => {
-	const response = await axios.delete<SettingsResponse>(
-		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
+	const response = await apiClient.delete<SettingsResponse>(
+		"/api/settings/blocked-dates",
 		{ data: { date } },
 	);
 	return response.data.data;

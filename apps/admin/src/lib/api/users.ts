@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import axios from "axios";
 import type { User } from "@/types";
+import { apiClient } from "./client";
 
 export interface UserResponse {
 	success: boolean;
@@ -14,8 +14,8 @@ export interface UserResponse {
 
 const fetchUsers = async (page: number, pageSize: number, search?: string) => {
 	await new Promise((r) => setTimeout(r, 500));
-	return axios
-		.get(`${import.meta.env.VITE_SERVER_URL}/api/users/v2`, {
+	return apiClient
+		.get("/api/users/v2", {
 			params: {
 				page,
 				pageSize,

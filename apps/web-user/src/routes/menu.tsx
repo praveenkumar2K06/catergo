@@ -9,24 +9,19 @@ import { menuQueryOptions } from "@/lib/api/menu-items";
 import type { CartItem } from "@/lib/types";
 
 export const Route = createFileRoute("/menu")({
-	loader: async ({ context }) => {
-		await context.queryClient.ensureQueryData(menuQueryOptions);
-	},
-	pendingComponent: () => <Loader variant="catering" />,
-	errorComponent: () => <ErrorDisplay type="notFound" />,
 	component: RouteComponent,
-	ssr: false,
 });
 
 function RouteComponent() {
 	const navigate = useNavigate();
-	const { userData, cartItems, setCartItems, updateQuantity } = useOrder();
+	const { userData, cartItems, setCartItems, updateQuantity, catererId } =
+		useOrder();
 	const {
 		data: menuItems,
 		isPending,
 		isError,
 		refetch,
-	} = useQuery(menuQueryOptions);
+	} = useQuery(menuQueryOptions(catererId));
 
 	useEffect(() => {
 		if (!userData) {
@@ -41,7 +36,6 @@ function RouteComponent() {
 	const handleProceedToCart = (items: CartItem[]) => {
 		setCartItems(items);
 
-		//TODO: Go to Cart
 		navigate({ to: "/cart" });
 	};
 

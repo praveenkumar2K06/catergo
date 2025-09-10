@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { toast } from "sonner";
 
 export const handleMutationError = (
@@ -7,16 +8,29 @@ export const handleMutationError = (
 ) => {
 	console.error("Mutation Error:", error);
 
-	// Show user-friendly error message
-	toast.error(fallbackMessage, {
-		description: error.message,
-		action: customAction
-			? {
-					label: "Retry",
-					onClick: customAction,
-				}
-			: undefined,
-	});
+	if (error instanceof AxiosError) {
+		// Handle Axios error
+		toast.error(error.response?.statusText || fallbackMessage, {
+			description: error.message,
+			action: customAction
+				? {
+						label: "Retry",
+						onClick: customAction,
+					}
+				: undefined,
+		});
+	} else {
+		// Show user-friendly error message
+		toast.error(fallbackMessage, {
+			description: error.message,
+			action: customAction
+				? {
+						label: "Retry",
+						onClick: customAction,
+					}
+				: undefined,
+		});
+	}
 };
 
 export const handleMutationSuccess = (

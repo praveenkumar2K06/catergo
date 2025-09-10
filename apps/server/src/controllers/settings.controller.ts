@@ -1,9 +1,27 @@
 import type { Request, Response } from "express";
 import prisma from "@/client";
 
-export const getSettings = async (_req: Request, res: Response) => {
+interface AuthRequest extends Request {
+	admin?: {
+		id: string;
+		email: string;
+		name: string;
+		role: string;
+	};
+}
+
+export const getSettings = async (req: AuthRequest, res: Response) => {
 	try {
-		let settings = await prisma.settings.findFirst();
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
+		let settings = await prisma.settings.findUnique({
+			where: { adminId: req.admin.id },
+		});
 
 		if (!settings) {
 			settings = await prisma.settings.create({
@@ -11,6 +29,7 @@ export const getSettings = async (_req: Request, res: Response) => {
 					maxOrdersPerDay: 50,
 					enableDailyOrderLimit: true,
 					blockedDates: [],
+					adminId: req.admin.id,
 				},
 			});
 		}
@@ -28,12 +47,21 @@ export const getSettings = async (_req: Request, res: Response) => {
 	}
 };
 
-export const updateSettings = async (req: Request, res: Response) => {
+export const updateSettings = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const { maxOrdersPerDay, enableDailyOrderLimit, blockedDates } =
 			req.body;
 
-		let settings = await prisma.settings.findFirst();
+		let settings = await prisma.settings.findUnique({
+			where: { adminId: req.admin.id },
+		});
 
 		if (!settings) {
 			settings = await prisma.settings.create({
@@ -43,11 +71,12 @@ export const updateSettings = async (req: Request, res: Response) => {
 					blockedDates: blockedDates
 						? blockedDates.map((date: string) => new Date(date))
 						: [],
+					adminId: req.admin.id,
 				},
 			});
 		} else {
 			settings = await prisma.settings.update({
-				where: { id: settings.id },
+				where: { adminId: req.admin.id },
 				data: {
 					...(maxOrdersPerDay !== undefined && { maxOrdersPerDay }),
 					...(enableDailyOrderLimit !== undefined && {
@@ -76,9 +105,18 @@ export const updateSettings = async (req: Request, res: Response) => {
 	}
 };
 
-export const getBlockedDates = async (_req: Request, res: Response) => {
+export const getBlockedDates = async (req: AuthRequest, res: Response) => {
 	try {
-		const settings = await prisma.settings.findFirst();
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
+		const settings = await prisma.settings.findUnique({
+			where: { adminId: req.admin.id },
+		});
 
 		let unavailableDates: Date[] = [];
 		const blockedDates: Date[] = settings?.blockedDates || [];
@@ -93,6 +131,9 @@ export const getBlockedDates = async (_req: Request, res: Response) => {
 					date: {
 						gte: today,
 						lte: oneYearFromNow,
+					},
+					user: {
+						adminId: req.admin.id,
 					},
 				},
 				select: {
@@ -144,8 +185,15 @@ export const getBlockedDates = async (_req: Request, res: Response) => {
 	}
 };
 
-export const addBlockedDate = async (req: Request, res: Response) => {
+export const addBlockedDate = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const { date } = req.body;
 
 		if (!date) {
@@ -157,7 +205,9 @@ export const addBlockedDate = async (req: Request, res: Response) => {
 
 		const blockedDate = new Date(date);
 
-		let settings = await prisma.settings.findFirst();
+		let settings = await prisma.settings.findUnique({
+			where: { adminId: req.admin.id },
+		});
 
 		if (!settings) {
 			settings = await prisma.settings.create({
@@ -165,6 +215,7 @@ export const addBlockedDate = async (req: Request, res: Response) => {
 					maxOrdersPerDay: 50,
 					enableDailyOrderLimit: true,
 					blockedDates: [blockedDate],
+					adminId: req.admin.id,
 				},
 			});
 		} else {
@@ -181,7 +232,7 @@ export const addBlockedDate = async (req: Request, res: Response) => {
 			}
 
 			settings = await prisma.settings.update({
-				where: { id: settings.id },
+				where: { adminId: req.admin.id },
 				data: {
 					blockedDates: [...settings.blockedDates, blockedDate],
 				},
@@ -202,8 +253,15 @@ export const addBlockedDate = async (req: Request, res: Response) => {
 	}
 };
 
-export const removeBlockedDate = async (req: Request, res: Response) => {
+export const removeBlockedDate = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const { date } = req.body;
 
 		if (!date) {
@@ -215,7 +273,9 @@ export const removeBlockedDate = async (req: Request, res: Response) => {
 
 		const dateToRemove = new Date(date);
 
-		const settings = await prisma.settings.findFirst();
+		const settings = await prisma.settings.findUnique({
+			where: { adminId: req.admin.id },
+		});
 
 		if (!settings) {
 			return res.status(404).json({
@@ -225,7 +285,7 @@ export const removeBlockedDate = async (req: Request, res: Response) => {
 		}
 
 		const updatedSettings = await prisma.settings.update({
-			where: { id: settings.id },
+			where: { adminId: req.admin.id },
 			data: {
 				blockedDates: settings.blockedDates.filter(
 					(existingDate) =>

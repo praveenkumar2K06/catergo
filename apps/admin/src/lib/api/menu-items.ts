@@ -1,6 +1,6 @@
 import { queryOptions } from "@tanstack/react-query";
-import axios from "axios";
 import type { MenuItem } from "@/types";
+import { apiClient } from "./client";
 
 interface GetMenuResponse {
 	success: boolean;
@@ -25,8 +25,10 @@ const fetchMenuItems = async (
 	search?: string,
 ) => {
 	await new Promise((r) => setTimeout(r, 500));
-	return axios
-		.get(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`, {
+	const token = localStorage.getItem("admin_token");
+	const parsed = token ? JSON.parse(token) : null;
+	return apiClient
+		.get(`/api/menu-items/${parsed?.id}`, {
 			params: {
 				page,
 				pageSize,
@@ -37,21 +39,21 @@ const fetchMenuItems = async (
 };
 
 export const addMenuItem = async (menuItem: Omit<MenuItem, "id">) => {
-	return axios
-		.post(`${import.meta.env.VITE_SERVER_URL}/api/menu-items`, menuItem)
+	return apiClient
+		.post("/api/menu-items", menuItem)
 		.then((res) => res.data as Promise<CreateOrUpdateMenuResponse>);
 };
 
 export const updateMenuItem = async (menuItem: MenuItem) => {
 	const { id, ...rest } = menuItem;
-	return axios
-		.put(`${import.meta.env.VITE_SERVER_URL}/api/menu-items/${id}`, rest)
+	return apiClient
+		.put(`/api/menu-items/${id}`, rest)
 		.then((res) => res.data as Promise<CreateOrUpdateMenuResponse>);
 };
 
 export const deleteMenuItem = async (id: string) => {
-	return axios
-		.delete(`${import.meta.env.VITE_SERVER_URL}/api/menu-items/${id}`)
+	return apiClient
+		.delete(`/api/menu-items/${id}`)
 		.then((res) => res.data as Promise<CreateOrUpdateMenuResponse>);
 };
 

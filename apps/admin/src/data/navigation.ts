@@ -1,9 +1,9 @@
-import { LayoutDashboard, Package, Settings, User } from "lucide-react";
+import { LayoutDashboard, LogOut, Package, Settings, User } from "lucide-react";
 
 export const navigationItems = [
 	{
 		title: "Dashboard",
-		href: "/",
+		href: "/dashboard",
 		icon: LayoutDashboard,
 	},
 	{
@@ -20,5 +20,13 @@ export const navigationItems = [
 		title: "Settings",
 		href: "/settings",
 		icon: Settings,
+	},
+];
+
+export const userMenuItems = [
+	{
+		title: "Logout",
+		href: "/logout",
+		icon: LogOut,
 	},
 ];

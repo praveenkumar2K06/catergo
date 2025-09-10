@@ -17,6 +17,7 @@ interface CartPageProps {
 	onRemoveItem: (itemId: string) => void;
 	onProceedToCheckout: () => void;
 	onCreateNewOrder: () => void;
+	isLoading?: boolean;
 }
 
 export function CartPage({
@@ -27,6 +28,7 @@ export function CartPage({
 	onRemoveItem,
 	onProceedToCheckout,
 	onCreateNewOrder,
+	isLoading,
 }: CartPageProps) {
 	const { totalItems, subtotal, deliveryFee, taxes, total } =
 		useCartCalculations(cartItems);
@@ -82,6 +84,7 @@ export function CartPage({
 							onClick={onCreateNewOrder}
 							className="flex-1"
 							variant="secondary"
+							disabled={isLoading}
 						>
 							Create New Order
 						</AnimatedButton>
@@ -90,8 +93,11 @@ export function CartPage({
 							whileTap={{ scale: 0.85 }}
 							onClick={onProceedToCheckout}
 							className="flex-1"
+							disabled={isLoading}
 						>
-							Proceed to Checkout • ₹{total}
+							{isLoading
+								? "Loading..."
+								: `Proceed to Checkout • ₹${total}`}
 						</AnimatedButton>
 					</div>
 				</motion.div>

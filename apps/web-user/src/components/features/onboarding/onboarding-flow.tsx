@@ -3,6 +3,7 @@ import type { UseMutationResult } from "@tanstack/react-query";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AutoHeightTransition } from "@/components/shared/animations/AutoHeightTransition";
 import { ModeToggle } from "@/components/shared/layout/mode-toggle";
+import { Button } from "@/components/ui/button";
 import {
 	Card,
 	CardContent,
@@ -20,10 +21,17 @@ import { PersonalDetails } from "./steps/personal-details";
 
 interface OnboardingProps {
 	userData: UserData | null;
+	catererId: string;
 	mutation: UseMutationResult<UserData, Error, UserData>;
+	onChangeCatererClick?: () => void;
 }
 
-export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
+export function OnboardingFlow({
+	userData,
+	mutation,
+	catererId,
+	onChangeCatererClick,
+}: OnboardingProps) {
 	const [currentStep, setCurrentStep] = useState(1);
 	const [direction, setDirection] = useState(1);
 	const isAnimatingRef = useRef(false);
@@ -48,14 +56,6 @@ export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
 		config: { tension: 280, friction: 25 },
 	});
 
-	const blockedDates = useMemo(
-		() => [
-			new Date(2025, 7, 30), // Aug 30, 2025
-			new Date(2025, 8, 2), // Sep 2, 2025
-		],
-		[],
-	);
-
 	const updateData = useCallback(
 		(field: keyof UserData, value: string | number | Date | undefined) => {
 			setData((prev) => ({ ...prev, [field]: value }));
@@ -75,9 +75,12 @@ export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
 				isAnimatingRef.current = false;
 			}, 300);
 		} else {
-			mutation.mutate(data);
+			mutation.mutate({
+				...data,
+				adminId: catererId,
+			} as UserData);
 		}
-	}, [currentStep, data, mutation.mutate]);
+	}, [currentStep, data, mutation.mutate, catererId]);
 
 	const prevStep = useCallback(() => {
 		if (isAnimatingRef.current) return;
@@ -135,8 +138,34 @@ export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
 				<ModeToggle />
 			</div>
 			<div className="w-full max-w-md">
+				<div className="mb-6 rounded-lg border bg-card p-4 text-center shadow-sm">
+					<div className="mb-2 flex items-center justify-center gap-2">
+						<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
+							<span className="font-semibold text-primary text-sm">
+								{catererId.charAt(0).toUpperCase()}
+							</span>
+						</div>
+						<div>
+							<h3 className="font-semibold text-foreground">
+								Delicious Bites Catering
+							</h3>
+							<p className="text-muted-foreground text-xs">
+								ID: {catererId}
+							</p>
+						</div>
+					</div>
+					{onChangeCatererClick && (
+						<Button
+							variant="outline"
+							size="sm"
+							onClick={onChangeCatererClick}
+							className="mt-2 h-7 text-xs"
+						>
+							Change Caterer
+						</Button>
+					)}
+				</div>
 				<ProgressIndicator currentStep={currentStep} totalSteps={3} />
-
 				<Card className="border-0 shadow-lg">
 					<CardHeader className="text-center">
 						<CardTitle className="font-bold text-2xl">
@@ -188,7 +217,6 @@ export function OnboardingFlow({ userData, mutation }: OnboardingProps) {
 									<OrderDetails
 										numberOfPeople={data.numberOfPeople}
 										selectedDate={data.selectedDate}
-										blockedDates={blockedDates}
 										illustration={
 											"/icons/order-details.png"
 										}

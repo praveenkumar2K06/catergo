@@ -7,6 +7,7 @@ import {
 	XIcon,
 } from "lucide-react";
 import { toast } from "sonner";
+import ErrorDisplay from "@/components/shared/layout/error";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -30,15 +31,15 @@ import {
 } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
 	useAddBlockedDate,
 	useRemoveBlockedDate,
 	useSettings,
 } from "@/hooks/use-settings";
+import DateBlockingSkeleton from "../skeleton/date-blocking-skeleton";
 
 export const DateBlockingSettings = () => {
-	const { data: settings, isLoading } = useSettings();
+	const { data: settings, isLoading, isError } = useSettings();
 	const addBlockedDateMutation = useAddBlockedDate();
 	const removeBlockedDateMutation = useRemoveBlockedDate();
 
@@ -78,45 +79,11 @@ export const DateBlockingSettings = () => {
 	};
 
 	if (isLoading) {
-		return (
-			<div className="space-y-6">
-				<div>
-					<h2 className="flex items-center gap-2 font-bold text-lg">
-						<CalendarXIcon className="h-5 w-5" />
-						Date Blocking Settings
-					</h2>
-					<p className="text-muted-foreground text-sm">
-						Manage blocked dates and unavailable periods for orders.
-					</p>
-				</div>
-				<Card>
-					<CardHeader>
-						<CardTitle className="flex items-center gap-2">
-							<CalendarIcon className="h-4 w-4" />
-							Calendar Date Blocking
-						</CardTitle>
-						<CardDescription>
-							Select specific dates to block from receiving orders
-						</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-							<div className="space-y-4">
-								<Skeleton className="h-[280px] w-full rounded-md" />
-							</div>
-							<div className="space-y-4">
-								<Skeleton className="h-6 w-48" />
-								<div className="space-y-2">
-									<Skeleton className="h-8 w-full" />
-									<Skeleton className="h-8 w-full" />
-									<Skeleton className="h-8 w-full" />
-								</div>
-							</div>
-						</div>
-					</CardContent>
-				</Card>
-			</div>
-		);
+		return <DateBlockingSkeleton />;
+	}
+
+	if (isError) {
+		return <ErrorDisplay type="server" className="h-max" />;
 	}
 
 	return (

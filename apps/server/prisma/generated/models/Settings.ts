@@ -7,7 +7,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import * as runtime from "@prisma/client/runtime/library"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -39,6 +39,7 @@ export type SettingsMinAggregateOutputType = {
   enableDailyOrderLimit: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  adminId: string | null
 }
 
 export type SettingsMaxAggregateOutputType = {
@@ -47,6 +48,7 @@ export type SettingsMaxAggregateOutputType = {
   enableDailyOrderLimit: boolean | null
   createdAt: Date | null
   updatedAt: Date | null
+  adminId: string | null
 }
 
 export type SettingsCountAggregateOutputType = {
@@ -56,6 +58,7 @@ export type SettingsCountAggregateOutputType = {
   blockedDates: number
   createdAt: number
   updatedAt: number
+  adminId: number
   _all: number
 }
 
@@ -74,6 +77,7 @@ export type SettingsMinAggregateInputType = {
   enableDailyOrderLimit?: true
   createdAt?: true
   updatedAt?: true
+  adminId?: true
 }
 
 export type SettingsMaxAggregateInputType = {
@@ -82,6 +86,7 @@ export type SettingsMaxAggregateInputType = {
   enableDailyOrderLimit?: true
   createdAt?: true
   updatedAt?: true
+  adminId?: true
 }
 
 export type SettingsCountAggregateInputType = {
@@ -91,6 +96,7 @@ export type SettingsCountAggregateInputType = {
   blockedDates?: true
   createdAt?: true
   updatedAt?: true
+  adminId?: true
   _all?: true
 }
 
@@ -187,6 +193,7 @@ export type SettingsGroupByOutputType = {
   blockedDates: Date[]
   createdAt: Date
   updatedAt: Date
+  adminId: string
   _count: SettingsCountAggregateOutputType | null
   _avg: SettingsAvgAggregateOutputType | null
   _sum: SettingsSumAggregateOutputType | null
@@ -219,6 +226,8 @@ export type SettingsWhereInput = {
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
   createdAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
+  adminId?: Prisma.StringFilter<"Settings"> | string
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
 }
 
 export type SettingsOrderByWithRelationInput = {
@@ -228,10 +237,13 @@ export type SettingsOrderByWithRelationInput = {
   blockedDates?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
+  admin?: Prisma.AdminOrderByWithRelationInput
 }
 
 export type SettingsWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  adminId?: string
   AND?: Prisma.SettingsWhereInput | Prisma.SettingsWhereInput[]
   OR?: Prisma.SettingsWhereInput[]
   NOT?: Prisma.SettingsWhereInput | Prisma.SettingsWhereInput[]
@@ -240,7 +252,8 @@ export type SettingsWhereUniqueInput = Prisma.AtLeast<{
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
   createdAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
-}, "id">
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
+}, "id" | "adminId">
 
 export type SettingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -249,6 +262,7 @@ export type SettingsOrderByWithAggregationInput = {
   blockedDates?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
   _count?: Prisma.SettingsCountOrderByAggregateInput
   _avg?: Prisma.SettingsAvgOrderByAggregateInput
   _max?: Prisma.SettingsMaxOrderByAggregateInput
@@ -266,6 +280,7 @@ export type SettingsScalarWhereWithAggregatesInput = {
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
+  adminId?: Prisma.StringWithAggregatesFilter<"Settings"> | string
 }
 
 export type SettingsCreateInput = {
@@ -275,6 +290,7 @@ export type SettingsCreateInput = {
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  admin: Prisma.AdminCreateNestedOneWithoutSettingsInput
 }
 
 export type SettingsUncheckedCreateInput = {
@@ -284,6 +300,7 @@ export type SettingsUncheckedCreateInput = {
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  adminId: string
 }
 
 export type SettingsUpdateInput = {
@@ -292,6 +309,7 @@ export type SettingsUpdateInput = {
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  admin?: Prisma.AdminUpdateOneRequiredWithoutSettingsNestedInput
 }
 
 export type SettingsUncheckedUpdateInput = {
@@ -300,6 +318,7 @@ export type SettingsUncheckedUpdateInput = {
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type SettingsCreateManyInput = {
@@ -309,6 +328,7 @@ export type SettingsCreateManyInput = {
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
   createdAt?: Date | string
   updatedAt?: Date | string
+  adminId: string
 }
 
 export type SettingsUpdateManyMutationInput = {
@@ -325,6 +345,12 @@ export type SettingsUncheckedUpdateManyInput = {
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type SettingsNullableScalarRelationFilter = {
+  is?: Prisma.SettingsWhereInput | null
+  isNot?: Prisma.SettingsWhereInput | null
 }
 
 export type DateTimeNullableListFilter<$PrismaModel = never> = {
@@ -342,6 +368,7 @@ export type SettingsCountOrderByAggregateInput = {
   blockedDates?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type SettingsAvgOrderByAggregateInput = {
@@ -354,6 +381,7 @@ export type SettingsMaxOrderByAggregateInput = {
   enableDailyOrderLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type SettingsMinOrderByAggregateInput = {
@@ -362,10 +390,43 @@ export type SettingsMinOrderByAggregateInput = {
   enableDailyOrderLimit?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type SettingsSumOrderByAggregateInput = {
   maxOrdersPerDay?: Prisma.SortOrder
+}
+
+export type SettingsCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.SettingsCreateOrConnectWithoutAdminInput
+  connect?: Prisma.SettingsWhereUniqueInput
+}
+
+export type SettingsUncheckedCreateNestedOneWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.SettingsCreateOrConnectWithoutAdminInput
+  connect?: Prisma.SettingsWhereUniqueInput
+}
+
+export type SettingsUpdateOneWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.SettingsCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.SettingsUpsertWithoutAdminInput
+  disconnect?: Prisma.SettingsWhereInput | boolean
+  delete?: Prisma.SettingsWhereInput | boolean
+  connect?: Prisma.SettingsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SettingsUpdateToOneWithWhereWithoutAdminInput, Prisma.SettingsUpdateWithoutAdminInput>, Prisma.SettingsUncheckedUpdateWithoutAdminInput>
+}
+
+export type SettingsUncheckedUpdateOneWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+  connectOrCreate?: Prisma.SettingsCreateOrConnectWithoutAdminInput
+  upsert?: Prisma.SettingsUpsertWithoutAdminInput
+  disconnect?: Prisma.SettingsWhereInput | boolean
+  delete?: Prisma.SettingsWhereInput | boolean
+  connect?: Prisma.SettingsWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.SettingsUpdateToOneWithWhereWithoutAdminInput, Prisma.SettingsUpdateWithoutAdminInput>, Prisma.SettingsUncheckedUpdateWithoutAdminInput>
 }
 
 export type SettingsCreateblockedDatesInput = {
@@ -377,6 +438,56 @@ export type SettingsUpdateblockedDatesInput = {
   push?: Date | string | Date[] | string[]
 }
 
+export type SettingsCreateWithoutAdminInput = {
+  id?: string
+  maxOrdersPerDay?: number
+  enableDailyOrderLimit?: boolean
+  blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SettingsUncheckedCreateWithoutAdminInput = {
+  id?: string
+  maxOrdersPerDay?: number
+  enableDailyOrderLimit?: boolean
+  blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type SettingsCreateOrConnectWithoutAdminInput = {
+  where: Prisma.SettingsWhereUniqueInput
+  create: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+}
+
+export type SettingsUpsertWithoutAdminInput = {
+  update: Prisma.XOR<Prisma.SettingsUpdateWithoutAdminInput, Prisma.SettingsUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.SettingsCreateWithoutAdminInput, Prisma.SettingsUncheckedCreateWithoutAdminInput>
+  where?: Prisma.SettingsWhereInput
+}
+
+export type SettingsUpdateToOneWithWhereWithoutAdminInput = {
+  where?: Prisma.SettingsWhereInput
+  data: Prisma.XOR<Prisma.SettingsUpdateWithoutAdminInput, Prisma.SettingsUncheckedUpdateWithoutAdminInput>
+}
+
+export type SettingsUpdateWithoutAdminInput = {
+  maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type SettingsUncheckedUpdateWithoutAdminInput = {
+  maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
+  enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
 
 
 export type SettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -386,6 +497,8 @@ export type SettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   blockedDates?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  adminId?: boolean
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["settings"]>
 
 
@@ -397,13 +510,19 @@ export type SettingsSelectScalar = {
   blockedDates?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  adminId?: boolean
 }
 
-export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "maxOrdersPerDay" | "enableDailyOrderLimit" | "blockedDates" | "createdAt" | "updatedAt", ExtArgs["result"]["settings"]>
+export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "maxOrdersPerDay" | "enableDailyOrderLimit" | "blockedDates" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["settings"]>
+export type SettingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
+}
 
 export type $SettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Settings"
-  objects: {}
+  objects: {
+    admin: Prisma.$AdminPayload<ExtArgs>
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     maxOrdersPerDay: number
@@ -411,6 +530,7 @@ export type $SettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     blockedDates: Date[]
     createdAt: Date
     updatedAt: Date
+    adminId: string
   }, ExtArgs["result"]["settings"]>
   composites: {}
 }
@@ -774,6 +894,7 @@ readonly fields: SettingsFieldRefs;
  */
 export interface Prisma__SettingsClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  admin<T extends Prisma.AdminDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdminDefaultArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -809,6 +930,7 @@ export interface SettingsFieldRefs {
   readonly blockedDates: Prisma.FieldRef<"Settings", 'DateTime[]'>
   readonly createdAt: Prisma.FieldRef<"Settings", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Settings", 'DateTime'>
+  readonly adminId: Prisma.FieldRef<"Settings", 'String'>
 }
     
 
@@ -825,6 +947,10 @@ export type SettingsFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the Settings
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
   /**
    * Filter, which Settings to fetch.
    */
@@ -844,6 +970,10 @@ export type SettingsFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensio
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
+  /**
    * Filter, which Settings to fetch.
    */
   where: Prisma.SettingsWhereUniqueInput
@@ -861,6 +991,10 @@ export type SettingsFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Settings
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
   /**
    * Filter, which Settings to fetch.
    */
@@ -910,6 +1044,10 @@ export type SettingsFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
+  /**
    * Filter, which Settings to fetch.
    */
   where?: Prisma.SettingsWhereInput
@@ -958,6 +1096,10 @@ export type SettingsFindManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
+  /**
    * Filter, which Settings to fetch.
    */
   where?: Prisma.SettingsWhereInput
@@ -1001,6 +1143,10 @@ export type SettingsCreateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
+  /**
    * The data needed to create a Settings.
    */
   data: Prisma.XOR<Prisma.SettingsCreateInput, Prisma.SettingsUncheckedCreateInput>
@@ -1028,6 +1174,10 @@ export type SettingsUpdateArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Settings
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
   /**
    * The data needed to update a Settings.
    */
@@ -1069,6 +1219,10 @@ export type SettingsUpsertArgs<ExtArgs extends runtime.Types.Extensions.Internal
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
+  /**
    * The filter to search for the Settings to update in case it exists.
    */
   where: Prisma.SettingsWhereUniqueInput
@@ -1094,6 +1248,10 @@ export type SettingsDeleteArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Settings
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
   /**
    * Filter which Settings to delete.
    */
@@ -1154,4 +1312,8 @@ export type SettingsDefaultArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Settings
    */
   omit?: Prisma.SettingsOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.SettingsInclude<ExtArgs> | null
 }

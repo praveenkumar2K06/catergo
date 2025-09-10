@@ -1,10 +1,18 @@
 import { endOfDay, endOfMonth, startOfDay, startOfMonth } from "date-fns";
 import type { Request, Response } from "express";
+import type { Prisma } from "prisma/generated/client";
+import type { AuthRequest } from "@/types/auth-request";
 import prisma from "../client";
 
-// Fetch all events
-export const getEvents = async (req: Request, res: Response) => {
+export const getEvents = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const { month } = req.query;
 
 		const parsedMonth = Number(month);
@@ -13,13 +21,21 @@ export const getEvents = async (req: Request, res: Response) => {
 		const start = startOfMonth(new Date(year, parsedMonth - 1));
 		const end = endOfMonth(new Date(year, parsedMonth - 1));
 
-		const events = await prisma.event.findMany({
-			where: {
+		const where: Prisma.EventWhereInput = {
+			adminId: req.admin.id,
+		};
+
+		where.AND = [
+			{
 				date: {
 					gte: start,
 					lte: end,
 				},
 			},
+		];
+
+		const events = await prisma.event.findMany({
+			where,
 			orderBy: {
 				date: "asc",
 			},
@@ -35,10 +51,16 @@ export const getEvents = async (req: Request, res: Response) => {
 	}
 };
 
-// Create a new event
 export const createEvent = async (req: Request, res: Response) => {
 	try {
-		const { userId, name, date } = req.body;
+		const { userId, name, date, adminId } = req.body;
+
+		if (!adminId) {
+			return res.status(403).json({
+				success: false,
+				message: "Admin ID is required",
+			});
+		}
 
 		const settings = await prisma.settings.findFirst();
 
@@ -65,9 +87,17 @@ export const createEvent = async (req: Request, res: Response) => {
 			}
 		}
 
-		const newEvent = await prisma.event.create({
-			data: {
+		const newEvent = await prisma.event.upsert({
+			where: {
+				userId: userId,
+			},
+			create: {
 				userId,
+				name,
+				date,
+				adminId,
+			},
+			update: {
 				name,
 				date,
 			},
@@ -80,42 +110,48 @@ export const createEvent = async (req: Request, res: Response) => {
 	}
 };
 
-// Update an event
-export const updateEvent = async (req: Request, res: Response) => {
+export const getEventById = async (req: AuthRequest, res: Response) => {
 	try {
-		const { id } = req.params;
-		const { name, date } = req.body;
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
 
-		const updatedEvent = await prisma.event.update({
-			where: { id },
-			data: {
-				name,
-				date,
+		const { id } = req.params;
+
+		const event = await prisma.event.findFirst({
+			where: {
+				id,
+				adminId: req.admin.id,
+			},
+			include: {
+				user: {
+					include: {
+						cartItems: {
+							include: {
+								menuItem: true,
+							},
+						},
+					},
+				},
 			},
 		});
 
-		res.status(200).json(updatedEvent);
-	} catch (error) {
-		console.error("Error updating event:", error);
-		res.status(500).json({ error: "Failed to update event" });
-	}
-};
-
-// Delete an event
-export const deleteEvent = async (req: Request, res: Response) => {
-	try {
-		const { id } = req.params;
-
-		await prisma.event.delete({
-			where: { id },
-		});
+		if (!event) {
+			return res.status(404).json({
+				success: false,
+				message: "Event not found",
+			});
+		}
 
 		res.status(200).json({
 			success: true,
-			message: "Event deleted successfully",
+			data: event,
 		});
 	} catch (error) {
-		console.error("Error deleting event:", error);
-		res.status(500).json({ error: "Failed to delete event" });
+		console.error("Error fetching event:", error);
+		res.status(500).json({ error: "Failed to fetch event" });
 	}
 };

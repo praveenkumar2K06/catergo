@@ -19,21 +19,28 @@ model User {
   selectedDate   DateTime
   createdAt      DateTime   @default(now())
   cartItems      CartItem[]
-  Event          Event[]
+  event          Event?
+  admin          Admin      @relation(fields: [adminId], references: [id])
+  adminId        String     @db.ObjectId
 }
 
 model Event {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @db.ObjectId
-  name      String
-  date      DateTime
+  id     String   @id @default(auto()) @map("_id") @db.ObjectId
+  user   User     @relation(fields: [userId], references: [id])
+  userId String   @unique @db.ObjectId
+  name   String
+  date   DateTime
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  adminId   String   @db.ObjectId
 }
 
 model MenuItem {
   id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  admin       Admin      @relation(fields: [adminId], references: [id])
+  adminId     String     @db.ObjectId
   name        String
   description String
   price       Float
@@ -64,6 +71,23 @@ model CartItem {
   updatedAt  DateTime @updatedAt
 }
 
+model Admin {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  email     String     @unique
+  password  String
+  name      String
+  role      String     @default("admin")
+  isActive  Boolean    @default(true)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  settings  Settings?
+  users     User[]
+  events    Event[]
+  menuItems MenuItem[]
+
+  @@map("admins")
+}
+
 model Settings {
   id                    String     @id @default(auto()) @map("_id") @db.ObjectId
   maxOrdersPerDay       Int        @default(50)
@@ -71,6 +95,8 @@ model Settings {
   blockedDates          DateTime[]
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
+  admin                 Admin      @relation(fields: [adminId], references: [id])
+  adminId               String     @unique @db.ObjectId
 
   @@map("settings")
 }

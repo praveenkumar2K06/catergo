@@ -3,6 +3,8 @@ import { createContext, type ReactNode, use, useEffect, useState } from "react";
 import type { CartItem, UserData } from "@/lib/types";
 
 interface OrderContextType {
+	catererId: string | null;
+	setCatererId: (id: string | null) => void;
 	userData: UserData | null;
 	setUserData: (data: UserData) => void;
 	cartItems: CartItem[];
@@ -15,20 +17,24 @@ interface OrderContextType {
 const orderStorageKey = "cater-go-order";
 
 const getStoredOrder = createIsomorphicFn()
-	.server(() => ({ userData: null, cartItems: [] }))
+	.server(() => ({ catererId: null, userData: null, cartItems: [] }))
 	.client(() => {
 		try {
 			const stored = localStorage.getItem(orderStorageKey);
 			return stored
 				? JSON.parse(stored)
-				: { userData: null, cartItems: [] };
+				: { catererId: null, userData: null, cartItems: [] };
 		} catch {
-			return { userData: null, cartItems: [] };
+			return { catererId: null, userData: null, cartItems: [] };
 		}
 	});
 
 const setStoredOrder = clientOnly(
-	(orderData: { userData: UserData | null; cartItems: CartItem[] }) => {
+	(orderData: {
+		catererId: string | null;
+		userData: UserData | null;
+		cartItems: CartItem[];
+	}) => {
 		localStorage.setItem(orderStorageKey, JSON.stringify(orderData));
 	},
 );
@@ -37,17 +43,23 @@ const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
 export function OrderProvider({ children }: { children: ReactNode }) {
 	const storedOrder = getStoredOrder();
+	const [catererId, setCatererId] = useState<string | null>(
+		() => storedOrder.catererId,
+	);
 	const [userData, setUserData] = useState<UserData | null>(
-		storedOrder.userData,
+		() => storedOrder.userData,
 	);
 	const [cartItems, setCartItems] = useState<CartItem[]>(
-		storedOrder.cartItems,
+		() => storedOrder.cartItems,
 	);
 
 	// Update localStorage whenever order data changes
 	useEffect(() => {
-		setStoredOrder({ userData, cartItems });
-	}, [userData, cartItems]);
+		const timeout = setTimeout(() => {
+			setStoredOrder({ catererId, userData, cartItems });
+		}, 150);
+		return () => clearTimeout(timeout);
+	}, [catererId, userData, cartItems]);
 
 	const updateQuantity = (itemId: string, quantity: number) => {
 		const cartItem = cartItems.find((ci) => ci.id === itemId);
@@ -63,13 +75,16 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	};
 
 	const clearOrder = () => {
+		setCatererId(null);
 		setUserData(null);
 		setCartItems([]);
 	};
 
 	return (
-		<OrderContext
+		<OrderContext.Provider
 			value={{
+				catererId,
+				setCatererId,
 				userData,
 				setUserData,
 				cartItems,
@@ -80,7 +95,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 			}}
 		>
 			{children}
-		</OrderContext>
+		</OrderContext.Provider>
 	);
 }
 

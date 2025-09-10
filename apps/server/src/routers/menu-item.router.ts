@@ -5,10 +5,13 @@ import {
 	getAllMenuItems,
 	updateMenuItem,
 } from "@/controllers/menu-item.controller";
+import { authenticateAdmin } from "@/middleware/auth.middleware";
 
 const router: Router = Router();
 
-router.get("/", getAllMenuItems);
+router.get("/:id", getAllMenuItems);
+
+router.use(authenticateAdmin);
 router.post("/", createMenuItem);
 router.put("/:id", updateMenuItem);
 router.delete("/:id", deleteMenuItem);

@@ -5,17 +5,12 @@ import { toast } from "sonner";
 import { CartPage } from "@/components/features/cart/cart-page";
 import { useOrder } from "@/components/providers/order-provider";
 import Loader from "@/components/shared/layout/loader";
-import {
-	removeCartItem,
-	type UpdateCartQuantityRequest,
-	updateCartQuantity,
-} from "@/lib/api/cart";
-import { type CreateEventRequest, createEvent } from "@/lib/api/event";
+import { removeCartItem, updateCartQuantity } from "@/lib/api/cart";
+import { createEvent } from "@/lib/api/event";
 import {
 	handleMutationError,
 	handleMutationSuccess,
 } from "@/lib/error-handlers";
-import type { CartItem } from "@/lib/types";
 
 export const Route = createFileRoute("/cart")({
 	component: Cart,
@@ -24,6 +19,7 @@ export const Route = createFileRoute("/cart")({
 export default function Cart() {
 	const {
 		userData,
+		catererId,
 		cartItems,
 		setCartItems,
 		updateQuantity,
@@ -49,11 +45,7 @@ export default function Cart() {
 		navigate({ to: "/" });
 	};
 
-	const updateQuantityMutation = useMutation<
-		CartItem,
-		Error,
-		UpdateCartQuantityRequest
-	>({
+	const updateQuantityMutation = useMutation({
 		mutationFn: updateCartQuantity,
 	});
 
@@ -61,11 +53,7 @@ export default function Cart() {
 		mutationFn: removeCartItem,
 	});
 
-	const createEventMutation = useMutation<
-		CreateEventRequest,
-		Error,
-		CreateEventRequest
-	>({
+	const createEventMutation = useMutation({
 		mutationFn: createEvent,
 		onError(error) {
 			handleMutationError(
@@ -122,10 +110,11 @@ export default function Cart() {
 	};
 
 	const handleProceedToCheckout = () => {
-		if (userData?.id && userData.selectedDate) {
+		if (userData?.id && userData.selectedDate && catererId) {
 			const selectedDate = new Date(userData.selectedDate);
 			createEventMutation.mutate({
 				userId: userData.id,
+				adminId: catererId,
 				name: "New Event",
 				date: selectedDate.toISOString(),
 			});
@@ -144,6 +133,7 @@ export default function Cart() {
 				onUpdateQuantity={handleUpdateQuantity}
 				onRemoveItem={handleRemoveItem}
 				onProceedToCheckout={handleProceedToCheckout}
+				isLoading={createEventMutation.isPending}
 			/>
 		</main>
 	);

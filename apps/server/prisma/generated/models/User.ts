@@ -7,7 +7,7 @@
  *
  * 🟢 You can import this file directly.
  */
-import * as runtime from "@prisma/client/runtime/library"
+import type * as runtime from "@prisma/client/runtime/library"
 import type * as $Enums from "../enums"
 import type * as Prisma from "../internal/prismaNamespace"
 
@@ -42,6 +42,7 @@ export type UserMinAggregateOutputType = {
   numberOfPeople: number | null
   selectedDate: Date | null
   createdAt: Date | null
+  adminId: string | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -53,6 +54,7 @@ export type UserMaxAggregateOutputType = {
   numberOfPeople: number | null
   selectedDate: Date | null
   createdAt: Date | null
+  adminId: string | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -64,6 +66,7 @@ export type UserCountAggregateOutputType = {
   numberOfPeople: number
   selectedDate: number
   createdAt: number
+  adminId: number
   _all: number
 }
 
@@ -85,6 +88,7 @@ export type UserMinAggregateInputType = {
   numberOfPeople?: true
   selectedDate?: true
   createdAt?: true
+  adminId?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -96,6 +100,7 @@ export type UserMaxAggregateInputType = {
   numberOfPeople?: true
   selectedDate?: true
   createdAt?: true
+  adminId?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -107,6 +112,7 @@ export type UserCountAggregateInputType = {
   numberOfPeople?: true
   selectedDate?: true
   createdAt?: true
+  adminId?: true
   _all?: true
 }
 
@@ -205,6 +211,7 @@ export type UserGroupByOutputType = {
   numberOfPeople: number
   selectedDate: Date
   createdAt: Date
+  adminId: string
   _count: UserCountAggregateOutputType | null
   _avg: UserAvgAggregateOutputType | null
   _sum: UserSumAggregateOutputType | null
@@ -239,8 +246,10 @@ export type UserWhereInput = {
   numberOfPeople?: Prisma.IntFilter<"User"> | number
   selectedDate?: Prisma.DateTimeFilter<"User"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  adminId?: Prisma.StringFilter<"User"> | string
   cartItems?: Prisma.CartItemListRelationFilter
-  Event?: Prisma.EventListRelationFilter
+  event?: Prisma.XOR<Prisma.EventNullableScalarRelationFilter, Prisma.EventWhereInput> | null
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
 }
 
 export type UserOrderByWithRelationInput = {
@@ -252,8 +261,10 @@ export type UserOrderByWithRelationInput = {
   numberOfPeople?: Prisma.SortOrder
   selectedDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
   cartItems?: Prisma.CartItemOrderByRelationAggregateInput
-  Event?: Prisma.EventOrderByRelationAggregateInput
+  event?: Prisma.EventOrderByWithRelationInput
+  admin?: Prisma.AdminOrderByWithRelationInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -268,8 +279,10 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   numberOfPeople?: Prisma.IntFilter<"User"> | number
   selectedDate?: Prisma.DateTimeFilter<"User"> | Date | string
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  adminId?: Prisma.StringFilter<"User"> | string
   cartItems?: Prisma.CartItemListRelationFilter
-  Event?: Prisma.EventListRelationFilter
+  event?: Prisma.XOR<Prisma.EventNullableScalarRelationFilter, Prisma.EventWhereInput> | null
+  admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
 }, "id">
 
 export type UserOrderByWithAggregationInput = {
@@ -281,6 +294,7 @@ export type UserOrderByWithAggregationInput = {
   numberOfPeople?: Prisma.SortOrder
   selectedDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
@@ -300,6 +314,7 @@ export type UserScalarWhereWithAggregatesInput = {
   numberOfPeople?: Prisma.IntWithAggregatesFilter<"User"> | number
   selectedDate?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  adminId?: Prisma.StringWithAggregatesFilter<"User"> | string
 }
 
 export type UserCreateInput = {
@@ -312,7 +327,8 @@ export type UserCreateInput = {
   selectedDate: Date | string
   createdAt?: Date | string
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
-  Event?: Prisma.EventCreateNestedManyWithoutUserInput
+  event?: Prisma.EventCreateNestedOneWithoutUserInput
+  admin: Prisma.AdminCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -324,8 +340,9 @@ export type UserUncheckedCreateInput = {
   numberOfPeople: number
   selectedDate: Date | string
   createdAt?: Date | string
+  adminId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
-  Event?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  event?: Prisma.EventUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserUpdateInput = {
@@ -337,7 +354,8 @@ export type UserUpdateInput = {
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
-  Event?: Prisma.EventUpdateManyWithoutUserNestedInput
+  event?: Prisma.EventUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -348,8 +366,9 @@ export type UserUncheckedUpdateInput = {
   numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
-  Event?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  event?: Prisma.EventUncheckedUpdateOneWithoutUserNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -361,6 +380,7 @@ export type UserCreateManyInput = {
   numberOfPeople: number
   selectedDate: Date | string
   createdAt?: Date | string
+  adminId: string
 }
 
 export type UserUpdateManyMutationInput = {
@@ -381,6 +401,7 @@ export type UserUncheckedUpdateManyInput = {
   numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -392,6 +413,7 @@ export type UserCountOrderByAggregateInput = {
   numberOfPeople?: Prisma.SortOrder
   selectedDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type UserAvgOrderByAggregateInput = {
@@ -407,6 +429,7 @@ export type UserMaxOrderByAggregateInput = {
   numberOfPeople?: Prisma.SortOrder
   selectedDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -418,6 +441,7 @@ export type UserMinOrderByAggregateInput = {
   numberOfPeople?: Prisma.SortOrder
   selectedDate?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  adminId?: Prisma.SortOrder
 }
 
 export type UserSumOrderByAggregateInput = {
@@ -427,6 +451,16 @@ export type UserSumOrderByAggregateInput = {
 export type UserScalarRelationFilter = {
   is?: Prisma.UserWhereInput
   isNot?: Prisma.UserWhereInput
+}
+
+export type UserListRelationFilter = {
+  every?: Prisma.UserWhereInput
+  some?: Prisma.UserWhereInput
+  none?: Prisma.UserWhereInput
+}
+
+export type UserOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type StringFieldUpdateOperationsInput = {
@@ -473,6 +507,48 @@ export type UserUpdateOneRequiredWithoutCartItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCartItemsInput, Prisma.UserUpdateWithoutCartItemsInput>, Prisma.UserUncheckedUpdateWithoutCartItemsInput>
 }
 
+export type UserCreateNestedManyWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput> | Prisma.UserCreateWithoutAdminInput[] | Prisma.UserUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput | Prisma.UserCreateOrConnectWithoutAdminInput[]
+  createMany?: Prisma.UserCreateManyAdminInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUncheckedCreateNestedManyWithoutAdminInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput> | Prisma.UserCreateWithoutAdminInput[] | Prisma.UserUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput | Prisma.UserCreateOrConnectWithoutAdminInput[]
+  createMany?: Prisma.UserCreateManyAdminInputEnvelope
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+}
+
+export type UserUpdateManyWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput> | Prisma.UserCreateWithoutAdminInput[] | Prisma.UserUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput | Prisma.UserCreateOrConnectWithoutAdminInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutAdminInput | Prisma.UserUpsertWithWhereUniqueWithoutAdminInput[]
+  createMany?: Prisma.UserCreateManyAdminInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutAdminInput | Prisma.UserUpdateWithWhereUniqueWithoutAdminInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutAdminInput | Prisma.UserUpdateManyWithWhereWithoutAdminInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
+export type UserUncheckedUpdateManyWithoutAdminNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput> | Prisma.UserCreateWithoutAdminInput[] | Prisma.UserUncheckedCreateWithoutAdminInput[]
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutAdminInput | Prisma.UserCreateOrConnectWithoutAdminInput[]
+  upsert?: Prisma.UserUpsertWithWhereUniqueWithoutAdminInput | Prisma.UserUpsertWithWhereUniqueWithoutAdminInput[]
+  createMany?: Prisma.UserCreateManyAdminInputEnvelope
+  set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[]
+  update?: Prisma.UserUpdateWithWhereUniqueWithoutAdminInput | Prisma.UserUpdateWithWhereUniqueWithoutAdminInput[]
+  updateMany?: Prisma.UserUpdateManyWithWhereWithoutAdminInput | Prisma.UserUpdateManyWithWhereWithoutAdminInput[]
+  deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+}
+
 export type UserCreateWithoutEventInput = {
   id?: string
   name: string
@@ -483,6 +559,7 @@ export type UserCreateWithoutEventInput = {
   selectedDate: Date | string
   createdAt?: Date | string
   cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  admin: Prisma.AdminCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutEventInput = {
@@ -494,6 +571,7 @@ export type UserUncheckedCreateWithoutEventInput = {
   numberOfPeople: number
   selectedDate: Date | string
   createdAt?: Date | string
+  adminId: string
   cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -522,6 +600,7 @@ export type UserUpdateWithoutEventInput = {
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutEventInput = {
@@ -532,6 +611,7 @@ export type UserUncheckedUpdateWithoutEventInput = {
   numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
   cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -544,7 +624,8 @@ export type UserCreateWithoutCartItemsInput = {
   numberOfPeople: number
   selectedDate: Date | string
   createdAt?: Date | string
-  Event?: Prisma.EventCreateNestedManyWithoutUserInput
+  event?: Prisma.EventCreateNestedOneWithoutUserInput
+  admin: Prisma.AdminCreateNestedOneWithoutUsersInput
 }
 
 export type UserUncheckedCreateWithoutCartItemsInput = {
@@ -556,7 +637,8 @@ export type UserUncheckedCreateWithoutCartItemsInput = {
   numberOfPeople: number
   selectedDate: Date | string
   createdAt?: Date | string
-  Event?: Prisma.EventUncheckedCreateNestedManyWithoutUserInput
+  adminId: string
+  event?: Prisma.EventUncheckedCreateNestedOneWithoutUserInput
 }
 
 export type UserCreateOrConnectWithoutCartItemsInput = {
@@ -583,7 +665,8 @@ export type UserUpdateWithoutCartItemsInput = {
   numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Event?: Prisma.EventUpdateManyWithoutUserNestedInput
+  event?: Prisma.EventUpdateOneWithoutUserNestedInput
+  admin?: Prisma.AdminUpdateOneRequiredWithoutUsersNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCartItemsInput = {
@@ -594,7 +677,119 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
   numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
   selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  Event?: Prisma.EventUncheckedUpdateManyWithoutUserNestedInput
+  adminId?: Prisma.StringFieldUpdateOperationsInput | string
+  event?: Prisma.EventUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserCreateWithoutAdminInput = {
+  id?: string
+  name: string
+  phone: string
+  address: string
+  pincode: string
+  numberOfPeople: number
+  selectedDate: Date | string
+  createdAt?: Date | string
+  cartItems?: Prisma.CartItemCreateNestedManyWithoutUserInput
+  event?: Prisma.EventCreateNestedOneWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutAdminInput = {
+  id?: string
+  name: string
+  phone: string
+  address: string
+  pincode: string
+  numberOfPeople: number
+  selectedDate: Date | string
+  createdAt?: Date | string
+  cartItems?: Prisma.CartItemUncheckedCreateNestedManyWithoutUserInput
+  event?: Prisma.EventUncheckedCreateNestedOneWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+}
+
+export type UserCreateManyAdminInputEnvelope = {
+  data: Prisma.UserCreateManyAdminInput | Prisma.UserCreateManyAdminInput[]
+}
+
+export type UserUpsertWithWhereUniqueWithoutAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  update: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutAdminInput, Prisma.UserUncheckedCreateWithoutAdminInput>
+}
+
+export type UserUpdateWithWhereUniqueWithoutAdminInput = {
+  where: Prisma.UserWhereUniqueInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutAdminInput, Prisma.UserUncheckedUpdateWithoutAdminInput>
+}
+
+export type UserUpdateManyWithWhereWithoutAdminInput = {
+  where: Prisma.UserScalarWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutAdminInput>
+}
+
+export type UserScalarWhereInput = {
+  AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  OR?: Prisma.UserScalarWhereInput[]
+  NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[]
+  id?: Prisma.StringFilter<"User"> | string
+  name?: Prisma.StringFilter<"User"> | string
+  phone?: Prisma.StringFilter<"User"> | string
+  address?: Prisma.StringFilter<"User"> | string
+  pincode?: Prisma.StringFilter<"User"> | string
+  numberOfPeople?: Prisma.IntFilter<"User"> | number
+  selectedDate?: Prisma.DateTimeFilter<"User"> | Date | string
+  createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  adminId?: Prisma.StringFilter<"User"> | string
+}
+
+export type UserCreateManyAdminInput = {
+  id?: string
+  name: string
+  phone: string
+  address: string
+  pincode: string
+  numberOfPeople: number
+  selectedDate: Date | string
+  createdAt?: Date | string
+}
+
+export type UserUpdateWithoutAdminInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  pincode?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
+  selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUpdateManyWithoutUserNestedInput
+  event?: Prisma.EventUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutAdminInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  pincode?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
+  selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  cartItems?: Prisma.CartItemUncheckedUpdateManyWithoutUserNestedInput
+  event?: Prisma.EventUncheckedUpdateOneWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateManyWithoutAdminInput = {
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  pincode?: Prisma.StringFieldUpdateOperationsInput | string
+  numberOfPeople?: Prisma.IntFieldUpdateOperationsInput | number
+  selectedDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -604,12 +799,10 @@ export type UserUncheckedUpdateWithoutCartItemsInput = {
 
 export type UserCountOutputType = {
   cartItems: number
-  Event: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cartItems?: boolean | UserCountOutputTypeCountCartItemsArgs
-  Event?: boolean | UserCountOutputTypeCountEventArgs
 }
 
 /**
@@ -629,13 +822,6 @@ export type UserCountOutputTypeCountCartItemsArgs<ExtArgs extends runtime.Types.
   where?: Prisma.CartItemWhereInput
 }
 
-/**
- * UserCountOutputType without action
- */
-export type UserCountOutputTypeCountEventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.EventWhereInput
-}
-
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -646,8 +832,10 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   numberOfPeople?: boolean
   selectedDate?: boolean
   createdAt?: boolean
+  adminId?: boolean
   cartItems?: boolean | Prisma.User$cartItemsArgs<ExtArgs>
-  Event?: boolean | Prisma.User$EventArgs<ExtArgs>
+  event?: boolean | Prisma.User$eventArgs<ExtArgs>
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -662,12 +850,14 @@ export type UserSelectScalar = {
   numberOfPeople?: boolean
   selectedDate?: boolean
   createdAt?: boolean
+  adminId?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "phone" | "address" | "pincode" | "numberOfPeople" | "selectedDate" | "createdAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "phone" | "address" | "pincode" | "numberOfPeople" | "selectedDate" | "createdAt" | "adminId", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   cartItems?: boolean | Prisma.User$cartItemsArgs<ExtArgs>
-  Event?: boolean | Prisma.User$EventArgs<ExtArgs>
+  event?: boolean | Prisma.User$eventArgs<ExtArgs>
+  admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -675,7 +865,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     cartItems: Prisma.$CartItemPayload<ExtArgs>[]
-    Event: Prisma.$EventPayload<ExtArgs>[]
+    event: Prisma.$EventPayload<ExtArgs> | null
+    admin: Prisma.$AdminPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -686,6 +877,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     numberOfPeople: number
     selectedDate: Date
     createdAt: Date
+    adminId: string
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -1050,7 +1242,8 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   cartItems<T extends Prisma.User$cartItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$cartItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CartItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-  Event<T extends Prisma.User$EventArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$EventArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  event<T extends Prisma.User$eventArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$eventArgs<ExtArgs>>): Prisma.Prisma__EventClient<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  admin<T extends Prisma.AdminDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdminDefaultArgs<ExtArgs>>): Prisma.Prisma__AdminClient<runtime.Types.Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1088,6 +1281,7 @@ export interface UserFieldRefs {
   readonly numberOfPeople: Prisma.FieldRef<"User", 'Int'>
   readonly selectedDate: Prisma.FieldRef<"User", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly adminId: Prisma.FieldRef<"User", 'String'>
 }
     
 
@@ -1482,9 +1676,9 @@ export type User$cartItemsArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.Event
+ * User.event
  */
-export type User$EventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$eventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Event
    */
@@ -1498,11 +1692,6 @@ export type User$EventArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs
    */
   include?: Prisma.EventInclude<ExtArgs> | null
   where?: Prisma.EventWhereInput
-  orderBy?: Prisma.EventOrderByWithRelationInput | Prisma.EventOrderByWithRelationInput[]
-  cursor?: Prisma.EventWhereUniqueInput
-  take?: number
-  skip?: number
-  distinct?: Prisma.EventScalarFieldEnum | Prisma.EventScalarFieldEnum[]
 }
 
 /**

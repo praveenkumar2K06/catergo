@@ -73,8 +73,7 @@ export default function CalendarEvent({
 	month?: boolean;
 	className?: string;
 }) {
-	const { events, setSelectedEvent, setManageEventDialogOpen, date } =
-		useCalendarContext();
+	const { events, setSelectedEvent, date } = useCalendarContext();
 	const style = month ? {} : calculateEventPosition(event, events);
 
 	// Generate a unique key that includes the current month to prevent animation conflicts
@@ -96,7 +95,6 @@ export default function CalendarEvent({
 					onClick={(e) => {
 						e.stopPropagation();
 						setSelectedEvent(event);
-						setManageEventDialogOpen(true);
 					}}
 					initial={{
 						opacity: 0,

@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as CartRouteImport } from './routes/cart'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CatererIdRouteImport } from './routes/caterer.$id'
 
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
@@ -28,35 +29,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CatererIdRoute = CatererIdRouteImport.update({
+  id: '/caterer/$id',
+  path: '/caterer/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/menu': typeof MenuRoute
+  '/caterer/$id': typeof CatererIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/menu': typeof MenuRoute
+  '/caterer/$id': typeof CatererIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cart': typeof CartRoute
   '/menu': typeof MenuRoute
+  '/caterer/$id': typeof CatererIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cart' | '/menu'
+  fullPaths: '/' | '/cart' | '/menu' | '/caterer/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cart' | '/menu'
-  id: '__root__' | '/' | '/cart' | '/menu'
+  to: '/' | '/cart' | '/menu' | '/caterer/$id'
+  id: '__root__' | '/' | '/cart' | '/menu' | '/caterer/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CartRoute: typeof CartRoute
   MenuRoute: typeof MenuRoute
+  CatererIdRoute: typeof CatererIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caterer/$id': {
+      id: '/caterer/$id'
+      path: '/caterer/$id'
+      fullPath: '/caterer/$id'
+      preLoaderRoute: typeof CatererIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CartRoute: CartRoute,
   MenuRoute: MenuRoute,
+  CatererIdRoute: CatererIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -39,6 +39,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 		],
 	}),
 	shellComponent: RootComponent,
+	ssr: false,
 });
 
 function RootComponent() {

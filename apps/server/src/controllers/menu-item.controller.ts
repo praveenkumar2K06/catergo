@@ -1,12 +1,17 @@
 import type { Request, Response } from "express";
 import type { Prisma } from "prisma/generated/client";
+import type { AuthRequest } from "@/types/auth-request";
 import prisma from "../client";
 
 export const getAllMenuItems = async (req: Request, res: Response) => {
+	const adminId = req.params.id;
+
 	try {
 		const { category, isVeg, search, page = 0, pageSize = 10 } = req.query;
 
-		const where: Prisma.MenuItemWhereInput = {};
+		const where: Prisma.MenuItemWhereInput = {
+			adminId,
+		};
 
 		// Filter by category
 		if (category && typeof category === "string") {
@@ -75,8 +80,15 @@ export const getAllMenuItems = async (req: Request, res: Response) => {
 	}
 };
 
-export const createMenuItem = async (req: Request, res: Response) => {
+export const createMenuItem = async (req: AuthRequest, res: Response) => {
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
 		const menuItemData: Prisma.MenuItemCreateInput = req.body;
 
 		const newMenuItem = await prisma.menuItem.create({
@@ -96,11 +108,17 @@ export const createMenuItem = async (req: Request, res: Response) => {
 	}
 };
 
-export const updateMenuItem = async (req: Request, res: Response) => {
+export const updateMenuItem = async (req: AuthRequest, res: Response) => {
 	const menuItemId = req.params.id;
 	const menuItemData: Prisma.MenuItemUpdateInput = req.body;
 
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
 		const updatedMenuItem = await prisma.menuItem.update({
 			where: { id: menuItemId },
 			data: menuItemData,
@@ -120,10 +138,16 @@ export const updateMenuItem = async (req: Request, res: Response) => {
 	}
 };
 
-export const deleteMenuItem = async (req: Request, res: Response) => {
+export const deleteMenuItem = async (req: AuthRequest, res: Response) => {
 	const menuItemId = req.params.id;
 
 	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
 		await prisma.menuItem.delete({
 			where: { id: menuItemId },
 		});

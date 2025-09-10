@@ -9,24 +9,22 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as UsersRouteImport } from './routes/users'
-import { Route as SettingsRouteImport } from './routes/settings'
-import { Route as MenuRouteImport } from './routes/menu'
+import { Route as LogoutRouteImport } from './routes/logout'
+import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthedUsersRouteImport } from './routes/_authed/users'
+import { Route as AuthedSettingsRouteImport } from './routes/_authed/settings'
+import { Route as AuthedMenuRouteImport } from './routes/_authed/menu'
+import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
+import { Route as AuthedEventIdRouteImport } from './routes/_authed/event.$id'
 
-const UsersRoute = UsersRouteImport.update({
-  id: '/users',
-  path: '/users',
+const LogoutRoute = LogoutRouteImport.update({
+  id: '/logout',
+  path: '/logout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SettingsRoute = SettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MenuRoute = MenuRouteImport.update({
-  id: '/menu',
-  path: '/menu',
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -34,62 +32,112 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedUsersRoute = AuthedUsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedSettingsRoute = AuthedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedMenuRoute = AuthedMenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedDashboardRoute = AuthedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedEventIdRoute = AuthedEventIdRouteImport.update({
+  id: '/event/$id',
+  path: '/event/$id',
+  getParentRoute: () => AuthedRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
-  '/settings': typeof SettingsRoute
-  '/users': typeof UsersRoute
+  '/logout': typeof LogoutRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/menu': typeof AuthedMenuRoute
+  '/settings': typeof AuthedSettingsRoute
+  '/users': typeof AuthedUsersRoute
+  '/event/$id': typeof AuthedEventIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
-  '/settings': typeof SettingsRoute
-  '/users': typeof UsersRoute
+  '/logout': typeof LogoutRoute
+  '/dashboard': typeof AuthedDashboardRoute
+  '/menu': typeof AuthedMenuRoute
+  '/settings': typeof AuthedSettingsRoute
+  '/users': typeof AuthedUsersRoute
+  '/event/$id': typeof AuthedEventIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
-  '/settings': typeof SettingsRoute
-  '/users': typeof UsersRoute
+  '/_authed': typeof AuthedRouteWithChildren
+  '/logout': typeof LogoutRoute
+  '/_authed/dashboard': typeof AuthedDashboardRoute
+  '/_authed/menu': typeof AuthedMenuRoute
+  '/_authed/settings': typeof AuthedSettingsRoute
+  '/_authed/users': typeof AuthedUsersRoute
+  '/_authed/event/$id': typeof AuthedEventIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/menu' | '/settings' | '/users'
+  fullPaths:
+    | '/'
+    | '/logout'
+    | '/dashboard'
+    | '/menu'
+    | '/settings'
+    | '/users'
+    | '/event/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/menu' | '/settings' | '/users'
-  id: '__root__' | '/' | '/menu' | '/settings' | '/users'
+  to:
+    | '/'
+    | '/logout'
+    | '/dashboard'
+    | '/menu'
+    | '/settings'
+    | '/users'
+    | '/event/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/logout'
+    | '/_authed/dashboard'
+    | '/_authed/menu'
+    | '/_authed/settings'
+    | '/_authed/users'
+    | '/_authed/event/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  MenuRoute: typeof MenuRoute
-  SettingsRoute: typeof SettingsRoute
-  UsersRoute: typeof UsersRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
+  LogoutRoute: typeof LogoutRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/users': {
-      id: '/users'
-      path: '/users'
-      fullPath: '/users'
-      preLoaderRoute: typeof UsersRouteImport
+    '/logout': {
+      id: '/logout'
+      path: '/logout'
+      fullPath: '/logout'
+      preLoaderRoute: typeof LogoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/settings': {
-      id: '/settings'
-      path: '/settings'
-      fullPath: '/settings'
-      preLoaderRoute: typeof SettingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/menu': {
-      id: '/menu'
-      path: '/menu'
-      fullPath: '/menu'
-      preLoaderRoute: typeof MenuRouteImport
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -99,14 +147,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed/users': {
+      id: '/_authed/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof AuthedUsersRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/settings': {
+      id: '/_authed/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthedSettingsRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/menu': {
+      id: '/_authed/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof AuthedMenuRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/dashboard': {
+      id: '/_authed/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthedDashboardRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/event/$id': {
+      id: '/_authed/event/$id'
+      path: '/event/$id'
+      fullPath: '/event/$id'
+      preLoaderRoute: typeof AuthedEventIdRouteImport
+      parentRoute: typeof AuthedRoute
+    }
   }
 }
 
+interface AuthedRouteChildren {
+  AuthedDashboardRoute: typeof AuthedDashboardRoute
+  AuthedMenuRoute: typeof AuthedMenuRoute
+  AuthedSettingsRoute: typeof AuthedSettingsRoute
+  AuthedUsersRoute: typeof AuthedUsersRoute
+  AuthedEventIdRoute: typeof AuthedEventIdRoute
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedDashboardRoute: AuthedDashboardRoute,
+  AuthedMenuRoute: AuthedMenuRoute,
+  AuthedSettingsRoute: AuthedSettingsRoute,
+  AuthedUsersRoute: AuthedUsersRoute,
+  AuthedEventIdRoute: AuthedEventIdRoute,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  MenuRoute: MenuRoute,
-  SettingsRoute: SettingsRoute,
-  UsersRoute: UsersRoute,
+  AuthedRoute: AuthedRouteWithChildren,
+  LogoutRoute: LogoutRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -9,12 +9,7 @@ export type CalendarProps = {
 };
 
 export type CalendarContextType = CalendarProps & {
-	newEventDialogOpen: boolean;
-	setNewEventDialogOpen: (open: boolean) => void;
-	manageEventDialogOpen: boolean;
-	setManageEventDialogOpen: (open: boolean) => void;
-	selectedEvent: CalendarEvent | null;
-	setSelectedEvent: (event: CalendarEvent | null) => void;
+	setSelectedEvent: (event: CalendarEvent) => void;
 };
 export type CalendarEvent = {
 	id: string;
