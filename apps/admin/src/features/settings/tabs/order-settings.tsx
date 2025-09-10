@@ -52,7 +52,7 @@ export const OrderSettings = () => {
 						options.
 					</p>
 				</div>
-				
+
 				<Card>
 					<CardHeader>
 						<div className="space-y-2">
