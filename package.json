@@ -1,7 +1,7 @@
 {
 	"name": "cater-go",
 	"devDependencies": {
-		"@biomejs/biome": "^2.2.2",
+		"@biomejs/biome": "^2.2.4",
 		"turbo": "^2.5.6"
 	},
 	"packageManager": "bun@1.2.21",
