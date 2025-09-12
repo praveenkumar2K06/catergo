@@ -7,7 +7,7 @@
 		"build": "vite build",
 		"serve": "vite preview",
 		"start": "vite",
-		"typecheck": "tsc --noEmit",
+		"check-types": "tsc --noEmit",
 		"check": "biome check --write ."
 	},
 	"dependencies": {
@@ -36,7 +36,7 @@
 		"zod": "^4.1.8"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.2.4",
+		"@biomejs/biome": "^2.2.4",
 		"@tanstack/react-query-devtools": "^5.87.4",
 		"@tanstack/react-router-devtools": "^1.131.42",
 		"@tanstack/router-plugin": "^1.131.41",
