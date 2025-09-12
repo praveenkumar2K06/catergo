@@ -88,6 +88,7 @@ export default function MenuPage() {
 									navigator.clipboard.writeText(
 										`${import.meta.env.VITE_FRONTEND_URL}/caterer/${loader.adminId}`,
 									);
+									toast.success("Link copied to clipboard");
 								}}
 							>
 								Copy your unique link
