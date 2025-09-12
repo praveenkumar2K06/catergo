@@ -44,10 +44,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
 								</div>
 								<div className="grid flex-1 text-left text-sm leading-tight">
 									<span className="truncate font-semibold">
-										Your App
-									</span>
-									<span className="truncate text-xs">
-										Dashboard
+										Cater Go Admin
 									</span>
 								</div>
 							</Link>
