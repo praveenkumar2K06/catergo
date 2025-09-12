@@ -1,84 +1,70 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
-import type { QueryClient } from "@tanstack/react-query";
 import {
-	createRootRouteWithContext,
+	createRootRoute,
 	HeadContent,
 	Outlet,
-	Scripts,
+	useRouterState,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
-import { OrderProvider } from "@/components/providers/order-provider";
 import { Toaster } from "@/components/ui/sonner";
+import "../index.css";
+import { ThemeProvider } from "next-themes";
+import { OrderProvider } from "@/components/providers/order-provider";
+import Loader from "@/components/shared/layout/loader";
 import TanStackQueryDevtools from "../integrations/tanstack-query/devtools";
-import appCss from "../styles.css?url";
 
-interface MyRouterContext {
-	queryClient: QueryClient;
-}
-
-export const Route = createRootRouteWithContext<MyRouterContext>()({
+export const Route = createRootRoute({
+	component: RootComponent,
 	head: () => ({
 		meta: [
 			{
 				charSet: "utf-8",
 			},
 			{
-				name: "viewport",
-				content: "width=device-width, initial-scale=1",
-			},
-			{
-				title: "Cater Go",
+				name: "description",
+				content: "my-better-t-app is a web application",
 			},
 		],
 		links: [
 			{
-				rel: "stylesheet",
-				href: appCss,
+				rel: "icon",
+				href: "/favicon.ico",
 			},
 		],
 	}),
-	shellComponent: RootComponent,
-	ssr: false,
 });
 
 function RootComponent() {
-	return (
-		<RootDocument>
-			<Outlet />
-		</RootDocument>
-	);
-}
+	const isFetching = useRouterState({
+		select: (s) => s.isLoading,
+	});
 
-function RootDocument({ children }: { children: React.ReactNode }) {
 	return (
-		<html lang="en" suppressHydrationWarning>
-			<head>
-				<HeadContent />
-			</head>
-			<body>
-				<NextThemesProvider
-					attribute="class"
-					defaultTheme="system"
-					enableSystem
-				>
-					<OrderProvider>{children}</OrderProvider>
-					<TanStackDevtools
-						config={{
-							position: "bottom-left",
-						}}
-						plugins={[
-							{
-								name: "Tanstack Router",
-								render: <TanStackRouterDevtoolsPanel />,
-							},
-							TanStackQueryDevtools,
-						]}
-					/>
-					<Toaster richColors />
-				</NextThemesProvider>
-				<Scripts />
-			</body>
-		</html>
+		<>
+			<HeadContent />
+			<ThemeProvider
+				attribute="class"
+				defaultTheme="dark"
+				disableTransitionOnChange
+				storageKey="vite-ui-theme"
+			>
+				<OrderProvider>
+					{isFetching ? <Loader /> : <Outlet />}
+				</OrderProvider>
+				<Toaster richColors />
+			</ThemeProvider>
+			<TanStackDevtools
+				config={{
+					position: "bottom-left",
+				}}
+				plugins={[
+					{
+						name: "TanStack Router",
+						render: <TanStackRouterDevtoolsPanel />,
+					},
+					TanStackQueryDevtools,
+				]}
+			/>
+		</>
 	);
 }

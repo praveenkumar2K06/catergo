@@ -1,28 +1,14 @@
+import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
-import viteReact from "@vitejs/plugin-react";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import viteTsConfigPaths from "vite-tsconfig-paths";
 
-const config = defineConfig({
-	plugins: [
-		// this is the plugin that enables path aliases
-		viteTsConfigPaths({
-			projects: ["./tsconfig.json"],
-		}),
-		tailwindcss(),
-		tanstackStart({
-			customViteReactPlugin: true,
-			target: "bun",
-			spa: {
-				enabled: true,
-				prerender: {
-					enabled: true,
-				},
-			},
-		}),
-		viteReact(),
-	],
+export default defineConfig({
+	plugins: [tailwindcss(), tanstackRouter({}), react()],
+	resolve: {
+		alias: {
+			"@": path.resolve(__dirname, "./src"),
+		},
+	},
 });
-
-export default config;

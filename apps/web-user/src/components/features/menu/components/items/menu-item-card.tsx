@@ -34,7 +34,7 @@ export function MenuItemCard({
 		<Card className="group overflow-hidden border-border/40 transition-all duration-300 hover:border-primary/20 hover:shadow-xl">
 			<CardHeader>
 				<div className="relative overflow-hidden">
-					{/* <FoodItemImage item={item} showOverlay={true} /> */}
+					<FoodItemImage item={item} showOverlay={true} />
 					<div className="absolute top-2 left-2 flex gap-1">
 						<FoodItemBadge
 							isVeg={item.isVeg}

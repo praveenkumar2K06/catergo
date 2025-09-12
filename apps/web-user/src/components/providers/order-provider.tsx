@@ -1,5 +1,10 @@
-import { clientOnly, createIsomorphicFn } from "@tanstack/react-start";
-import { createContext, type ReactNode, use, useEffect, useState } from "react";
+import {
+	createContext,
+	type ReactNode,
+	useContext,
+	useEffect,
+	useState,
+} from "react";
 import type { CartItem, UserData } from "@/lib/types";
 
 interface OrderContextType {
@@ -8,7 +13,7 @@ interface OrderContextType {
 	userData: UserData | null;
 	setUserData: (data: UserData) => void;
 	cartItems: CartItem[];
-	setCartItems: (value: React.SetStateAction<CartItem[]>) => void;
+	setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 	updateQuantity: (itemId: string, quantity: number) => void;
 	removeItem: (itemId: string) => void;
 	clearOrder: () => void;
@@ -16,28 +21,29 @@ interface OrderContextType {
 
 const orderStorageKey = "cater-go-order";
 
-const getStoredOrder = createIsomorphicFn()
-	.server(() => ({ catererId: null, userData: null, cartItems: [] }))
-	.client(() => {
-		try {
-			const stored = localStorage.getItem(orderStorageKey);
-			return stored
-				? JSON.parse(stored)
-				: { catererId: null, userData: null, cartItems: [] };
-		} catch {
-			return { catererId: null, userData: null, cartItems: [] };
-		}
-	});
+function getStoredOrder() {
+	if (typeof window === "undefined") {
+		return { catererId: null, userData: null, cartItems: [] };
+	}
+	try {
+		const stored = localStorage.getItem(orderStorageKey);
+		return stored
+			? JSON.parse(stored)
+			: { catererId: null, userData: null, cartItems: [] };
+	} catch {
+		return { catererId: null, userData: null, cartItems: [] };
+	}
+}
 
-const setStoredOrder = clientOnly(
-	(orderData: {
-		catererId: string | null;
-		userData: UserData | null;
-		cartItems: CartItem[];
-	}) => {
+function setStoredOrder(orderData: {
+	catererId: string | null;
+	userData: UserData | null;
+	cartItems: CartItem[];
+}) {
+	if (typeof window !== "undefined") {
 		localStorage.setItem(orderStorageKey, JSON.stringify(orderData));
-	},
-);
+	}
+}
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
@@ -62,12 +68,9 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	}, [catererId, userData, cartItems]);
 
 	const updateQuantity = (itemId: string, quantity: number) => {
-		const cartItem = cartItems.find((ci) => ci.id === itemId);
-		if (cartItem) {
-			setCartItems((prev) =>
-				prev.map((ci) => (ci.id === itemId ? { ...ci, quantity } : ci)),
-			);
-		}
+		setCartItems((prev) =>
+			prev.map((ci) => (ci.id === itemId ? { ...ci, quantity } : ci)),
+		);
 	};
 
 	const removeItem = (itemId: string) => {
@@ -100,7 +103,7 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 }
 
 export const useOrder = () => {
-	const context = use(OrderContext);
+	const context = useContext(OrderContext);
 	if (!context) {
 		throw new Error("useOrder must be used within an OrderProvider");
 	}
