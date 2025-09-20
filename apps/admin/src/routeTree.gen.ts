@@ -9,7 +9,6 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LogoutRouteImport } from './routes/logout'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedUsersRouteImport } from './routes/_authed/users'
@@ -18,11 +17,6 @@ import { Route as AuthedMenuRouteImport } from './routes/_authed/menu'
 import { Route as AuthedDashboardRouteImport } from './routes/_authed/dashboard'
 import { Route as AuthedEventIdRouteImport } from './routes/_authed/event.$id'
 
-const LogoutRoute = LogoutRouteImport.update({
-  id: '/logout',
-  path: '/logout',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AuthedRoute = AuthedRouteImport.update({
   id: '/_authed',
   getParentRoute: () => rootRouteImport,
@@ -60,7 +54,6 @@ const AuthedEventIdRoute = AuthedEventIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/logout': typeof LogoutRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/menu': typeof AuthedMenuRoute
   '/settings': typeof AuthedSettingsRoute
@@ -69,7 +62,6 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/logout': typeof LogoutRoute
   '/dashboard': typeof AuthedDashboardRoute
   '/menu': typeof AuthedMenuRoute
   '/settings': typeof AuthedSettingsRoute
@@ -80,7 +72,6 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
-  '/logout': typeof LogoutRoute
   '/_authed/dashboard': typeof AuthedDashboardRoute
   '/_authed/menu': typeof AuthedMenuRoute
   '/_authed/settings': typeof AuthedSettingsRoute
@@ -91,26 +82,17 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/logout'
     | '/dashboard'
     | '/menu'
     | '/settings'
     | '/users'
     | '/event/$id'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/logout'
-    | '/dashboard'
-    | '/menu'
-    | '/settings'
-    | '/users'
-    | '/event/$id'
+  to: '/' | '/dashboard' | '/menu' | '/settings' | '/users' | '/event/$id'
   id:
     | '__root__'
     | '/'
     | '/_authed'
-    | '/logout'
     | '/_authed/dashboard'
     | '/_authed/menu'
     | '/_authed/settings'
@@ -121,18 +103,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
-  LogoutRoute: typeof LogoutRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/logout': {
-      id: '/logout'
-      path: '/logout'
-      fullPath: '/logout'
-      preLoaderRoute: typeof LogoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_authed': {
       id: '/_authed'
       path: ''
@@ -207,7 +181,6 @@ const AuthedRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
-  LogoutRoute: LogoutRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

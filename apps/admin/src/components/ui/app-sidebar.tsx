@@ -1,5 +1,6 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { ChevronUp, User2 } from "lucide-react";
+import { useAuth } from "@/auth";
 import {
 	Sidebar,
 	SidebarContent,
@@ -30,6 +31,8 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ user }: AppSidebarProps) {
+	const router = useRouter();
+	const auth = useAuth();
 	const navigate = useNavigate();
 
 	return (
@@ -118,8 +121,15 @@ export function AppSidebar({ user }: AppSidebarProps) {
 											<button
 												type="button"
 												className="flex w-full items-center gap-2"
-												onClick={() => {
-													navigate({ to: "/logout" });
+												onClick={async () => {
+													await auth.logout();
+													await router.invalidate();
+													await new Promise((r) =>
+														setTimeout(r, 1000),
+													);
+													await navigate({
+														to: "/",
+													});
 												}}
 											>
 												<item.icon className="size-4" />
