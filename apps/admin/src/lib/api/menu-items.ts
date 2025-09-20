@@ -28,7 +28,7 @@ const fetchMenuItems = async (
 	const token = localStorage.getItem("admin_token");
 	const parsed = token ? JSON.parse(token) : null;
 	return apiClient
-		.get(`/api/menu-items/${parsed?.id}`, {
+		.get(`/api/menu-items/${parsed?.admin.id}`, {
 			params: {
 				page,
 				pageSize,
