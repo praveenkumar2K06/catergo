@@ -9,6 +9,9 @@ import { routeTree } from "./routeTree.gen";
 
 import "./styles.css";
 import { AuthProvider, useAuth } from "@/auth.tsx";
+import { NotFound } from "./components/not-found.tsx";
+import ErrorDisplay from "./components/shared/layout/error.tsx";
+import Loader from "./components/shared/layout/loader.tsx";
 import reportWebVitals from "./reportWebVitals.ts";
 
 // Create a new router instance
@@ -25,6 +28,9 @@ const router = createRouter({
 	scrollRestoration: true,
 	defaultStructuralSharing: true,
 	defaultPreloadStaleTime: 0,
+	defaultErrorComponent: () => <ErrorDisplay type="server" />,
+	defaultPendingComponent: () => <Loader variant="catering" />,
+	defaultNotFoundComponent: NotFound,
 });
 
 // Register the router instance for type safety
