@@ -12,7 +12,11 @@ export default defineConfig({
 			projects: ["./tsconfig.json"],
 		}),
 		tailwindcss(),
-		devtools(),
+		devtools({
+			eventBusConfig: {
+				port: 9999,
+			},
+		}),
 		tanstackRouter(),
 		viteReact(),
 	],
