@@ -3,6 +3,7 @@ import {
 	createEvent,
 	getEventById,
 	getEvents,
+	getTodaysEvents,
 } from "@/controllers/events.controller";
 import { authenticateAdmin } from "@/middleware/auth.middleware";
 
@@ -12,6 +13,7 @@ router.post("/", createEvent);
 
 router.use(authenticateAdmin);
 router.get("/", getEvents);
+router.get("/today", getTodaysEvents);
 router.get("/:id", getEventById);
 
 export default router;

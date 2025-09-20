@@ -51,6 +51,48 @@ export const getEvents = async (req: AuthRequest, res: Response) => {
 	}
 };
 
+export const getTodaysEvents = async (req: AuthRequest, res: Response) => {
+	try {
+		if (!req.admin) {
+			return res.status(401).json({
+				success: false,
+				message: "Authentication required",
+			});
+		}
+
+		const today = new Date();
+		const start = startOfDay(today);
+		const end = endOfDay(today);
+		const where: Prisma.EventWhereInput = {
+			adminId: req.admin.id,
+		};
+
+		where.AND = [
+			{
+				date: {
+					gte: start,
+					lte: end,
+				},
+			},
+		];
+
+		const events = await prisma.event.findMany({
+			where,
+			orderBy: {
+				date: "asc",
+			},
+		});
+
+		res.status(200).json({
+			success: true,
+			data: events,
+		});
+	} catch (error) {
+		console.error("Error fetching today's events:", error);
+		res.status(500).json({ error: "Failed to fetch today's events" });
+	}
+};
+
 export const createEvent = async (req: Request, res: Response) => {
 	try {
 		const { userId, name, date, adminId } = req.body;

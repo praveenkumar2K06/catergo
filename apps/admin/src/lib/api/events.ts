@@ -23,6 +23,13 @@ const fetchEvents = async (month: number) => {
 		.then((res) => res.data as Promise<EventResponse>);
 };
 
+export const fetchTodaysEvents = async () => {
+	await new Promise((r) => setTimeout(r, 500));
+	return apiClient
+		.get("/api/events/today")
+		.then((res) => res.data as Promise<EventResponse>);
+};
+
 const fetchEventById = async (id: string) => {
 	await new Promise((r) => setTimeout(r, 500));
 	return apiClient
