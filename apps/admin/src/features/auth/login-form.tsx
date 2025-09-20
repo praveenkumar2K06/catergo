@@ -1,20 +1,23 @@
 import { useForm } from "@tanstack/react-form";
 import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { EyeIcon, EyeOffIcon, LogInIcon } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { loginFn } from "@/lib/auth-functions";
+import { loginAdmin } from "@/lib/api/auth";
 
 export function LoginForm() {
 	const navigate = useNavigate();
+	const router = useRouter();
+	const auth = useAuth();
 
 	const loginMutation = useMutation({
-		mutationFn: loginFn,
+		mutationFn: loginAdmin,
 		onSuccess: async (data) => {
 			localStorage.setItem("admin_token", JSON.stringify(data));
 		},
@@ -29,7 +32,17 @@ export function LoginForm() {
 		},
 		onSubmit: async ({ value }) => {
 			try {
-				await loginMutation.mutateAsync({ data: value });
+				const data = await loginMutation.mutateAsync({
+					email: value.email,
+					password: value.password,
+				});
+
+				await auth.login(data.admin, data.token);
+
+				await router.invalidate();
+
+				await new Promise((r) => setTimeout(r, 1000));
+
 				toast.success("Login successful!");
 				navigate({ to: "/dashboard" });
 			} catch (error) {

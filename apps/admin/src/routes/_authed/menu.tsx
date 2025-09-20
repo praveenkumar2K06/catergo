@@ -25,7 +25,7 @@ export const Route = createFileRoute("/_authed/menu")({
 		);
 		return {
 			crumb: "Menu",
-			adminId: context.user?.id,
+			adminId: context.auth?.user?.userId,
 		};
 	},
 });

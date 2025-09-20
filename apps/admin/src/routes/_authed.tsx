@@ -1,4 +1,9 @@
-import { createFileRoute, Outlet, useLoaderData } from "@tanstack/react-router";
+import {
+	createFileRoute,
+	Outlet,
+	redirect,
+	useLoaderData,
+} from "@tanstack/react-router";
 import { PathBreadcrumbs } from "@/components/path-breadcrumbs";
 import { ModeToggle } from "@/components/shared/layout/mode-toggle";
 import { AppSidebar } from "@/components/ui/app-sidebar";
@@ -8,26 +13,17 @@ import {
 	SidebarProvider,
 	SidebarTrigger,
 } from "@/components/ui/sidebar";
-import LoginPage from "@/features/auth/login-page";
 
 export const Route = createFileRoute("/_authed")({
 	beforeLoad: ({ context }) => {
-		if (!context.user) {
-			throw new Error("Not authenticated");
+		if (!context.auth.isAuthenticated) {
+			throw redirect({
+				to: "/",
+			});
 		}
 	},
-	errorComponent: ({ error }) => {
-		if (error.message === "Not authenticated") {
-			return <LoginPage />;
-		}
-
-		throw error;
-	},
-	loader({ context }) {
-		if (!context.user) {
-			throw new Error("Not authenticated");
-		}
-		return context.user;
+	loader: ({ context }) => {
+		return context.auth.user;
 	},
 	component: AuthLayout,
 });
@@ -35,9 +31,19 @@ export const Route = createFileRoute("/_authed")({
 function AuthLayout() {
 	const user = useLoaderData({ from: "/_authed" });
 
+	if (!user) {
+		return redirect({ to: "/" });
+	}
+
 	return (
 		<SidebarProvider>
-			<AppSidebar user={user} />
+			<AppSidebar
+				user={{
+					id: user.userId,
+					name: user.userName,
+					email: user.userEmail,
+				}}
+			/>
 			<SidebarInset>
 				<header className="flex h-16 shrink-0 items-center justify-between gap-2">
 					<div className="flex items-center gap-2 px-4">

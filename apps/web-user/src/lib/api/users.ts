@@ -2,6 +2,7 @@ import axios from "axios";
 import type { UserData } from "../types";
 
 export const createUser = async (userData: UserData) => {
+	console.log("Creating user with data:", userData);
 	await new Promise((r) => setTimeout(r, 500));
 	return axios
 		.post(`${import.meta.env.VITE_SERVER_URL}/api/users`, userData, {

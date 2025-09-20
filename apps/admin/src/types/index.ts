@@ -1,2 +1,2 @@
-export { MenuItem } from "./menu-items";
-export { User } from "./user";
+export type { MenuItem } from "./menu-items";
+export type { User } from "./user";
