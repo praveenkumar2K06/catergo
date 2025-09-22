@@ -12,7 +12,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { MenuItem } from "@/types";
-import { Categories, Metrics } from "@/types/menu-items";
+import { Metrics } from "@/types/menu-items";
 
 interface MenuItemActionsProps {
 	onEdit?: (menuItem: MenuItem) => void;
@@ -77,10 +77,7 @@ export const createColumns = ({
 			<DataTableColumnHeader column={column} title="Category" />
 		),
 		cell: ({ row }) => {
-			const categoryValue = row.getValue("category");
-			const categoryEnumValue =
-				Categories[categoryValue as keyof typeof Categories];
-			return <div>{categoryEnumValue}</div>;
+			return <div>{row.getValue("category")}</div>;
 		},
 		enableSorting: false,
 	},

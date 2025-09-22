@@ -1,7 +1,7 @@
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircleIcon } from "lucide-react";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -54,6 +54,8 @@ export function MenuForm({
 	const queryClient = useQueryClient();
 	const isEditing = !!initialData?.id;
 
+	const [imagePreview, setImagePreview] = useState<string | null>(null);
+
 	const addItemMutation = useMutation({
 		mutationFn: addMenuItem,
 		onError: (error) => {
@@ -81,6 +83,32 @@ export function MenuForm({
 			if (onSuccess) onSuccess(data.data);
 		},
 	});
+
+	const convertFileToBase64 = (file: File): Promise<string> => {
+		return new Promise((resolve, reject) => {
+			const reader = new FileReader();
+			reader.readAsDataURL(file);
+			reader.onload = () => resolve(reader.result as string);
+			reader.onerror = (error) => reject(error);
+		});
+	};
+
+	const handleImageChange = async (
+		event: React.ChangeEvent<HTMLInputElement>,
+		field: AnyFieldApi,
+	) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			try {
+				const base64 = await convertFileToBase64(file);
+				field.handleChange(base64);
+				setImagePreview(base64);
+			} catch (error) {
+				toast.error("Failed to process image");
+				console.error("Error converting file to base64:", error);
+			}
+		}
+	};
 
 	// Create form with validation
 	const form = useAppForm({
@@ -122,6 +150,7 @@ export function MenuForm({
 	useEffect(() => {
 		if (open) {
 			form.reset();
+			setImagePreview(null);
 		}
 	}, [open, form]);
 
@@ -191,6 +220,49 @@ export function MenuForm({
 											}
 											onBlur={field.handleBlur}
 										/>
+									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="image">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>Image</field.FormLabel>
+									<field.FormControl>
+										<div className="space-y-2">
+											<Input
+												type="file"
+												accept="image/*"
+												onChange={(e) =>
+													handleImageChange(e, field)
+												}
+												onBlur={field.handleBlur}
+											/>
+											{imagePreview && (
+												<div className="mt-2">
+													<img
+														src={imagePreview}
+														alt="Preview"
+														className="h-32 w-32 rounded-md border object-cover"
+													/>
+												</div>
+											)}
+											{field.state.value &&
+												!imagePreview && (
+													<div className="mt-2">
+														<img
+															src={
+																field.state
+																	.value
+															}
+															alt="Current"
+															className="h-32 w-32 rounded-md border object-cover"
+														/>
+													</div>
+												)}
+										</div>
 									</field.FormControl>
 									<FieldInfo field={field} />
 								</field.FormItem>
