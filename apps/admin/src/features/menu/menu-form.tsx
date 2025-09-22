@@ -1,6 +1,6 @@
 import type { AnyFieldApi } from "@tanstack/react-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LoaderCircleIcon } from "lucide-react";
+import { LoaderCircleIcon, Upload } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -232,14 +232,39 @@ export function MenuForm({
 									<field.FormLabel>Image</field.FormLabel>
 									<field.FormControl>
 										<div className="space-y-2">
-											<Input
-												type="file"
-												accept="image/*"
-												onChange={(e) =>
-													handleImageChange(e, field)
-												}
-												onBlur={field.handleBlur}
-											/>
+											<div className="relative">
+												<Input
+													type="file"
+													accept="image/*"
+													onChange={(e) =>
+														handleImageChange(
+															e,
+															field,
+														)
+													}
+													onBlur={field.handleBlur}
+													className="sr-only"
+													id="image-upload"
+												/>
+												<label
+													htmlFor="image-upload"
+													className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border border-dashed transition-colors duration-200 hover:border-border/60 hover:bg-muted/50"
+												>
+													<div className="flex flex-col items-center justify-center pt-5 pb-6">
+														<Upload className="mb-3 h-8 w-8 text-muted-foreground" />
+														<p className="mb-1 text-foreground text-sm">
+															<span className="font-medium">
+																Click to upload
+															</span>{" "}
+															or drag and drop
+														</p>
+														<p className="text-muted-foreground text-xs">
+															PNG, JPG, GIF up to
+															10MB
+														</p>
+													</div>
+												</label>
+											</div>
 											{imagePreview && (
 												<div className="mt-2">
 													<img
@@ -258,7 +283,7 @@ export function MenuForm({
 																	.value
 															}
 															alt="Current"
-															className="h-32 w-32 rounded-md border object-cover"
+															className="mx-auto h-32 w-32 rounded-md border object-cover"
 														/>
 													</div>
 												)}

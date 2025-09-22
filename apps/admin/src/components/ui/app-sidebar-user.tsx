@@ -25,6 +25,7 @@ import {
 	DropdownMenuItem,
 	DropdownMenuTrigger,
 } from "./dropdown-menu";
+import { ScrollArea } from "./scroll-area";
 
 interface AppSidebarUserProps {
 	user: {
@@ -57,7 +58,7 @@ export function AppSidebarUser({ user }: AppSidebarUserProps) {
 						{data?.data?.length || 0}
 					</Badge>
 				</div>
-				<div className="max-h-48 space-y-2 overflow-y-auto px-4 pb-2">
+				<ScrollArea className="max-h-52 space-y-2 px-4 pb-2">
 					{isPending ? (
 						<div className="flex items-center justify-center py-8">
 							<div className="h-6 w-6 animate-spin rounded-full border-primary border-b-2" />
@@ -102,7 +103,7 @@ export function AppSidebarUser({ user }: AppSidebarUserProps) {
 							</CardContent>
 						</Card>
 					)}
-				</div>
+				</ScrollArea>
 			</SidebarFooter>
 
 			<SidebarFooter>
