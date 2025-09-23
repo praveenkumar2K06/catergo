@@ -1,6 +1,8 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type React from "react";
 import { useState } from "react";
+import ErrorDisplay from "@/components/shared/layout/error";
+import Loader from "@/components/shared/layout/loader";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -10,23 +12,44 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import NextImageLoading from "@/components/ui/image-loader";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { verifyCaterer } from "@/lib/api/caterer";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { getAllCaterers, verifyCaterer } from "@/lib/api/caterer";
 import { handleMutationError } from "@/lib/error-handlers";
 
 interface CatererEntryProps {
-	onComplete: (catererId: string) => void;
+	onComplete: (catererId: string, catererName: string) => void;
 }
 
 export function CatererEntry({ onComplete }: CatererEntryProps) {
-	const [catererId, setCatererId] = useState("");
+	const [selectedCatererId, setSelectedCatererId] = useState("");
 	const [error, setError] = useState("");
+
+	const {
+		isPending,
+		data,
+		error: queryError,
+	} = useQuery({
+		queryKey: ["all-caterers"],
+		queryFn: getAllCaterers,
+	});
 
 	const verifyCatererMutation = useMutation({
 		mutationFn: verifyCaterer,
 		onSuccess: () => {
-			onComplete(catererId.trim());
+			const selectedCaterer = data?.data.find(
+				(caterer) => caterer.id === selectedCatererId,
+			);
+			const selectedCatererName = selectedCaterer
+				? selectedCaterer.name
+				: "";
+			onComplete(selectedCatererId, selectedCatererName);
 		},
 		onError(error) {
 			handleMutationError(
@@ -39,14 +62,22 @@ export function CatererEntry({ onComplete }: CatererEntryProps) {
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 
-		if (!catererId.trim()) {
-			setError("Please enter a valid Caterer ID");
+		if (!selectedCatererId) {
+			setError("Please select a caterer");
 			return;
 		}
 
 		setError("");
-		verifyCatererMutation.mutate(catererId.trim());
+		verifyCatererMutation.mutate(selectedCatererId);
 	};
+
+	if (queryError) {
+		return <ErrorDisplay type="general" />;
+	}
+
+	if (isPending) {
+		return <Loader />;
+	}
 
 	return (
 		<div className="flex min-h-screen items-center justify-center bg-background p-4">
@@ -56,7 +87,7 @@ export function CatererEntry({ onComplete }: CatererEntryProps) {
 						Welcome to FoodOrder
 					</CardTitle>
 					<CardDescription>
-						Enter your Caterer ID to get started with your food
+						Select your caterer to get started with your food
 						ordering experience
 					</CardDescription>
 				</CardHeader>
@@ -70,15 +101,31 @@ export function CatererEntry({ onComplete }: CatererEntryProps) {
 							/>
 						</div>
 						<div className="space-y-2">
-							<Label htmlFor="catererId">Caterer ID</Label>
-							<Input
-								id="catererId"
-								type="text"
-								placeholder="Enter your caterer ID"
-								disabled={verifyCatererMutation.isPending}
-								value={catererId}
-								onChange={(e) => setCatererId(e.target.value)}
-							/>
+							<Label htmlFor="caterer-selection">
+								Available Caterers
+							</Label>
+							<Select
+								value={selectedCatererId}
+								onValueChange={setSelectedCatererId}
+							>
+								<SelectTrigger className="w-full">
+									<SelectValue placeholder="Select a caterer" />
+								</SelectTrigger>
+								<SelectContent>
+									{data?.data.map((caterer) => (
+										<SelectItem
+											key={caterer.id}
+											value={caterer.id}
+										>
+											<div className="flex flex-col">
+												<span className="font-medium">
+													{caterer.name}
+												</span>
+											</div>
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							{error && (
 								<p className="text-destructive text-sm">
 									{error}
@@ -89,7 +136,10 @@ export function CatererEntry({ onComplete }: CatererEntryProps) {
 						<Button
 							type="submit"
 							className="w-full"
-							disabled={verifyCatererMutation.isPending}
+							disabled={
+								verifyCatererMutation.isPending ||
+								!selectedCatererId
+							}
 						>
 							{verifyCatererMutation.isPending
 								? "Loading..."

@@ -16,7 +16,14 @@ export const Route = createFileRoute("/")({
 });
 
 function App() {
-	const { userData, setUserData, catererId, setCatererId } = useOrder();
+	const {
+		userData,
+		setUserData,
+		catererId,
+		catererName,
+		setCatererId,
+		setCatererName,
+	} = useOrder();
 	const navigate = useNavigate();
 
 	const createUserMutation = useMutation({
@@ -55,17 +62,25 @@ function App() {
 
 	return (
 		<div className="h-screen w-screen">
-			{catererId ? (
+			{catererId && catererName ? (
 				<OnboardingFlow
 					userData={userData}
-					catererId={catererId}
+					caterer={{
+						id: catererId,
+						name: catererName,
+					}}
 					mutation={
 						userData ? updateUserMutation : createUserMutation
 					}
 					onChangeCatererClick={() => setCatererId(null)}
 				/>
 			) : (
-				<CatererEntry onComplete={(id) => setCatererId(id)} />
+				<CatererEntry
+					onComplete={(id, name) => {
+						setCatererId(id);
+						setCatererName(name);
+					}}
+				/>
 			)}
 		</div>
 	);

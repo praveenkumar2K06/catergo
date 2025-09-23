@@ -36,3 +36,25 @@ export const verifyCaterer = async (req: Request, res: Response) => {
 		});
 	}
 };
+
+export const getAllCaterers = async (_req: Request, res: Response) => {
+	try {
+		const caterers = await prisma.admin.findMany({
+			select: {
+				id: true,
+				email: true,
+				name: true,
+			},
+		});
+
+		res.status(200).json({
+			success: true,
+			data: caterers,
+		});
+	} catch {
+		res.status(500).json({
+			success: false,
+			message: "Internal server error",
+		});
+	}
+};

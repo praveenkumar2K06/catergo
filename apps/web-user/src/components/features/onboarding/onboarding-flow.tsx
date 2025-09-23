@@ -21,7 +21,10 @@ import { PersonalDetails } from "./steps/personal-details";
 
 interface OnboardingProps {
 	userData: UserData | null;
-	catererId: string;
+	caterer: {
+		id: string;
+		name: string;
+	};
 	mutation: UseMutationResult<UserData, Error, UserData>;
 	onChangeCatererClick?: () => void;
 }
@@ -29,7 +32,7 @@ interface OnboardingProps {
 export function OnboardingFlow({
 	userData,
 	mutation,
-	catererId,
+	caterer,
 	onChangeCatererClick,
 }: OnboardingProps) {
 	const [currentStep, setCurrentStep] = useState(1);
@@ -77,10 +80,10 @@ export function OnboardingFlow({
 		} else {
 			mutation.mutate({
 				...data,
-				adminId: catererId,
+				adminId: caterer.id,
 			} as UserData);
 		}
-	}, [currentStep, data, mutation.mutate, catererId]);
+	}, [currentStep, data, mutation.mutate, caterer.id]);
 
 	const prevStep = useCallback(() => {
 		if (isAnimatingRef.current) return;
@@ -142,15 +145,15 @@ export function OnboardingFlow({
 					<div className="mb-2 flex items-center justify-center gap-2">
 						<div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
 							<span className="font-semibold text-primary text-sm">
-								{catererId.charAt(0).toUpperCase()}
+								{caterer.id.charAt(0).toUpperCase()}
 							</span>
 						</div>
 						<div>
 							<h3 className="font-semibold text-foreground">
-								Delicious Bites Catering
+								{caterer.name}
 							</h3>
 							<p className="text-muted-foreground text-xs">
-								ID: {catererId}
+								ID: {caterer.id}
 							</p>
 						</div>
 					</div>

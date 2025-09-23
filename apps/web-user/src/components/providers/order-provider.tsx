@@ -10,6 +10,8 @@ import type { CartItem, UserData } from "@/lib/types";
 interface OrderContextType {
 	catererId: string | null;
 	setCatererId: (id: string | null) => void;
+	catererName: string | null;
+	setCatererName: (name: string | null) => void;
 	userData: UserData | null;
 	setUserData: (data: UserData) => void;
 	cartItems: CartItem[];
@@ -23,20 +25,36 @@ const orderStorageKey = "cater-go-order";
 
 function getStoredOrder() {
 	if (typeof window === "undefined") {
-		return { catererId: null, userData: null, cartItems: [] };
+		return {
+			catererId: null,
+			catererName: null,
+			userData: null,
+			cartItems: [],
+		};
 	}
 	try {
 		const stored = localStorage.getItem(orderStorageKey);
 		return stored
 			? JSON.parse(stored)
-			: { catererId: null, userData: null, cartItems: [] };
+			: {
+					catererId: null,
+					catererName: null,
+					userData: null,
+					cartItems: [],
+				};
 	} catch {
-		return { catererId: null, userData: null, cartItems: [] };
+		return {
+			catererId: null,
+			catererName: null,
+			userData: null,
+			cartItems: [],
+		};
 	}
 }
 
 function setStoredOrder(orderData: {
 	catererId: string | null;
+	catererName: string | null;
 	userData: UserData | null;
 	cartItems: CartItem[];
 }) {
@@ -52,6 +70,9 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	const [catererId, setCatererId] = useState<string | null>(
 		() => storedOrder.catererId,
 	);
+	const [catererName, setCatererName] = useState<string | null>(
+		() => storedOrder.catererName,
+	);
 	const [userData, setUserData] = useState<UserData | null>(
 		() => storedOrder.userData,
 	);
@@ -62,10 +83,10 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 	// Update localStorage whenever order data changes
 	useEffect(() => {
 		const timeout = setTimeout(() => {
-			setStoredOrder({ catererId, userData, cartItems });
+			setStoredOrder({ catererId, catererName, userData, cartItems });
 		}, 150);
 		return () => clearTimeout(timeout);
-	}, [catererId, userData, cartItems]);
+	}, [catererId, catererName, userData, cartItems]);
 
 	const updateQuantity = (itemId: string, quantity: number) => {
 		setCartItems((prev) =>
@@ -88,6 +109,8 @@ export function OrderProvider({ children }: { children: ReactNode }) {
 			value={{
 				catererId,
 				setCatererId,
+				catererName,
+				setCatererName,
 				userData,
 				setUserData,
 				cartItems,
