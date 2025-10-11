@@ -89,7 +89,7 @@ export const createMenuItem = async (req: AuthRequest, res: Response) => {
 			});
 		}
 
-		const menuItemData: Prisma.MenuItemCreateInput = req.body;
+		const menuItemData: Prisma.MenuItemCreateInput = { ...req.body, admin: { connect: { id: req.admin.id } } };
 
 		const newMenuItem = await prisma.menuItem.create({
 			data: menuItemData,
