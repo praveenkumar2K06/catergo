@@ -8,7 +8,8 @@ interface BillSummaryProps {
 	deliveryFee: number;
 	taxes: number;
 	total: number;
-	hidePrices?: boolean;
+	discount?: number;
+	originalSubtotal?: number;
 }
 
 export function BillSummary({
@@ -17,29 +18,9 @@ export function BillSummary({
 	deliveryFee,
 	taxes,
 	total,
-	hidePrices = false,
+	discount = 0,
+	originalSubtotal,
 }: BillSummaryProps) {
-	if (hidePrices) {
-		return (
-			<Card className="border-border bg-card">
-				<CardHeader>
-					<CardTitle className="text-foreground text-lg">
-						Bill Summary
-					</CardTitle>
-				</CardHeader>
-				<CardContent className="space-y-3">
-					<div className="py-4 text-center text-muted-foreground">
-						<p className="font-medium text-lg">
-							Contact for pricing details
-						</p>
-						<p className="mt-2 text-sm">
-							Your order summary will be shared separately
-						</p>
-					</div>
-				</CardContent>
-			</Card>
-		);
-	}
 	return (
 		<Card className="border-border bg-card">
 			<CardHeader>
@@ -57,8 +38,26 @@ export function BillSummary({
 					<span className="text-muted-foreground">
 						Subtotal ({totalItems} items)
 					</span>
-					<span className="text-foreground">₹{subtotal}</span>
+					<span className="text-foreground">
+						₹{originalSubtotal || subtotal}
+					</span>
 				</motion.div>
+
+				{discount > 0 && (
+					<motion.div
+						initial={{ opacity: 0, x: -10 }}
+						animate={{ opacity: 1, x: 0 }}
+						transition={{ delay: 0.15, duration: 0.3 }}
+						className="flex justify-between text-sm"
+					>
+						<span className="text-muted-foreground">
+							Bulk Order Discount
+						</span>
+						<span className="font-medium text-green-600">
+							-₹{discount}
+						</span>
+					</motion.div>
+				)}
 
 				<motion.div
 					initial={{ opacity: 0, x: -10 }}

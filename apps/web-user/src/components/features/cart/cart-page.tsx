@@ -37,8 +37,15 @@ export function CartPage({
 	const [eventName, setEventName] = useState("");
 	const [eventDescription, setEventDescription] = useState("");
 
-	const { totalItems, subtotal, deliveryFee, taxes, total } =
-		useCartCalculations(cartItems, settings, userData.numberOfPeople);
+	const {
+		totalItems,
+		subtotal,
+		deliveryFee,
+		taxes,
+		total,
+		discount,
+		originalSubtotal,
+	} = useCartCalculations(cartItems, settings, userData.numberOfPeople);
 
 	if (cartItems.length === 0) {
 		return <EmptyCart onBack={onBack} />;
@@ -91,7 +98,8 @@ export function CartPage({
 						deliveryFee={deliveryFee}
 						taxes={taxes}
 						total={total}
-						hidePrices={settings?.hidePrices ?? false}
+						discount={discount}
+						originalSubtotal={originalSubtotal}
 					/>
 				</motion.div>
 

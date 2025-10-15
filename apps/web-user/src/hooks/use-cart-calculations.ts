@@ -38,6 +38,8 @@ export const useCartCalculations = (
 				deliveryFee,
 				taxes,
 				total,
+				discount: discountAmount,
+				originalSubtotal: subtotal,
 			};
 		}
 		const deliveryFee =
@@ -47,6 +49,14 @@ export const useCartCalculations = (
 		const taxes = Math.round(subtotal * APP_CONSTANTS.CART.TAX_RATE);
 		const total = subtotal + deliveryFee + taxes;
 
-		return { totalItems, subtotal, deliveryFee, taxes, total };
+		return {
+			totalItems,
+			subtotal,
+			deliveryFee,
+			taxes,
+			total,
+			discount: 0,
+			originalSubtotal: subtotal,
+		};
 	}, [cartItems, settings, numberOfPeople]);
 };
