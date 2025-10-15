@@ -1,9 +1,13 @@
 import { useMemo } from "react";
+import type { Settings } from "@/lib/api/settings";
 import { APP_CONSTANTS } from "@/lib/constants";
 import type { CartItem } from "@/lib/types";
-import { Settings } from "@/lib/api/settings";
 
-export const useCartCalculations = (cartItems: CartItem[], settings: Settings | undefined, numberOfPeople: number) => {
+export const useCartCalculations = (
+	cartItems: CartItem[],
+	settings: Settings | undefined,
+	numberOfPeople: number,
+) => {
 	return useMemo(() => {
 		const totalItems = cartItems.reduce(
 			(sum, { quantity }) => sum + quantity,
@@ -23,10 +27,18 @@ export const useCartCalculations = (cartItems: CartItem[], settings: Settings | 
 				discountedSubtotal > APP_CONSTANTS.CART.FREE_DELIVERY_THRESHOLD
 					? 0
 					: APP_CONSTANTS.CART.DELIVERY_FEE;
-			const taxes = Math.round(discountedSubtotal * APP_CONSTANTS.CART.TAX_RATE);
+			const taxes = Math.round(
+				discountedSubtotal * APP_CONSTANTS.CART.TAX_RATE,
+			);
 			const total = discountedSubtotal + deliveryFee + taxes;
 
-			return { totalItems, subtotal: discountedSubtotal, deliveryFee, taxes, total };
+			return {
+				totalItems,
+				subtotal: discountedSubtotal,
+				deliveryFee,
+				taxes,
+				total,
+			};
 		}
 		const deliveryFee =
 			subtotal > APP_CONSTANTS.CART.FREE_DELIVERY_THRESHOLD
@@ -36,5 +48,5 @@ export const useCartCalculations = (cartItems: CartItem[], settings: Settings | 
 		const total = subtotal + deliveryFee + taxes;
 
 		return { totalItems, subtotal, deliveryFee, taxes, total };
-	}, [cartItems, settings]);
+	}, [cartItems, settings, numberOfPeople]);
 };

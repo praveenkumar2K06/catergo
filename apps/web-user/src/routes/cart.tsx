@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { CartPage } from "@/components/features/cart/cart-page";
 import { useOrder } from "@/components/providers/order-provider";
+import ErrorDisplay from "@/components/shared/layout/error";
 import Loader from "@/components/shared/layout/loader";
+import { useSettings } from "@/hooks/use-settings";
 import { removeCartItem, updateCartQuantity } from "@/lib/api/cart";
 import { createEvent } from "@/lib/api/event";
 import {
 	handleMutationError,
 	handleMutationSuccess,
 } from "@/lib/error-handlers";
-import { useSettings } from "@/hooks/use-settings";
-import ErrorDisplay from "@/components/shared/layout/error";
 
 export const Route = createFileRoute("/cart")({
 	component: Cart,
@@ -113,7 +113,10 @@ export default function Cart() {
 		}
 	};
 
-	const handleProceedToCheckout = (eventName: string, eventDescription: string) => {
+	const handleProceedToCheckout = (
+		eventName: string,
+		eventDescription: string,
+	) => {
 		if (userData?.id && userData.selectedDate && catererId) {
 			const selectedDate = new Date(userData.selectedDate);
 			createEventMutation.mutate({
@@ -129,9 +132,7 @@ export default function Cart() {
 	if (!userData) return <Loader variant="catering" />;
 
 	if (error) {
-		return (
-			<ErrorDisplay type="server" className="h-max" />
-		);
+		return <ErrorDisplay type="server" className="h-max" />;
 	}
 
 	return (

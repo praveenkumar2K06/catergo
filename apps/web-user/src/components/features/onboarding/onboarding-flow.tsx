@@ -83,7 +83,7 @@ export function OnboardingFlow({
 				adminId: caterer.id,
 			} as UserData);
 		}
-	}, [currentStep, data, mutation.mutate, caterer.id]);
+	}, [currentStep, data, caterer.id, mutation]);
 
 	const prevStep = useCallback(() => {
 		if (isAnimatingRef.current) return;

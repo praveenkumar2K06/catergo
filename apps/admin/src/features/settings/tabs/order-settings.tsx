@@ -88,13 +88,13 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setMaxOrdersPerDay(
 										Number.parseInt(e.target.value, 10) ||
-										1,
+											1,
 									)
 								}
 							/>
 						</div>
 					</div>
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+					<div className="grid grid-cols-1 gap-4 md:grid-cols-2">
 						<div className="space-y-2">
 							<Label htmlFor="bulk-discount-persons">
 								Bulk Order Minimum Persons
@@ -109,7 +109,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscountPersons(
 										Number.parseInt(e.target.value, 10) ||
-										1,
+											1,
 									)
 								}
 							/>
@@ -128,7 +128,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscount(
 										Number.parseInt(e.target.value, 10) ||
-										0,
+											0,
 									)
 								}
 							/>
@@ -142,7 +142,10 @@ export const OrderSettings = () => {
 									Bulk Order Discount
 								</p>
 								<p className="text-blue-700 dark:text-blue-300">
-									If the number of people is 0, discount is not applied. Otherwise, orders with at least {bulkDiscountPersons} persons receive a {bulkDiscount}% discount.
+									If the number of people is 0, discount is
+									not applied. Otherwise, orders with at least{" "}
+									{bulkDiscountPersons} persons receive a{" "}
+									{bulkDiscount}% discount.
 								</p>
 							</div>
 						</div>

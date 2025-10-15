@@ -2,8 +2,8 @@ import { motion } from "motion/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { UserData } from "@/lib/types";
 import { Textarea } from "@/components/ui/textarea";
+import type { UserData } from "@/lib/types";
 
 interface DeliveryInfoProps {
 	userData: UserData;
@@ -36,7 +36,10 @@ export function DeliveryInfo({
 					className="space-y-2"
 				>
 					<Label htmlFor="eventName" className="text-sm">
-						Event Name <span className="text-muted-foreground">(Optional)</span>
+						Event Name{" "}
+						<span className="text-muted-foreground">
+							(Optional)
+						</span>
 					</Label>
 					<Input
 						id="eventName"
@@ -55,19 +58,24 @@ export function DeliveryInfo({
 					className="space-y-2"
 				>
 					<Label htmlFor="eventDescription" className="text-sm">
-						Event Description <span className="text-muted-foreground">(Optional)</span>
+						Event Description{" "}
+						<span className="text-muted-foreground">
+							(Optional)
+						</span>
 					</Label>
 					<Textarea
 						id="eventDescription"
 						placeholder="Any special instructions or details about your event..."
 						value={eventDescription}
-						onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => onEventDescriptionChange(e.target.value)}
+						onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+							onEventDescriptionChange(e.target.value)
+						}
 						className="min-h-[80px] w-full resize-none"
 					/>
 				</motion.div>
 
 				{/* Divider */}
-				<div className="border-t border-border pt-4" />
+				<div className="border-border border-t pt-4" />
 
 				{/* Delivery Details */}
 				<motion.div
@@ -104,8 +112,8 @@ export function DeliveryInfo({
 					<span className="text-foreground">
 						{userData.selectedDate
 							? new Date(
-								userData.selectedDate,
-							).toLocaleDateString()
+									userData.selectedDate,
+								).toLocaleDateString()
 							: "Date Not Specified"}
 					</span>
 				</motion.div>

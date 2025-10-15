@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { useState } from "react";
 import { AnimatedButton } from "@/components/ui/button";
 import { useCartCalculations } from "@/hooks/use-cart-calculations";
+import type { Settings } from "@/lib/api/settings";
 import { commonAnimations } from "@/lib/common-animations";
 import type { CartItem, UserData } from "@/lib/types";
 import { CartItemsList } from "./components/items/cart-items-list";
@@ -9,7 +10,6 @@ import { CartHeader } from "./components/layout/cart-header";
 import { EmptyCart } from "./components/layout/empty-cart";
 import { BillSummary } from "./components/summary/bill-summary";
 import { DeliveryInfo } from "./components/summary/delivery-info";
-import { Settings } from "@/lib/api/settings";
 
 interface CartPageProps {
 	userData: UserData;
