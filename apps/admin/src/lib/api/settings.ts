@@ -5,6 +5,8 @@ export interface Settings {
 	id: string;
 	maxOrdersPerDay: number;
 	enableDailyOrderLimit: boolean;
+	bulkOrderDiscount: number;
+	bulkOrderMinPersons: number;
 	blockedDates: string[];
 	createdAt: string;
 	updatedAt: string;
@@ -14,6 +16,8 @@ export interface SettingsUpdateRequest {
 	maxOrdersPerDay?: number;
 	enableDailyOrderLimit?: boolean;
 	blockedDates?: string[];
+	bulkOrderDiscount?: number;
+	bulkOrderMinPersons?: number;
 }
 
 interface SettingsResponse {

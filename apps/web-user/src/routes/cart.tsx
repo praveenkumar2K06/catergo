@@ -11,6 +11,8 @@ import {
 	handleMutationError,
 	handleMutationSuccess,
 } from "@/lib/error-handlers";
+import { useSettings } from "@/hooks/use-settings";
+import ErrorDisplay from "@/components/shared/layout/error";
 
 export const Route = createFileRoute("/cart")({
 	component: Cart,
@@ -26,6 +28,8 @@ export default function Cart() {
 		removeItem,
 		clearOrder,
 	} = useOrder();
+
+	const { data: settings, error } = useSettings();
 
 	const navigate = useNavigate();
 
@@ -123,6 +127,12 @@ export default function Cart() {
 
 	if (!userData) return <Loader variant="catering" />;
 
+	if(error) {
+		return (
+			<ErrorDisplay type="server" className="h-max" />
+		);
+	}
+
 	return (
 		<main className="min-h-screen">
 			<CartPage
@@ -132,6 +142,7 @@ export default function Cart() {
 				onBack={handleBackToMenu}
 				onUpdateQuantity={handleUpdateQuantity}
 				onRemoveItem={handleRemoveItem}
+				settings={settings}
 				onProceedToCheckout={handleProceedToCheckout}
 				isLoading={createEventMutation.isPending}
 			/>

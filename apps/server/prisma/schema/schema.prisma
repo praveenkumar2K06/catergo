@@ -92,6 +92,8 @@ model Settings {
   id                    String     @id @default(auto()) @map("_id") @db.ObjectId
   maxOrdersPerDay       Int        @default(50)
   enableDailyOrderLimit Boolean    @default(true)
+  bulkOrderDiscount     Int        @default(10)
+  bulkOrderMinPersons   Int        @default(5)
   blockedDates          DateTime[]
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt

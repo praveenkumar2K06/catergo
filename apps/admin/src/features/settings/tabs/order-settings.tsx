@@ -21,12 +21,16 @@ export const OrderSettings = () => {
 	const updateSettingsMutation = useUpdateSettings();
 
 	const [maxOrdersPerDay, setMaxOrdersPerDay] = useState<number>(50);
+	const [bulkDiscount, setBulkDiscount] = useState<number>(10);
+	const [bulkDiscountPersons, setBulkDiscountPersons] = useState<number>(5);
 	const [enableDailyLimit, setEnableDailyLimit] = useState<boolean>(true);
 
 	useEffect(() => {
 		if (settings) {
 			setMaxOrdersPerDay(settings.maxOrdersPerDay);
 			setEnableDailyLimit(settings.enableDailyOrderLimit);
+			setBulkDiscount(settings.bulkOrderDiscount);
+			setBulkDiscountPersons(settings.bulkOrderMinPersons);
 		}
 	}, [settings]);
 
@@ -35,6 +39,8 @@ export const OrderSettings = () => {
 			await updateSettingsMutation.mutateAsync({
 				maxOrdersPerDay,
 				enableDailyOrderLimit: enableDailyLimit,
+				bulkOrderDiscount: bulkDiscount,
+				bulkOrderMinPersons: bulkDiscountPersons,
 			});
 			toast.success("Order settings saved successfully");
 		} catch {
@@ -82,10 +88,63 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setMaxOrdersPerDay(
 										Number.parseInt(e.target.value, 10) ||
-											1,
+										1,
 									)
 								}
 							/>
+						</div>
+					</div>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<div className="space-y-2">
+							<Label htmlFor="bulk-discount-persons">
+								Bulk Order Minimum Persons
+							</Label>
+							<Input
+								id="bulk-discount-persons"
+								type="number"
+								placeholder="5"
+								min="1"
+								max="100"
+								value={bulkDiscountPersons}
+								onChange={(e) =>
+									setBulkDiscountPersons(
+										Number.parseInt(e.target.value, 10) ||
+										1,
+									)
+								}
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label htmlFor="bulk-discount">
+								Bulk Order Discount (%)
+							</Label>
+							<Input
+								id="bulk-discount"
+								type="number"
+								placeholder="10"
+								min="0"
+								max="100"
+								value={bulkDiscount}
+								onChange={(e) =>
+									setBulkDiscount(
+										Number.parseInt(e.target.value, 10) ||
+										0,
+									)
+								}
+							/>
+						</div>
+					</div>
+					<div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950">
+						<div className="flex items-start gap-2">
+							<Info className="mt-0.5 h-4 w-4 text-blue-600 dark:text-blue-400" />
+							<div className="text-sm">
+								<p className="font-medium text-blue-900 dark:text-blue-100">
+									Bulk Order Discount
+								</p>
+								<p className="text-blue-700 dark:text-blue-300">
+									If the number of people is 0, discount is not applied. Otherwise, orders with at least {bulkDiscountPersons} persons receive a {bulkDiscount}% discount.
+								</p>
+							</div>
 						</div>
 					</div>
 					<div className="flex items-center space-x-2">

@@ -4,6 +4,9 @@ export interface Settings {
 	maxOrdersPerDay: number;
 	enableDailyOrderLimit: boolean;
 	blockedDates: string[];
+	bulkOrderDiscount: number;
+	bulkOrderMinPersons: number;
+	id: string;
 	createdAt: string;
 	updatedAt: string;
 }

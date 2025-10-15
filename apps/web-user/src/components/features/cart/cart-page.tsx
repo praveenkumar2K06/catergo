@@ -8,6 +8,7 @@ import { CartHeader } from "./components/layout/cart-header";
 import { EmptyCart } from "./components/layout/empty-cart";
 import { BillSummary } from "./components/summary/bill-summary";
 import { DeliveryInfo } from "./components/summary/delivery-info";
+import { Settings } from "@/lib/api/settings";
 
 interface CartPageProps {
 	userData: UserData;
@@ -17,6 +18,7 @@ interface CartPageProps {
 	onRemoveItem: (itemId: string) => void;
 	onProceedToCheckout: () => void;
 	onCreateNewOrder: () => void;
+	settings: Settings | undefined;
 	isLoading?: boolean;
 }
 
@@ -28,10 +30,11 @@ export function CartPage({
 	onRemoveItem,
 	onProceedToCheckout,
 	onCreateNewOrder,
+	settings,
 	isLoading,
 }: CartPageProps) {
 	const { totalItems, subtotal, deliveryFee, taxes, total } =
-		useCartCalculations(cartItems);
+		useCartCalculations(cartItems, settings, userData.numberOfPeople);
 
 	if (cartItems.length === 0) {
 		return <EmptyCart onBack={onBack} />;
