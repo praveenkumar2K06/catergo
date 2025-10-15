@@ -5,6 +5,7 @@ export interface CreateEventRequest {
 	adminId: string;
 	name: string;
 	date: string;
+	description?: string;
 }
 
 export const createEvent = async (event: CreateEventRequest) => {

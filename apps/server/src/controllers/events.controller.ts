@@ -95,7 +95,7 @@ export const getTodaysEvents = async (req: AuthRequest, res: Response) => {
 
 export const createEvent = async (req: Request, res: Response) => {
 	try {
-		const { userId, name, date, adminId } = req.body;
+		const { userId, name, date, adminId, description } = req.body;
 
 		if (!adminId) {
 			return res.status(403).json({
@@ -138,10 +138,12 @@ export const createEvent = async (req: Request, res: Response) => {
 				name,
 				date,
 				adminId,
+				...(description && { description }),
 			},
 			update: {
 				name,
 				date,
+				...(description && { description }),
 			},
 		});
 

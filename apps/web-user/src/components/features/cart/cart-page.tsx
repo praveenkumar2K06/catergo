@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import { useState } from "react";
 import { AnimatedButton } from "@/components/ui/button";
 import { useCartCalculations } from "@/hooks/use-cart-calculations";
 import { commonAnimations } from "@/lib/common-animations";
@@ -16,7 +17,7 @@ interface CartPageProps {
 	onBack: () => void;
 	onUpdateQuantity: (itemId: string, quantity: number) => void;
 	onRemoveItem: (itemId: string) => void;
-	onProceedToCheckout: () => void;
+	onProceedToCheckout: (eventName: string, eventDescription: string) => void;
 	onCreateNewOrder: () => void;
 	settings: Settings | undefined;
 	isLoading?: boolean;
@@ -33,12 +34,19 @@ export function CartPage({
 	settings,
 	isLoading,
 }: CartPageProps) {
+	const [eventName, setEventName] = useState("");
+	const [eventDescription, setEventDescription] = useState("");
+
 	const { totalItems, subtotal, deliveryFee, taxes, total } =
 		useCartCalculations(cartItems, settings, userData.numberOfPeople);
 
 	if (cartItems.length === 0) {
 		return <EmptyCart onBack={onBack} />;
 	}
+
+	const handleProceedToCheckout = () => {
+		onProceedToCheckout(eventName, eventDescription);
+	};
 
 	return (
 		<motion.div
@@ -57,7 +65,13 @@ export function CartPage({
 
 			<div className="mx-auto max-w-2xl space-y-4 p-4">
 				<motion.div variants={commonAnimations.item}>
-					<DeliveryInfo userData={userData} />
+					<DeliveryInfo
+						userData={userData}
+						eventName={eventName}
+						eventDescription={eventDescription}
+						onEventNameChange={setEventName}
+						onEventDescriptionChange={setEventDescription}
+					/>
 				</motion.div>
 
 				<motion.div variants={commonAnimations.item}>
@@ -94,7 +108,7 @@ export function CartPage({
 						<AnimatedButton
 							whileHover={{ scale: 1.02 }}
 							whileTap={{ scale: 0.85 }}
-							onClick={onProceedToCheckout}
+							onClick={handleProceedToCheckout}
 							className="flex-1"
 							disabled={isLoading}
 						>

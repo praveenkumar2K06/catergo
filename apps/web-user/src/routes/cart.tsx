@@ -113,14 +113,15 @@ export default function Cart() {
 		}
 	};
 
-	const handleProceedToCheckout = () => {
+	const handleProceedToCheckout = (eventName: string, eventDescription: string) => {
 		if (userData?.id && userData.selectedDate && catererId) {
 			const selectedDate = new Date(userData.selectedDate);
 			createEventMutation.mutate({
 				userId: userData.id,
 				adminId: catererId,
-				name: "New Event",
+				name: eventName || "New Event",
 				date: selectedDate.toISOString(),
+				...(eventDescription && { description: eventDescription }),
 			});
 		}
 	};
