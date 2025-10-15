@@ -177,7 +177,7 @@ export function OnboardingFlow({
 						<CardDescription>
 							{
 								stepDescriptions[
-									currentStep as keyof typeof stepDescriptions
+								currentStep as keyof typeof stepDescriptions
 								]
 							}
 						</CardDescription>
@@ -220,6 +220,7 @@ export function OnboardingFlow({
 									<OrderDetails
 										numberOfPeople={data.numberOfPeople}
 										selectedDate={data.selectedDate}
+										adminId={data.adminId || ""}
 										illustration={
 											"/icons/order-details.png"
 										}

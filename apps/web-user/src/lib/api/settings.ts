@@ -25,18 +25,20 @@ interface SettingsResponse {
 	data: Settings;
 }
 
-export const getUnavailableDates = async (): Promise<
+export const getUnavailableDates = async (adminId: string): Promise<
 	BlockedDatesResponse["data"]
 > => {
 	const response = await axios.get<BlockedDatesResponse>(
 		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
+		{ params: { adminId } }
 	);
 	return response.data.data;
 };
 
-export const getSettings = async (): Promise<Settings> => {
+export const getSettings = async (adminId: string): Promise<Settings> => {
 	const response = await axios.get<SettingsResponse>(
 		`${import.meta.env.VITE_SERVER_URL}/api/settings`,
+		{ params: { adminId } }
 	);
 	return response.data.data;
 };

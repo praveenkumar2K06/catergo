@@ -29,7 +29,7 @@ export default function Cart() {
 		clearOrder,
 	} = useOrder();
 
-	const { data: settings, error } = useSettings();
+	const { data: settings, error } = useSettings(userData?.adminId || "");
 
 	const navigate = useNavigate();
 
@@ -127,7 +127,7 @@ export default function Cart() {
 
 	if (!userData) return <Loader variant="catering" />;
 
-	if(error) {
+	if (error) {
 		return (
 			<ErrorDisplay type="server" className="h-max" />
 		);

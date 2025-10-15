@@ -10,17 +10,18 @@ interface AuthRequest extends Request {
 	};
 }
 
-export const getSettings = async (req: AuthRequest, res: Response) => {
+export const getSettings = async (req: Request, res: Response) => {
 	try {
-		if (!req.admin) {
-			return res.status(401).json({
+		const adminId = req.query.adminId as string;
+		if (!adminId) {
+			return res.status(400).json({
 				success: false,
-				message: "Authentication required",
+				message: "Admin ID is required",
 			});
 		}
 
 		let settings = await prisma.settings.findUnique({
-			where: { adminId: req.admin.id },
+			where: { adminId: adminId },
 		});
 
 		if (!settings) {
@@ -29,7 +30,7 @@ export const getSettings = async (req: AuthRequest, res: Response) => {
 					maxOrdersPerDay: 50,
 					enableDailyOrderLimit: true,
 					blockedDates: [],
-					adminId: req.admin.id,
+					adminId: adminId,
 				},
 			});
 		}
@@ -105,17 +106,17 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 	}
 };
 
-export const getBlockedDates = async (req: AuthRequest, res: Response) => {
+export const getBlockedDates = async (req: Request, res: Response) => {
 	try {
-		if (!req.admin) {
-			return res.status(401).json({
+		const adminId = req.query.adminId as string;
+		if (!adminId) {
+			return res.status(400).json({
 				success: false,
-				message: "Authentication required",
+				message: "Admin ID is required",
 			});
 		}
-
 		const settings = await prisma.settings.findUnique({
-			where: { adminId: req.admin.id },
+			where: { adminId: adminId },
 		});
 
 		let unavailableDates: Date[] = [];
@@ -133,7 +134,7 @@ export const getBlockedDates = async (req: AuthRequest, res: Response) => {
 						lte: oneYearFromNow,
 					},
 					user: {
-						adminId: req.admin.id,
+						adminId: adminId,
 					},
 				},
 				select: {

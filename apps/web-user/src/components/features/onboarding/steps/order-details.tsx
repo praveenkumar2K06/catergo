@@ -9,6 +9,7 @@ interface OrderDetailsProps {
 	numberOfPeople: number;
 	selectedDate: Date | undefined;
 	illustration?: string;
+	adminId: string;
 	onNumberOfPeopleChange: (count: number) => void;
 	onDateChange: (date: Date | undefined) => void;
 }
@@ -17,10 +18,11 @@ export function OrderDetails({
 	numberOfPeople,
 	selectedDate,
 	illustration,
+	adminId,
 	onNumberOfPeopleChange,
 	onDateChange,
 }: OrderDetailsProps) {
-	const { data: unavailableDatesData } = useUnavailableDates();
+	const { data: unavailableDatesData } = useUnavailableDates(adminId);
 	const blockedDates =
 		unavailableDatesData?.unavailableDates?.map((date) => new Date(date)) ||
 		[];
