@@ -26,7 +26,11 @@ export const OrderSettings = () => {
 	const [enableDailyLimit, setEnableDailyLimit] = useState<boolean>(true);
 	const [hidePrices, setHidePrices] = useState<boolean>(false);
 	const loader = useLoaderData({ from: "/_authed/settings" });
-	const { data: settings, isLoading, isError } = useSettings(loader.adminId || "");
+	const {
+		data: settings,
+		isLoading,
+		isError,
+	} = useSettings(loader.adminId || "");
 
 	useEffect(() => {
 		if (settings) {
@@ -93,7 +97,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setMaxOrdersPerDay(
 										Number.parseInt(e.target.value, 10) ||
-										1,
+											1,
 									)
 								}
 							/>
@@ -114,7 +118,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscountPersons(
 										Number.parseInt(e.target.value, 10) ||
-										1,
+											1,
 									)
 								}
 							/>
@@ -133,7 +137,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscount(
 										Number.parseInt(e.target.value, 10) ||
-										0,
+											0,
 									)
 								}
 							/>

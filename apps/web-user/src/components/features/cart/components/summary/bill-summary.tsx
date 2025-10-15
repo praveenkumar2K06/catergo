@@ -29,8 +29,12 @@ export function BillSummary({
 				</CardHeader>
 				<CardContent className="space-y-3">
 					<div className="py-4 text-center text-muted-foreground">
-						<p className="font-medium text-lg">Contact for pricing details</p>
-						<p className="mt-2 text-sm">Your order summary will be shared separately</p>
+						<p className="font-medium text-lg">
+							Contact for pricing details
+						</p>
+						<p className="mt-2 text-sm">
+							Your order summary will be shared separately
+						</p>
 					</div>
 				</CardContent>
 			</Card>

@@ -177,7 +177,7 @@ export function OnboardingFlow({
 						<CardDescription>
 							{
 								stepDescriptions[
-								currentStep as keyof typeof stepDescriptions
+									currentStep as keyof typeof stepDescriptions
 								]
 							}
 						</CardDescription>

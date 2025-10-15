@@ -52,7 +52,11 @@ export function MenuItemCard({
 					<h3 className="font-semibold text-foreground text-lg">
 						{item.name}
 					</h3>
-					<PriceDisplay price={item.price} className="text-lg" hidePrices={hidePrices} />
+					<PriceDisplay
+						price={item.price}
+						className="text-lg"
+						hidePrices={hidePrices}
+					/>
 				</div>
 
 				<p className="mb-3 line-clamp-2 text-muted-foreground text-sm">

@@ -18,9 +18,7 @@ export function PriceDisplay({
 	hidePrices = false,
 }: PriceDisplayProps) {
 	if (hidePrices) {
-		return (
-			<div />
-		);
+		return <div />;
 	}
 
 	const displayPrice = showTotal ? price * quantity : price;
