@@ -10,10 +10,10 @@ import {
 
 const SETTINGS_QUERY_KEY = ["settings"];
 
-export const useSettings = () => {
+export const useSettings = (adminId: string) => {
 	return useQuery({
 		queryKey: SETTINGS_QUERY_KEY,
-		queryFn: () => getSettings(),
+		queryFn: () => getSettings(adminId),
 		staleTime: 5 * 60 * 1000, // 5 minutes
 	});
 };
@@ -31,10 +31,10 @@ export const useUpdateSettings = () => {
 	});
 };
 
-export const useBlockedDates = () => {
+export const useBlockedDates = (adminId: string) => {
 	return useQuery({
 		queryKey: ["blocked-dates"],
-		queryFn: () => getBlockedDates(),
+		queryFn: () => getBlockedDates(adminId),
 		staleTime: 5 * 60 * 1000, // 5 minutes
 	});
 };

@@ -30,6 +30,7 @@ interface MenuPageProps {
 	updateQuantity: (itemId: string, quantity: number) => void;
 	onBack: () => void;
 	onProceedToCart: (cartItems: CartItem[]) => void;
+	hidePrices?: boolean;
 }
 
 export function MenuPage({
@@ -40,6 +41,7 @@ export function MenuPage({
 	updateQuantity,
 	onBack,
 	onProceedToCart,
+	hidePrices = false,
 }: MenuPageProps) {
 	const [activeCategory, setActiveCategory] = useState("all");
 
@@ -163,6 +165,7 @@ export function MenuPage({
 					cartItems={cartItems}
 					onAddToCart={handleAddToCart}
 					numberOfPeople={userData.numberOfPeople}
+					hidePrices={hidePrices}
 				/>
 			</motion.div>
 

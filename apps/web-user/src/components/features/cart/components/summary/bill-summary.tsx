@@ -8,6 +8,7 @@ interface BillSummaryProps {
 	deliveryFee: number;
 	taxes: number;
 	total: number;
+	hidePrices?: boolean;
 }
 
 export function BillSummary({
@@ -16,7 +17,25 @@ export function BillSummary({
 	deliveryFee,
 	taxes,
 	total,
+	hidePrices = false,
 }: BillSummaryProps) {
+	if (hidePrices) {
+		return (
+			<Card className="border-border bg-card">
+				<CardHeader>
+					<CardTitle className="text-foreground text-lg">
+						Bill Summary
+					</CardTitle>
+				</CardHeader>
+				<CardContent className="space-y-3">
+					<div className="py-4 text-center text-muted-foreground">
+						<p className="font-medium text-lg">Contact for pricing details</p>
+						<p className="mt-2 text-sm">Your order summary will be shared separately</p>
+					</div>
+				</CardContent>
+			</Card>
+		);
+	}
 	return (
 		<Card className="border-border bg-card">
 			<CardHeader>

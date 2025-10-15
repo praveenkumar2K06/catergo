@@ -6,6 +6,7 @@ interface PriceDisplayProps {
 	className?: string;
 	showTotal?: boolean;
 	currency?: string;
+	hidePrices?: boolean;
 }
 
 export function PriceDisplay({
@@ -14,7 +15,14 @@ export function PriceDisplay({
 	className = "",
 	showTotal = false,
 	currency,
+	hidePrices = false,
 }: PriceDisplayProps) {
+	if (hidePrices) {
+		return (
+			<div />
+		);
+	}
+
 	const displayPrice = showTotal ? price * quantity : price;
 
 	return (

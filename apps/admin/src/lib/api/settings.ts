@@ -1,4 +1,3 @@
-import axios from "axios";
 import { apiClient } from "./client";
 
 export interface Settings {
@@ -7,6 +6,7 @@ export interface Settings {
 	enableDailyOrderLimit: boolean;
 	bulkOrderDiscount: number;
 	bulkOrderMinPersons: number;
+	hidePrices: boolean;
 	blockedDates: string[];
 	createdAt: string;
 	updatedAt: string;
@@ -18,6 +18,7 @@ export interface SettingsUpdateRequest {
 	blockedDates?: string[];
 	bulkOrderDiscount?: number;
 	bulkOrderMinPersons?: number;
+	hidePrices?: boolean;
 }
 
 interface SettingsResponse {
@@ -32,8 +33,13 @@ interface BlockedDatesResponse {
 	};
 }
 
-export const getSettings = async (): Promise<Settings> => {
-	const response = await apiClient.get<SettingsResponse>("/api/settings");
+export const getSettings = async (adminId: string): Promise<Settings> => {
+	const response = await apiClient.get<SettingsResponse>(
+		`${import.meta.env.VITE_SERVER_URL}/api/settings`,
+		{
+			params: { adminId },
+		},
+	);
 	return response.data.data;
 };
 
@@ -41,22 +47,23 @@ export const updateSettings = async (
 	settings: SettingsUpdateRequest,
 ): Promise<Settings> => {
 	const response = await apiClient.put<SettingsResponse>(
-		"/api/settings",
+		`${import.meta.env.VITE_SERVER_URL}/api/settings`,
 		settings,
 	);
 	return response.data.data;
 };
 
-export const getBlockedDates = async (): Promise<string[]> => {
-	const response = await axios.get<BlockedDatesResponse>(
+export const getBlockedDates = async (adminId: string): Promise<string[]> => {
+	const response = await apiClient.get<BlockedDatesResponse>(
 		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
+		{ params: { adminId } },
 	);
 	return response.data.data.blockedDates;
 };
 
 export const addBlockedDate = async (date: string): Promise<Settings> => {
 	const response = await apiClient.post<SettingsResponse>(
-		"/api/settings/blocked-dates",
+		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
 		{ date },
 	);
 	return response.data.data;
@@ -64,7 +71,7 @@ export const addBlockedDate = async (date: string): Promise<Settings> => {
 
 export const removeBlockedDate = async (date: string): Promise<Settings> => {
 	const response = await apiClient.delete<SettingsResponse>(
-		"/api/settings/blocked-dates",
+		`${import.meta.env.VITE_SERVER_URL}/api/settings/blocked-dates`,
 		{ data: { date } },
 	);
 	return response.data.data;

@@ -8,6 +8,7 @@ interface CartItemsListProps {
 	userData: UserData;
 	onUpdateQuantity: (itemId: string, quantity: number) => void;
 	onRemoveItem: (itemId: string) => void;
+	hidePrices?: boolean;
 }
 
 export function CartItemsList({
@@ -15,6 +16,7 @@ export function CartItemsList({
 	userData,
 	onUpdateQuantity,
 	onRemoveItem,
+	hidePrices = false,
 }: CartItemsListProps) {
 	const getSuggestedQuantity = (itemId: string) => {
 		const cartItem = cartItems.find(
@@ -75,6 +77,7 @@ export function CartItemsList({
 								)}
 								onUpdateQuantity={onUpdateQuantity}
 								onRemoveItem={onRemoveItem}
+								hidePrices={hidePrices}
 							/>
 						</motion.div>
 					))}

@@ -1,3 +1,4 @@
+import { useLoaderData } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -17,13 +18,15 @@ import { useSettings, useUpdateSettings } from "@/hooks/use-settings";
 import OrderSettingsSkeleton from "../skeleton/order-settings-skeleton";
 
 export const OrderSettings = () => {
-	const { data: settings, isLoading, isError } = useSettings();
 	const updateSettingsMutation = useUpdateSettings();
 
 	const [maxOrdersPerDay, setMaxOrdersPerDay] = useState<number>(50);
 	const [bulkDiscount, setBulkDiscount] = useState<number>(10);
 	const [bulkDiscountPersons, setBulkDiscountPersons] = useState<number>(5);
 	const [enableDailyLimit, setEnableDailyLimit] = useState<boolean>(true);
+	const [hidePrices, setHidePrices] = useState<boolean>(false);
+	const loader = useLoaderData({ from: "/_authed/settings" });
+	const { data: settings, isLoading, isError } = useSettings(loader.adminId || "");
 
 	useEffect(() => {
 		if (settings) {
@@ -31,6 +34,7 @@ export const OrderSettings = () => {
 			setEnableDailyLimit(settings.enableDailyOrderLimit);
 			setBulkDiscount(settings.bulkOrderDiscount);
 			setBulkDiscountPersons(settings.bulkOrderMinPersons);
+			setHidePrices(settings.hidePrices ?? false);
 		}
 	}, [settings]);
 
@@ -41,6 +45,7 @@ export const OrderSettings = () => {
 				enableDailyOrderLimit: enableDailyLimit,
 				bulkOrderDiscount: bulkDiscount,
 				bulkOrderMinPersons: bulkDiscountPersons,
+				hidePrices,
 			});
 			toast.success("Order settings saved successfully");
 		} catch {
@@ -88,7 +93,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setMaxOrdersPerDay(
 										Number.parseInt(e.target.value, 10) ||
-											1,
+										1,
 									)
 								}
 							/>
@@ -109,7 +114,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscountPersons(
 										Number.parseInt(e.target.value, 10) ||
-											1,
+										1,
 									)
 								}
 							/>
@@ -128,7 +133,7 @@ export const OrderSettings = () => {
 								onChange={(e) =>
 									setBulkDiscount(
 										Number.parseInt(e.target.value, 10) ||
-											0,
+										0,
 									)
 								}
 							/>
@@ -174,6 +179,45 @@ export const OrderSettings = () => {
 										New orders will be rejected once the
 										daily limit of {maxOrdersPerDay} orders
 										is reached.
+									</p>
+								</div>
+							</div>
+						</div>
+					)}
+				</CardContent>
+			</Card>
+
+			<Card>
+				<CardHeader>
+					<CardTitle>Display Settings</CardTitle>
+					<CardDescription>
+						Configure what customers see on the user-facing site
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="space-y-4">
+					<div className="flex items-center space-x-2">
+						<Checkbox
+							id="hide-prices"
+							checked={hidePrices}
+							onCheckedChange={(checked) =>
+								setHidePrices(checked === true)
+							}
+						/>
+						<Label htmlFor="hide-prices">
+							Hide prices on user side
+						</Label>
+					</div>
+					{hidePrices && (
+						<div className="rounded-lg border border-blue-200 bg-blue-50 p-4 dark:border-blue-800 dark:bg-blue-950">
+							<div className="flex items-start gap-2">
+								<Info className="mt-0.5 h-4 w-4 text-blue-600 dark:text-blue-400" />
+								<div className="text-sm">
+									<p className="font-medium text-blue-900 dark:text-blue-100">
+										Prices are hidden
+									</p>
+									<p className="text-blue-700 dark:text-blue-300">
+										Menu item prices will not be visible to
+										customers on the user-facing website.
 									</p>
 								</div>
 							</div>

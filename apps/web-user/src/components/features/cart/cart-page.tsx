@@ -80,6 +80,7 @@ export function CartPage({
 						userData={userData}
 						onUpdateQuantity={onUpdateQuantity}
 						onRemoveItem={onRemoveItem}
+						hidePrices={settings?.hidePrices ?? false}
 					/>
 				</motion.div>
 
@@ -90,6 +91,7 @@ export function CartPage({
 						deliveryFee={deliveryFee}
 						taxes={taxes}
 						total={total}
+						hidePrices={settings?.hidePrices ?? false}
 					/>
 				</motion.div>
 

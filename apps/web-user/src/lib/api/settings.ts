@@ -6,6 +6,7 @@ export interface Settings {
 	blockedDates: string[];
 	bulkOrderDiscount: number;
 	bulkOrderMinPersons: number;
+	hidePrices: boolean;
 	id: string;
 	createdAt: string;
 	updatedAt: string;

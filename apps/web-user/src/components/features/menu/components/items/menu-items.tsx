@@ -9,6 +9,7 @@ interface MenuItemsProps {
 	onAddToCart: (item: MenuItem, quantity: number) => void;
 	cartItems: CartItem[];
 	numberOfPeople: number;
+	hidePrices?: boolean;
 }
 
 export function MenuItems({
@@ -17,6 +18,7 @@ export function MenuItems({
 	onAddToCart,
 	cartItems,
 	numberOfPeople,
+	hidePrices = false,
 }: MenuItemsProps) {
 	const [quantities, setQuantities] = useState<{ [key: string]: number }>({});
 
@@ -89,6 +91,7 @@ export function MenuItems({
 								?.quantity || 0
 						}
 						numberOfPeople={numberOfPeople}
+						hidePrices={hidePrices}
 					/>
 				</motion.div>
 			))}

@@ -19,6 +19,7 @@ interface MenuItemCardProps {
 	onAddToCart: () => void;
 	cartQuantity?: number;
 	numberOfPeople: number;
+	hidePrices?: boolean;
 }
 
 export function MenuItemCard({
@@ -29,6 +30,7 @@ export function MenuItemCard({
 	onAddToCart,
 	cartQuantity,
 	numberOfPeople,
+	hidePrices = false,
 }: MenuItemCardProps) {
 	return (
 		<Card className="group overflow-hidden border-border/40 transition-all duration-300 hover:border-primary/20 hover:shadow-xl">
@@ -50,14 +52,14 @@ export function MenuItemCard({
 					<h3 className="font-semibold text-foreground text-lg">
 						{item.name}
 					</h3>
-					<PriceDisplay price={item.price} className="text-lg" />
+					<PriceDisplay price={item.price} className="text-lg" hidePrices={hidePrices} />
 				</div>
 
 				<p className="mb-3 line-clamp-2 text-muted-foreground text-sm">
 					{item.description}
 				</p>
 
-				<div className="mb-4 flex items-center justify-end">
+				<div className="mb-4 flex items-center justify-start">
 					<span className="font-medium text-primary text-xs">
 						Suggested for {numberOfPeople} people:{" "}
 						{suggestedQuantity} {item.metrics}

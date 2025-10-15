@@ -15,6 +15,7 @@ interface CartItemProps {
 	suggestedQuantity: number;
 	onUpdateQuantity: (itemId: string, quantity: number) => void;
 	onRemoveItem: (itemId: string) => void;
+	hidePrices?: boolean;
 }
 
 export function CartItem({
@@ -24,6 +25,7 @@ export function CartItem({
 	suggestedQuantity,
 	onUpdateQuantity,
 	onRemoveItem,
+	hidePrices = false,
 }: CartItemProps) {
 	const updateQuantity = (newQuantity: number) => {
 		if (newQuantity <= 0) {
@@ -61,6 +63,7 @@ export function CartItem({
 					<PriceDisplay
 						price={item.price}
 						className="text-muted-foreground text-sm"
+						hidePrices={hidePrices}
 					/>
 				</div>
 
@@ -78,6 +81,7 @@ export function CartItem({
 							quantity={quantity}
 							showTotal={true}
 							className="font-semibold text-foreground"
+							hidePrices={hidePrices}
 						/>
 						<AnimatePresence>
 							{quantity !== suggestedQuantity && (

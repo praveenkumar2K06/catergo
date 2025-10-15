@@ -5,6 +5,7 @@ import { MenuPage } from "@/components/features/menu/menu-page";
 import { useOrder } from "@/components/providers/order-provider";
 import ErrorDisplay from "@/components/shared/layout/error";
 import Loader from "@/components/shared/layout/loader";
+import { useSettings } from "@/hooks/use-settings";
 import { menuQueryOptions } from "@/lib/api/menu-items";
 import type { CartItem } from "@/lib/types";
 
@@ -22,6 +23,7 @@ function RouteComponent() {
 		isError,
 		refetch,
 	} = useQuery(menuQueryOptions(catererId));
+	const { data: settings } = useSettings(userData?.adminId || "");
 
 	useEffect(() => {
 		if (!userData) {
@@ -53,6 +55,7 @@ function RouteComponent() {
 				updateQuantity={updateQuantity}
 				onBack={handleBackToOnboarding}
 				onProceedToCart={handleProceedToCart}
+				hidePrices={settings?.hidePrices ?? false}
 			/>
 		</main>
 	);

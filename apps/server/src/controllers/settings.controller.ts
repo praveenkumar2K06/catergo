@@ -10,7 +10,7 @@ interface AuthRequest extends Request {
 	};
 }
 
-export const getSettings = async (req: Request, res: Response) => {
+export const getSettings = async (req: AuthRequest, res: Response) => {
 	try {
 		const adminId = req.query.adminId as string;
 		if (!adminId) {
@@ -29,6 +29,9 @@ export const getSettings = async (req: Request, res: Response) => {
 				data: {
 					maxOrdersPerDay: 50,
 					enableDailyOrderLimit: true,
+					bulkOrderDiscount: 10,
+					bulkOrderMinPersons: 5,
+					hidePrices: false,
 					blockedDates: [],
 					adminId: adminId,
 				},
@@ -57,8 +60,14 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 			});
 		}
 
-		const { maxOrdersPerDay, enableDailyOrderLimit, blockedDates } =
-			req.body;
+		const {
+			maxOrdersPerDay,
+			enableDailyOrderLimit,
+			blockedDates,
+			hidePrices,
+			bulkOrderDiscount,
+			bulkOrderMinPersons,
+		} = req.body;
 
 		let settings = await prisma.settings.findUnique({
 			where: { adminId: req.admin.id },
@@ -69,6 +78,9 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 				data: {
 					maxOrdersPerDay: maxOrdersPerDay || 50,
 					enableDailyOrderLimit: enableDailyOrderLimit ?? true,
+					bulkOrderDiscount: bulkOrderDiscount || 10,
+					bulkOrderMinPersons: bulkOrderMinPersons || 5,
+					hidePrices: hidePrices ?? false,
 					blockedDates: blockedDates
 						? blockedDates.map((date: string) => new Date(date))
 						: [],
@@ -83,6 +95,13 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 					...(enableDailyOrderLimit !== undefined && {
 						enableDailyOrderLimit,
 					}),
+					...(bulkOrderDiscount !== undefined && {
+						bulkOrderDiscount,
+					}),
+					...(bulkOrderMinPersons !== undefined && {
+						bulkOrderMinPersons,
+					}),
+					...(hidePrices !== undefined && { hidePrices }),
 					...(blockedDates !== undefined && {
 						blockedDates: blockedDates.map(
 							(date: string) => new Date(date),
@@ -106,7 +125,7 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 	}
 };
 
-export const getBlockedDates = async (req: Request, res: Response) => {
+export const getBlockedDates = async (req: AuthRequest, res: Response) => {
 	try {
 		const adminId = req.query.adminId as string;
 		if (!adminId) {
