@@ -2,7 +2,7 @@
 
 import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { CatererEntry } from "@/components/features/onboarding/caterer-selector";
 import { OnboardingFlow } from "@/components/features/onboarding/onboarding-flow";
 import { useOrder } from "@/components/providers/order-provider";
@@ -25,6 +25,12 @@ function App() {
 		setCatererName,
 	} = useOrder();
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (userData && catererId && catererName) {
+			navigate({ to: "/menu" });
+		}
+	}, [userData, catererId, catererName, navigate]);
 
 	const createUserMutation = useMutation({
 		mutationFn: createUser,
