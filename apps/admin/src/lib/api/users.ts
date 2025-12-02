@@ -12,6 +12,25 @@ export interface UserResponse {
 	};
 }
 
+export interface CreateUserRequest {
+	name: string;
+	phone: string;
+	address: string;
+	pincode: string;
+	numberOfPeople: number;
+	selectedDate: string;
+	adminId: string;
+}
+
+export interface UpdateUserRequest {
+	name?: string;
+	phone?: string;
+	address?: string;
+	pincode?: string;
+	numberOfPeople?: number;
+	selectedDate?: string;
+}
+
 const fetchUsers = async (page: number, pageSize: number, search?: string) => {
 	await new Promise((r) => setTimeout(r, 500));
 	return apiClient
@@ -36,3 +55,20 @@ export const fetchUsersQuery = (
 
 		throwOnError: true,
 	});
+
+export const createUser = async (data: CreateUserRequest): Promise<User> => {
+	const response = await apiClient.post<User>("/api/users", data);
+	return response.data;
+};
+
+export const updateUser = async (
+	id: string,
+	data: UpdateUserRequest,
+): Promise<User> => {
+	const response = await apiClient.put<User>(`/api/users/${id}`, data);
+	return response.data;
+};
+
+export const deleteUser = async (id: string): Promise<void> => {
+	await apiClient.delete(`/api/users/${id}`);
+};

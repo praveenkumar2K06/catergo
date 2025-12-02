@@ -1,5 +1,5 @@
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { CheckCircle, MoreHorizontal, XCircle } from "lucide-react";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,11 +16,13 @@ import type { User } from "@/types";
 interface UsersActionsProps {
 	onEdit?: (user: User) => void;
 	onDelete?: (user: User) => void;
+	onViewDetails?: (user: User) => void;
 }
 
 export const createColumns = ({
 	onEdit,
 	onDelete,
+	onViewDetails,
 }: UsersActionsProps = {}): ColumnDef<User>[] => [
 	{
 		id: "select",
@@ -85,6 +87,33 @@ export const createColumns = ({
 		enableSorting: false,
 	},
 	{
+		id: "booked",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Booked" />
+		),
+		cell: ({ row }) => {
+			const hasEvent = !!row.original.event;
+			return (
+				<div className="flex items-center gap-2">
+					{hasEvent ? (
+						<>
+							<CheckCircle className="h-4 w-4 text-green-500" />
+							<span className="text-green-600 text-sm">Yes</span>
+						</>
+					) : (
+						<>
+							<XCircle className="h-4 w-4 text-muted-foreground" />
+							<span className="text-muted-foreground text-sm">
+								No
+							</span>
+						</>
+					)}
+				</div>
+			);
+		},
+		enableSorting: false,
+	},
+	{
 		id: "actions",
 		cell: ({ row }) => {
 			const user = row.original;
@@ -107,7 +136,9 @@ export const createColumns = ({
 							Copy user ID
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
-						<DropdownMenuItem>View details</DropdownMenuItem>
+						<DropdownMenuItem onClick={() => onViewDetails?.(user)}>
+							View details
+						</DropdownMenuItem>
 						<DropdownMenuItem onClick={() => onEdit?.(user)}>
 							Edit user
 						</DropdownMenuItem>

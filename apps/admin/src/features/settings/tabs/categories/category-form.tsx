@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
 	type Category,
 	createCategory,
@@ -121,64 +122,66 @@ export function CategoryForm({
 						{isEditing ? "Edit Category" : "Add New Category"}
 					</DialogTitle>
 				</DialogHeader>
-				<form onSubmit={handleSubmit} className="space-y-4">
-					<div className="space-y-2">
-						<Label htmlFor="category-name">Name</Label>
-						<Input
-							id="category-name"
-							value={formData.name}
-							onChange={(e) =>
-								setFormData((prev) => ({
-									...prev,
-									name: e.target.value,
-								}))
-							}
-							placeholder="e.g., Starters, Main Course"
-							disabled={isPending}
-						/>
-					</div>
-					<div className="space-y-2">
-						<Label htmlFor="category-icon">Icon (Emoji)</Label>
-						<Input
-							id="category-icon"
-							value={formData.icon}
-							onChange={(e) =>
-								setFormData((prev) => ({
-									...prev,
-									icon: e.target.value,
-								}))
-							}
-							placeholder="🍽️"
-							className="text-2xl"
-							disabled={isPending}
-						/>
-						<p className="text-muted-foreground text-xs">
-							Use an emoji to represent this category
-						</p>
-					</div>
-					<div className="flex justify-end gap-2 pt-4">
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-							disabled={isPending}
-						>
-							Cancel
-						</Button>
-						<Button type="submit" disabled={isPending}>
-							{isPending ? (
-								<>
-									<LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
-									Saving...
-								</>
-							) : isEditing ? (
-								"Update"
-							) : (
-								"Create"
-							)}
-						</Button>
-					</div>
-				</form>
+				<ScrollArea className="max-h-[60vh] overflow-y-auto px-3">
+					<form onSubmit={handleSubmit} className="space-y-4">
+						<div className="space-y-2">
+							<Label htmlFor="category-name">Name</Label>
+							<Input
+								id="category-name"
+								value={formData.name}
+								onChange={(e) =>
+									setFormData((prev) => ({
+										...prev,
+										name: e.target.value,
+									}))
+								}
+								placeholder="e.g., Starters, Main Course"
+								disabled={isPending}
+							/>
+						</div>
+						<div className="space-y-2">
+							<Label htmlFor="category-icon">Icon (Emoji)</Label>
+							<Input
+								id="category-icon"
+								value={formData.icon}
+								onChange={(e) =>
+									setFormData((prev) => ({
+										...prev,
+										icon: e.target.value,
+									}))
+								}
+								placeholder="🍽️"
+								className="text-2xl"
+								disabled={isPending}
+							/>
+							<p className="text-muted-foreground text-xs">
+								Use an emoji to represent this category
+							</p>
+						</div>
+						<div className="flex justify-end gap-2 pt-4">
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => onOpenChange(false)}
+								disabled={isPending}
+							>
+								Cancel
+							</Button>
+							<Button type="submit" disabled={isPending}>
+								{isPending ? (
+									<>
+										<LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
+										Saving...
+									</>
+								) : isEditing ? (
+									"Update"
+								) : (
+									"Create"
+								)}
+							</Button>
+						</div>
+					</form>
+				</ScrollArea>
 			</DialogContent>
 		</Dialog>
 	);

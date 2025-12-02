@@ -17,6 +17,7 @@ interface UserTableProps {
 	handleFilterChange: (filters: ColumnFiltersState) => void;
 	onEditUser?: (user: User) => void;
 	onDeleteUser?: (user: User) => void;
+	onViewDetails?: (user: User) => void;
 }
 
 export function UserTable({
@@ -26,11 +27,13 @@ export function UserTable({
 	handleFilterChange,
 	onEditUser,
 	onDeleteUser,
+	onViewDetails,
 }: UserTableProps) {
 	// Create columns with action handlers
 	const tableColumns = createColumns({
 		onEdit: onEditUser,
 		onDelete: onDeleteUser,
+		onViewDetails: onViewDetails,
 	});
 
 	return (

@@ -180,12 +180,12 @@ export function MenuForm({
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
 			<DialogContent className="max-h-screen sm:max-w-[500px]">
-				<ScrollArea className="max-h-[90vh] overflow-y-auto p-4">
-					<DialogHeader>
-						<DialogTitle>
-							{isEditing ? "Edit Product" : "Add New Product"}
-						</DialogTitle>
-					</DialogHeader>
+				<DialogHeader>
+					<DialogTitle>
+						{isEditing ? "Edit Product" : "Add New Product"}
+					</DialogTitle>
+				</DialogHeader>
+				<ScrollArea className="max-h-[90vh] overflow-y-auto px-3">
 					<form.AppForm>
 						<form className="space-y-4" onSubmit={handleSubmit}>
 							<form.AppField name="name">

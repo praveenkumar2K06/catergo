@@ -42,6 +42,14 @@ export const getUsersV2 = async (req: AuthRequest, res: Response) => {
 			},
 			skip,
 			take,
+			include: {
+				event: true,
+				cartItems: {
+					include: {
+						menuItem: true,
+					},
+				},
+			},
 		});
 
 		const totalItems = await prisma.user.count({ where });
@@ -147,5 +155,23 @@ export const updateUser = async (req: Request, res: Response) => {
 	} catch (error) {
 		console.error("Error updating user:", error);
 		res.status(500).json({ error: "Failed to update user" });
+	}
+};
+
+export const deleteUser = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.params;
+
+		await prisma.user.delete({
+			where: { id },
+		});
+
+		res.status(200).json({
+			success: true,
+			message: "User deleted successfully",
+		});
+	} catch (error) {
+		console.error("Error deleting user:", error);
+		res.status(500).json({ error: "Failed to delete user" });
 	}
 };
