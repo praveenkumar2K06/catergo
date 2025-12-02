@@ -31,6 +31,12 @@ interface MenuPageProps {
 	onBack: () => void;
 	onProceedToCart: (cartItems: CartItem[]) => void;
 	hidePrices?: boolean;
+	onUpdateUserData?: (
+		numberOfPeople: number,
+		selectedDate: Date | undefined,
+	) => void;
+	blockedDates?: Date[];
+	isUpdatingUserData?: boolean;
 }
 
 export function MenuPage({
@@ -42,6 +48,9 @@ export function MenuPage({
 	onBack,
 	onProceedToCart,
 	hidePrices = false,
+	onUpdateUserData,
+	blockedDates = [],
+	isUpdatingUserData = false,
 }: MenuPageProps) {
 	const [activeCategory, setActiveCategory] = useState("all");
 
@@ -141,6 +150,9 @@ export function MenuPage({
 							onProceedToCart={onProceedToCart}
 						/>
 					}
+					onUpdateUserData={onUpdateUserData}
+					blockedDates={blockedDates}
+					isUpdating={isUpdatingUserData}
 				/>
 			</motion.div>
 

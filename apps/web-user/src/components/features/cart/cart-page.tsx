@@ -21,6 +21,12 @@ interface CartPageProps {
 	onCreateNewOrder: () => void;
 	settings: Settings | undefined;
 	isLoading?: boolean;
+	onUpdateUserData?: (
+		numberOfPeople: number,
+		selectedDate: Date | undefined,
+	) => void;
+	blockedDates?: Date[];
+	isUpdatingUserData?: boolean;
 }
 
 export function CartPage({
@@ -33,6 +39,9 @@ export function CartPage({
 	onCreateNewOrder,
 	settings,
 	isLoading,
+	onUpdateUserData,
+	blockedDates = [],
+	isUpdatingUserData = false,
 }: CartPageProps) {
 	const [eventName, setEventName] = useState("");
 	const [eventDescription, setEventDescription] = useState("");
@@ -78,6 +87,9 @@ export function CartPage({
 						eventDescription={eventDescription}
 						onEventNameChange={setEventName}
 						onEventDescriptionChange={setEventDescription}
+						onUpdateUserData={onUpdateUserData}
+						blockedDates={blockedDates}
+						isUpdating={isUpdatingUserData}
 					/>
 				</motion.div>
 

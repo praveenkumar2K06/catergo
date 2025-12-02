@@ -1,4 +1,7 @@
+import { Pencil } from "lucide-react";
 import { motion } from "motion/react";
+import { EditUserDetailsDialog } from "@/components/features/shared/edit-user-details-dialog";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +14,12 @@ interface DeliveryInfoProps {
 	eventDescription: string;
 	onEventNameChange: (name: string) => void;
 	onEventDescriptionChange: (description: string) => void;
+	onUpdateUserData?: (
+		numberOfPeople: number,
+		selectedDate: Date | undefined,
+	) => void;
+	blockedDates?: Date[];
+	isUpdating?: boolean;
 }
 
 export function DeliveryInfo({
@@ -19,13 +28,37 @@ export function DeliveryInfo({
 	eventDescription,
 	onEventNameChange,
 	onEventDescriptionChange,
+	onUpdateUserData,
+	blockedDates = [],
+	isUpdating = false,
 }: DeliveryInfoProps) {
 	return (
 		<Card className="border-border bg-card">
 			<CardHeader className="pb-3">
-				<CardTitle className="text-foreground text-lg">
-					Event & Delivery Details
-				</CardTitle>
+				<div className="flex items-center justify-between">
+					<CardTitle className="text-foreground text-lg">
+						Event & Delivery Details
+					</CardTitle>
+					{onUpdateUserData && (
+						<EditUserDetailsDialog
+							numberOfPeople={userData.numberOfPeople}
+							selectedDate={userData.selectedDate}
+							blockedDates={blockedDates}
+							onSave={onUpdateUserData}
+							isLoading={isUpdating}
+							trigger={
+								<Button
+									variant="outline"
+									size="sm"
+									className="h-8 gap-1.5"
+								>
+									<Pencil className="h-3 w-3" />
+									Edit
+								</Button>
+							}
+						/>
+					)}
+				</div>
 			</CardHeader>
 			<CardContent className="space-y-4">
 				{/* Event Name */}
@@ -70,7 +103,7 @@ export function DeliveryInfo({
 						onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
 							onEventDescriptionChange(e.target.value)
 						}
-						className="min-h-[80px] w-full resize-none"
+						className="min-h-20 w-full resize-none"
 					/>
 				</motion.div>
 

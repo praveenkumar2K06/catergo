@@ -1,6 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { toast } from "sonner";
 import { CartPage } from "@/components/features/cart/cart-page";
 import { useOrder } from "@/components/providers/order-provider";
@@ -9,10 +9,13 @@ import Loader from "@/components/shared/layout/loader";
 import { useSettings } from "@/hooks/use-settings";
 import { removeCartItem, updateCartQuantity } from "@/lib/api/cart";
 import { createEvent } from "@/lib/api/event";
+import { getUnavailableDates } from "@/lib/api/settings";
+import { updateUser } from "@/lib/api/users";
 import {
 	handleMutationError,
 	handleMutationSuccess,
 } from "@/lib/error-handlers";
+import type { UserData } from "@/lib/types";
 
 export const Route = createFileRoute("/cart")({
 	component: Cart,
@@ -27,9 +30,21 @@ export default function Cart() {
 		updateQuantity,
 		removeItem,
 		clearOrder,
+		setUserData,
 	} = useOrder();
 
 	const { data: settings, error } = useSettings(userData?.adminId || "");
+
+	const { data: unavailableDatesData } = useQuery({
+		queryKey: ["unavailableDates", userData?.adminId],
+		queryFn: () => getUnavailableDates(userData?.adminId || ""),
+		enabled: !!userData?.adminId,
+	});
+
+	const blockedDates = useMemo(() => {
+		if (!unavailableDatesData) return [];
+		return unavailableDatesData.unavailableDates.map((d) => new Date(d));
+	}, [unavailableDatesData]);
 
 	const navigate = useNavigate();
 
@@ -47,6 +62,30 @@ export default function Cart() {
 		localStorage.clear();
 		clearOrder();
 		navigate({ to: "/" });
+	};
+
+	const updateUserMutation = useMutation<UserData, Error, UserData>({
+		mutationFn: updateUser.bind(null, userData?.id || ""),
+		onError: (error) => {
+			handleMutationError(error, "Failed to update user details");
+		},
+		onSuccess: (data) => {
+			setUserData(data);
+			handleMutationSuccess("User details updated successfully");
+		},
+	});
+
+	const handleUpdateUserData = (
+		numberOfPeople: number,
+		selectedDate: Date | undefined,
+	) => {
+		if (userData) {
+			updateUserMutation.mutate({
+				...userData,
+				numberOfPeople,
+				selectedDate,
+			});
+		}
 	};
 
 	const updateQuantityMutation = useMutation({
@@ -147,6 +186,9 @@ export default function Cart() {
 				settings={settings}
 				onProceedToCheckout={handleProceedToCheckout}
 				isLoading={createEventMutation.isPending}
+				onUpdateUserData={handleUpdateUserData}
+				blockedDates={blockedDates}
+				isUpdatingUserData={updateUserMutation.isPending}
 			/>
 		</main>
 	);
