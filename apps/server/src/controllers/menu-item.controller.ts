@@ -52,9 +52,14 @@ export const getAllMenuItems = async (req: Request, res: Response) => {
 
 		const menuItems = await prisma.menuItem.findMany({
 			where,
-			orderBy: {
-				createdAt: "desc",
-			},
+			orderBy: [
+				{
+					order: "desc",
+				},
+				{
+					createdAt: "desc",
+				},
+			],
 			skip,
 			take,
 		});

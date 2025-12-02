@@ -210,6 +210,7 @@ export type AdminWhereInput = {
   users?: Prisma.UserListRelationFilter
   events?: Prisma.EventListRelationFilter
   menuItems?: Prisma.MenuItemListRelationFilter
+  categories?: Prisma.CategoryListRelationFilter
 }
 
 export type AdminOrderByWithRelationInput = {
@@ -225,6 +226,7 @@ export type AdminOrderByWithRelationInput = {
   users?: Prisma.UserOrderByRelationAggregateInput
   events?: Prisma.EventOrderByRelationAggregateInput
   menuItems?: Prisma.MenuItemOrderByRelationAggregateInput
+  categories?: Prisma.CategoryOrderByRelationAggregateInput
 }
 
 export type AdminWhereUniqueInput = Prisma.AtLeast<{
@@ -243,6 +245,7 @@ export type AdminWhereUniqueInput = Prisma.AtLeast<{
   users?: Prisma.UserListRelationFilter
   events?: Prisma.EventListRelationFilter
   menuItems?: Prisma.MenuItemListRelationFilter
+  categories?: Prisma.CategoryListRelationFilter
 }, "id" | "email">
 
 export type AdminOrderByWithAggregationInput = {
@@ -286,6 +289,7 @@ export type AdminCreateInput = {
   users?: Prisma.UserCreateNestedManyWithoutAdminInput
   events?: Prisma.EventCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateInput = {
@@ -301,6 +305,7 @@ export type AdminUncheckedCreateInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutAdminInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUpdateInput = {
@@ -315,6 +320,7 @@ export type AdminUpdateInput = {
   users?: Prisma.UserUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateInput = {
@@ -329,6 +335,7 @@ export type AdminUncheckedUpdateInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminCreateManyInput = {
@@ -442,6 +449,20 @@ export type AdminUpdateOneRequiredWithoutMenuItemsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutMenuItemsInput, Prisma.AdminUpdateWithoutMenuItemsInput>, Prisma.AdminUncheckedUpdateWithoutMenuItemsInput>
 }
 
+export type AdminCreateNestedOneWithoutCategoriesInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutCategoriesInput, Prisma.AdminUncheckedCreateWithoutCategoriesInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCategoriesInput
+  connect?: Prisma.AdminWhereUniqueInput
+}
+
+export type AdminUpdateOneRequiredWithoutCategoriesNestedInput = {
+  create?: Prisma.XOR<Prisma.AdminCreateWithoutCategoriesInput, Prisma.AdminUncheckedCreateWithoutCategoriesInput>
+  connectOrCreate?: Prisma.AdminCreateOrConnectWithoutCategoriesInput
+  upsert?: Prisma.AdminUpsertWithoutCategoriesInput
+  connect?: Prisma.AdminWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.AdminUpdateToOneWithWhereWithoutCategoriesInput, Prisma.AdminUpdateWithoutCategoriesInput>, Prisma.AdminUncheckedUpdateWithoutCategoriesInput>
+}
+
 export type AdminCreateNestedOneWithoutSettingsInput = {
   create?: Prisma.XOR<Prisma.AdminCreateWithoutSettingsInput, Prisma.AdminUncheckedCreateWithoutSettingsInput>
   connectOrCreate?: Prisma.AdminCreateOrConnectWithoutSettingsInput
@@ -468,6 +489,7 @@ export type AdminCreateWithoutUsersInput = {
   settings?: Prisma.SettingsCreateNestedOneWithoutAdminInput
   events?: Prisma.EventCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateWithoutUsersInput = {
@@ -482,6 +504,7 @@ export type AdminUncheckedCreateWithoutUsersInput = {
   settings?: Prisma.SettingsUncheckedCreateNestedOneWithoutAdminInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminCreateOrConnectWithoutUsersInput = {
@@ -511,6 +534,7 @@ export type AdminUpdateWithoutUsersInput = {
   settings?: Prisma.SettingsUpdateOneWithoutAdminNestedInput
   events?: Prisma.EventUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateWithoutUsersInput = {
@@ -524,6 +548,7 @@ export type AdminUncheckedUpdateWithoutUsersInput = {
   settings?: Prisma.SettingsUncheckedUpdateOneWithoutAdminNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminCreateWithoutEventsInput = {
@@ -538,6 +563,7 @@ export type AdminCreateWithoutEventsInput = {
   settings?: Prisma.SettingsCreateNestedOneWithoutAdminInput
   users?: Prisma.UserCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateWithoutEventsInput = {
@@ -552,6 +578,7 @@ export type AdminUncheckedCreateWithoutEventsInput = {
   settings?: Prisma.SettingsUncheckedCreateNestedOneWithoutAdminInput
   users?: Prisma.UserUncheckedCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminCreateOrConnectWithoutEventsInput = {
@@ -581,6 +608,7 @@ export type AdminUpdateWithoutEventsInput = {
   settings?: Prisma.SettingsUpdateOneWithoutAdminNestedInput
   users?: Prisma.UserUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateWithoutEventsInput = {
@@ -594,6 +622,7 @@ export type AdminUncheckedUpdateWithoutEventsInput = {
   settings?: Prisma.SettingsUncheckedUpdateOneWithoutAdminNestedInput
   users?: Prisma.UserUncheckedUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminCreateWithoutMenuItemsInput = {
@@ -608,6 +637,7 @@ export type AdminCreateWithoutMenuItemsInput = {
   settings?: Prisma.SettingsCreateNestedOneWithoutAdminInput
   users?: Prisma.UserCreateNestedManyWithoutAdminInput
   events?: Prisma.EventCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateWithoutMenuItemsInput = {
@@ -622,6 +652,7 @@ export type AdminUncheckedCreateWithoutMenuItemsInput = {
   settings?: Prisma.SettingsUncheckedCreateNestedOneWithoutAdminInput
   users?: Prisma.UserUncheckedCreateNestedManyWithoutAdminInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminCreateOrConnectWithoutMenuItemsInput = {
@@ -651,6 +682,7 @@ export type AdminUpdateWithoutMenuItemsInput = {
   settings?: Prisma.SettingsUpdateOneWithoutAdminNestedInput
   users?: Prisma.UserUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateWithoutMenuItemsInput = {
@@ -664,6 +696,81 @@ export type AdminUncheckedUpdateWithoutMenuItemsInput = {
   settings?: Prisma.SettingsUncheckedUpdateOneWithoutAdminNestedInput
   users?: Prisma.UserUncheckedUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminCreateWithoutCategoriesInput = {
+  id?: string
+  email: string
+  password: string
+  name: string
+  role?: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  settings?: Prisma.SettingsCreateNestedOneWithoutAdminInput
+  users?: Prisma.UserCreateNestedManyWithoutAdminInput
+  events?: Prisma.EventCreateNestedManyWithoutAdminInput
+  menuItems?: Prisma.MenuItemCreateNestedManyWithoutAdminInput
+}
+
+export type AdminUncheckedCreateWithoutCategoriesInput = {
+  id?: string
+  email: string
+  password: string
+  name: string
+  role?: string
+  isActive?: boolean
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  settings?: Prisma.SettingsUncheckedCreateNestedOneWithoutAdminInput
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutAdminInput
+  events?: Prisma.EventUncheckedCreateNestedManyWithoutAdminInput
+  menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutAdminInput
+}
+
+export type AdminCreateOrConnectWithoutCategoriesInput = {
+  where: Prisma.AdminWhereUniqueInput
+  create: Prisma.XOR<Prisma.AdminCreateWithoutCategoriesInput, Prisma.AdminUncheckedCreateWithoutCategoriesInput>
+}
+
+export type AdminUpsertWithoutCategoriesInput = {
+  update: Prisma.XOR<Prisma.AdminUpdateWithoutCategoriesInput, Prisma.AdminUncheckedUpdateWithoutCategoriesInput>
+  create: Prisma.XOR<Prisma.AdminCreateWithoutCategoriesInput, Prisma.AdminUncheckedCreateWithoutCategoriesInput>
+  where?: Prisma.AdminWhereInput
+}
+
+export type AdminUpdateToOneWithWhereWithoutCategoriesInput = {
+  where?: Prisma.AdminWhereInput
+  data: Prisma.XOR<Prisma.AdminUpdateWithoutCategoriesInput, Prisma.AdminUncheckedUpdateWithoutCategoriesInput>
+}
+
+export type AdminUpdateWithoutCategoriesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  settings?: Prisma.SettingsUpdateOneWithoutAdminNestedInput
+  users?: Prisma.UserUpdateManyWithoutAdminNestedInput
+  events?: Prisma.EventUpdateManyWithoutAdminNestedInput
+  menuItems?: Prisma.MenuItemUpdateManyWithoutAdminNestedInput
+}
+
+export type AdminUncheckedUpdateWithoutCategoriesInput = {
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  password?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  settings?: Prisma.SettingsUncheckedUpdateOneWithoutAdminNestedInput
+  users?: Prisma.UserUncheckedUpdateManyWithoutAdminNestedInput
+  events?: Prisma.EventUncheckedUpdateManyWithoutAdminNestedInput
+  menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminCreateWithoutSettingsInput = {
@@ -678,6 +785,7 @@ export type AdminCreateWithoutSettingsInput = {
   users?: Prisma.UserCreateNestedManyWithoutAdminInput
   events?: Prisma.EventCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryCreateNestedManyWithoutAdminInput
 }
 
 export type AdminUncheckedCreateWithoutSettingsInput = {
@@ -692,6 +800,7 @@ export type AdminUncheckedCreateWithoutSettingsInput = {
   users?: Prisma.UserUncheckedCreateNestedManyWithoutAdminInput
   events?: Prisma.EventUncheckedCreateNestedManyWithoutAdminInput
   menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutAdminInput
+  categories?: Prisma.CategoryUncheckedCreateNestedManyWithoutAdminInput
 }
 
 export type AdminCreateOrConnectWithoutSettingsInput = {
@@ -721,6 +830,7 @@ export type AdminUpdateWithoutSettingsInput = {
   users?: Prisma.UserUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUpdateManyWithoutAdminNestedInput
 }
 
 export type AdminUncheckedUpdateWithoutSettingsInput = {
@@ -734,6 +844,7 @@ export type AdminUncheckedUpdateWithoutSettingsInput = {
   users?: Prisma.UserUncheckedUpdateManyWithoutAdminNestedInput
   events?: Prisma.EventUncheckedUpdateManyWithoutAdminNestedInput
   menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutAdminNestedInput
+  categories?: Prisma.CategoryUncheckedUpdateManyWithoutAdminNestedInput
 }
 
 
@@ -745,12 +856,14 @@ export type AdminCountOutputType = {
   users: number
   events: number
   menuItems: number
+  categories: number
 }
 
 export type AdminCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | AdminCountOutputTypeCountUsersArgs
   events?: boolean | AdminCountOutputTypeCountEventsArgs
   menuItems?: boolean | AdminCountOutputTypeCountMenuItemsArgs
+  categories?: boolean | AdminCountOutputTypeCountCategoriesArgs
 }
 
 /**
@@ -784,6 +897,13 @@ export type AdminCountOutputTypeCountMenuItemsArgs<ExtArgs extends runtime.Types
   where?: Prisma.MenuItemWhereInput
 }
 
+/**
+ * AdminCountOutputType without action
+ */
+export type AdminCountOutputTypeCountCategoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CategoryWhereInput
+}
+
 
 export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -798,6 +918,7 @@ export type AdminSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   users?: boolean | Prisma.Admin$usersArgs<ExtArgs>
   events?: boolean | Prisma.Admin$eventsArgs<ExtArgs>
   menuItems?: boolean | Prisma.Admin$menuItemsArgs<ExtArgs>
+  categories?: boolean | Prisma.Admin$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["admin"]>
 
@@ -820,6 +941,7 @@ export type AdminInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   users?: boolean | Prisma.Admin$usersArgs<ExtArgs>
   events?: boolean | Prisma.Admin$eventsArgs<ExtArgs>
   menuItems?: boolean | Prisma.Admin$menuItemsArgs<ExtArgs>
+  categories?: boolean | Prisma.Admin$categoriesArgs<ExtArgs>
   _count?: boolean | Prisma.AdminCountOutputTypeDefaultArgs<ExtArgs>
 }
 
@@ -830,6 +952,7 @@ export type $AdminPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     users: Prisma.$UserPayload<ExtArgs>[]
     events: Prisma.$EventPayload<ExtArgs>[]
     menuItems: Prisma.$MenuItemPayload<ExtArgs>[]
+    categories: Prisma.$CategoryPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1207,6 +1330,7 @@ export interface Prisma__AdminClient<T, Null = never, ExtArgs extends runtime.Ty
   users<T extends Prisma.Admin$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   events<T extends Prisma.Admin$eventsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$eventsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$EventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   menuItems<T extends Prisma.Admin$menuItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$menuItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MenuItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  categories<T extends Prisma.Admin$categoriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Admin$categoriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1702,6 +1826,30 @@ export type Admin$menuItemsArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.MenuItemScalarFieldEnum | Prisma.MenuItemScalarFieldEnum[]
+}
+
+/**
+ * Admin.categories
+ */
+export type Admin$categoriesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Category
+   */
+  select?: Prisma.CategorySelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Category
+   */
+  omit?: Prisma.CategoryOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CategoryInclude<ExtArgs> | null
+  where?: Prisma.CategoryWhereInput
+  orderBy?: Prisma.CategoryOrderByWithRelationInput | Prisma.CategoryOrderByWithRelationInput[]
+  cursor?: Prisma.CategoryWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CategoryScalarFieldEnum | Prisma.CategoryScalarFieldEnum[]
 }
 
 /**

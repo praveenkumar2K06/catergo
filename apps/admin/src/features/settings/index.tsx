@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { CategorySettings } from "./tabs/category-settings";
 import { DateBlockingSettings } from "./tabs/date-blocking";
 import { OrderSettings } from "./tabs/order-settings";
 
@@ -7,6 +8,11 @@ const tabs = [
 		name: "Order Management",
 		value: "orders",
 		content: <OrderSettings />,
+	},
+	{
+		name: "Categories",
+		value: "categories",
+		content: <CategorySettings />,
 	},
 	{
 		name: "Date Blocking",

@@ -19,6 +19,7 @@ export interface MenuItem {
 	isVeg: boolean;
 	qtyPerUnit: number;
 	metrics: string;
+	order: number;
 }
 
 export interface CartItem {

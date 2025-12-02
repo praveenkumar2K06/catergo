@@ -70,6 +70,11 @@ export type CartItem = Prisma.CartItemModel
  */
 export type Admin = Prisma.AdminModel
 /**
+ * Model Category
+ * 
+ */
+export type Category = Prisma.CategoryModel
+/**
  * Model Settings
  * 
  */

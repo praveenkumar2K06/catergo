@@ -50,6 +50,7 @@ model MenuItem {
   isVeg       Boolean
   qtyPerUnit  Float      @default(1)
   metrics     Metrics    @default(Piece)
+  order       Int        @default(0)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   CartItem    CartItem[]
@@ -73,20 +74,35 @@ model CartItem {
 }
 
 model Admin {
-  id        String     @id @default(auto()) @map("_id") @db.ObjectId
-  email     String     @unique
-  password  String
-  name      String
-  role      String     @default("admin")
-  isActive  Boolean    @default(true)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  settings  Settings?
-  users     User[]
-  events    Event[]
-  menuItems MenuItem[]
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  email      String     @unique
+  password   String
+  name       String
+  role       String     @default("admin")
+  isActive   Boolean    @default(true)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  settings   Settings?
+  users      User[]
+  events     Event[]
+  menuItems  MenuItem[]
+  categories Category[]
 
   @@map("admins")
+}
+
+model Category {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  icon      String   @default("🍽️")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  admin     Admin    @relation(fields: [adminId], references: [id])
+  adminId   String   @db.ObjectId
+
+  @@unique([adminId, name])
+  @@map("categories")
 }
 
 model Settings {

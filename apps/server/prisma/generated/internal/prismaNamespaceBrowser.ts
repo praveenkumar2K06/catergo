@@ -54,6 +54,7 @@ export const ModelName = {
   MenuItem: 'MenuItem',
   CartItem: 'CartItem',
   Admin: 'Admin',
+  Category: 'Category',
   Settings: 'Settings'
 } as const
 
@@ -103,6 +104,7 @@ export const MenuItemScalarFieldEnum = {
   isVeg: 'isVeg',
   qtyPerUnit: 'qtyPerUnit',
   metrics: 'metrics',
+  order: 'order',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -134,6 +136,19 @@ export const AdminScalarFieldEnum = {
 } as const
 
 export type AdminScalarFieldEnum = (typeof AdminScalarFieldEnum)[keyof typeof AdminScalarFieldEnum]
+
+
+export const CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  icon: 'icon',
+  order: 'order',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  adminId: 'adminId'
+} as const
+
+export type CategoryScalarFieldEnum = (typeof CategoryScalarFieldEnum)[keyof typeof CategoryScalarFieldEnum]
 
 
 export const SettingsScalarFieldEnum = {

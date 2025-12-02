@@ -1,8 +1,9 @@
 import type { AnyFieldApi } from "@tanstack/react-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { LoaderCircleIcon, Upload } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { useAuth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -20,22 +21,15 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 import { useAppForm } from "@/components/ui/tanstack-form";
+import { categoriesQueryOptions } from "@/lib/api/categories";
 import { addMenuItem, updateMenuItem } from "@/lib/api/menu-items";
 import type { MenuItem } from "@/types";
-import { Categories, Metrics, menuItemFormSchema } from "@/types/menu-items";
+import { Metrics, menuItemFormSchema } from "@/types/menu-items";
 
 const METRICS = [
 	{ value: Metrics.Piece, label: "Piece" },
 	{ value: Metrics.Kg, label: "Kilogram" },
 	{ value: Metrics.Litre, label: "Litre" },
-];
-
-const CATEGORIES = [
-	{ value: Categories.starters, label: "Starters" },
-	{ value: Categories.mains, label: "Mains" },
-	{ value: Categories.desserts, label: "Desserts" },
-	{ value: Categories.beverages, label: "Beverages" },
-	{ value: Categories.specials, label: "Specials" },
 ];
 
 interface MenuFormProps {
@@ -51,10 +45,17 @@ export function MenuForm({
 	onSuccess,
 	initialData,
 }: MenuFormProps) {
+	const { user } = useAuth();
 	const queryClient = useQueryClient();
 	const isEditing = !!initialData?.id;
 
 	const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+	// Fetch categories for the admin
+	const { data: categories = [] } = useQuery({
+		...categoriesQueryOptions(user?.userId ?? ""),
+		enabled: !!user?.userId,
+	});
 
 	const addItemMutation = useMutation({
 		mutationFn: addMenuItem,
@@ -129,10 +130,11 @@ export function MenuForm({
 			description: initialData?.description || "",
 			price: initialData?.price || 0,
 			image: initialData?.image || "",
-			category: initialData?.category || Categories.mains,
+			category: initialData?.category || "",
 			isVeg: initialData?.isVeg || false,
 			qtyPerUnit: initialData?.qtyPerUnit || 1,
 			metrics: initialData?.metrics || Metrics.Piece,
+			order: initialData?.order ?? 0,
 		},
 		onSubmit: async ({ value }) => {
 			console.log("Form submitted:", value);
@@ -330,17 +332,31 @@ export function MenuForm({
 												field.handleChange(value);
 											}}
 											onOpenChange={field.handleBlur}
+											disabled={categories.length === 0}
 										>
 											<SelectTrigger>
-												<SelectValue placeholder="Select a Category" />
+												<SelectValue
+													placeholder={
+														categories.length === 0
+															? "No categories available"
+															: "Select a Category"
+													}
+												/>
 											</SelectTrigger>
 											<SelectContent>
-												{CATEGORIES.map((category) => (
+												{categories.map((category) => (
 													<SelectItem
-														key={category.value}
-														value={category.value}
+														key={category.id}
+														value={category.name}
 													>
-														{category.label}
+														<span className="flex items-center gap-2">
+															<span>
+																{category.icon}
+															</span>
+															<span>
+																{category.name}
+															</span>
+														</span>
 													</SelectItem>
 												))}
 											</SelectContent>
@@ -427,6 +443,37 @@ export function MenuForm({
 											</SelectContent>
 										</Select>
 									</field.FormControl>
+									<FieldInfo field={field} />
+								</field.FormItem>
+							)}
+						</form.AppField>
+
+						<form.AppField name="order">
+							{(field) => (
+								<field.FormItem>
+									<field.FormLabel>
+										Display Order
+									</field.FormLabel>
+									<field.FormControl>
+										<Input
+											type="number"
+											min={0}
+											value={field.state.value}
+											onChange={(e) =>
+												field.handleChange(
+													Number(
+														e.target.valueAsNumber,
+													) || 0,
+												)
+											}
+											onBlur={field.handleBlur}
+											placeholder="0"
+										/>
+									</field.FormControl>
+									<p className="text-muted-foreground text-xs">
+										Higher numbers appear first. Items with
+										the same order are sorted by date.
+									</p>
 									<FieldInfo field={field} />
 								</field.FormItem>
 							)}

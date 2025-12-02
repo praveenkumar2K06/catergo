@@ -1,13 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { categories } from "../filters/categories";
+
+interface CategoryItem {
+	id: string;
+	name: string;
+	icon: string;
+	order?: number;
+}
 
 interface MenuCategoriesProps {
+	categories: CategoryItem[];
 	activeCategory: string;
 	onCategoryChange: (category: string) => void;
 }
 
 export function MenuCategories({
+	categories,
 	activeCategory,
 	onCategoryChange,
 }: MenuCategoriesProps) {

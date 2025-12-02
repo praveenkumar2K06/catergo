@@ -29,11 +29,13 @@ export type AggregateMenuItem = {
 export type MenuItemAvgAggregateOutputType = {
   price: number | null
   qtyPerUnit: number | null
+  order: number | null
 }
 
 export type MenuItemSumAggregateOutputType = {
   price: number | null
   qtyPerUnit: number | null
+  order: number | null
 }
 
 export type MenuItemMinAggregateOutputType = {
@@ -47,6 +49,7 @@ export type MenuItemMinAggregateOutputType = {
   isVeg: boolean | null
   qtyPerUnit: number | null
   metrics: $Enums.Metrics | null
+  order: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -62,6 +65,7 @@ export type MenuItemMaxAggregateOutputType = {
   isVeg: boolean | null
   qtyPerUnit: number | null
   metrics: $Enums.Metrics | null
+  order: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -77,6 +81,7 @@ export type MenuItemCountAggregateOutputType = {
   isVeg: number
   qtyPerUnit: number
   metrics: number
+  order: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -86,11 +91,13 @@ export type MenuItemCountAggregateOutputType = {
 export type MenuItemAvgAggregateInputType = {
   price?: true
   qtyPerUnit?: true
+  order?: true
 }
 
 export type MenuItemSumAggregateInputType = {
   price?: true
   qtyPerUnit?: true
+  order?: true
 }
 
 export type MenuItemMinAggregateInputType = {
@@ -104,6 +111,7 @@ export type MenuItemMinAggregateInputType = {
   isVeg?: true
   qtyPerUnit?: true
   metrics?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -119,6 +127,7 @@ export type MenuItemMaxAggregateInputType = {
   isVeg?: true
   qtyPerUnit?: true
   metrics?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -134,6 +143,7 @@ export type MenuItemCountAggregateInputType = {
   isVeg?: true
   qtyPerUnit?: true
   metrics?: true
+  order?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -236,6 +246,7 @@ export type MenuItemGroupByOutputType = {
   isVeg: boolean
   qtyPerUnit: number
   metrics: $Enums.Metrics
+  order: number
   createdAt: Date
   updatedAt: Date
   _count: MenuItemCountAggregateOutputType | null
@@ -274,6 +285,7 @@ export type MenuItemWhereInput = {
   isVeg?: Prisma.BoolFilter<"MenuItem"> | boolean
   qtyPerUnit?: Prisma.FloatFilter<"MenuItem"> | number
   metrics?: Prisma.EnumMetricsFilter<"MenuItem"> | $Enums.Metrics
+  order?: Prisma.IntFilter<"MenuItem"> | number
   createdAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
@@ -291,6 +303,7 @@ export type MenuItemOrderByWithRelationInput = {
   isVeg?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
   metrics?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   admin?: Prisma.AdminOrderByWithRelationInput
@@ -311,6 +324,7 @@ export type MenuItemWhereUniqueInput = Prisma.AtLeast<{
   isVeg?: Prisma.BoolFilter<"MenuItem"> | boolean
   qtyPerUnit?: Prisma.FloatFilter<"MenuItem"> | number
   metrics?: Prisma.EnumMetricsFilter<"MenuItem"> | $Enums.Metrics
+  order?: Prisma.IntFilter<"MenuItem"> | number
   createdAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
@@ -328,6 +342,7 @@ export type MenuItemOrderByWithAggregationInput = {
   isVeg?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
   metrics?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.MenuItemCountOrderByAggregateInput
@@ -351,6 +366,7 @@ export type MenuItemScalarWhereWithAggregatesInput = {
   isVeg?: Prisma.BoolWithAggregatesFilter<"MenuItem"> | boolean
   qtyPerUnit?: Prisma.FloatWithAggregatesFilter<"MenuItem"> | number
   metrics?: Prisma.EnumMetricsWithAggregatesFilter<"MenuItem"> | $Enums.Metrics
+  order?: Prisma.IntWithAggregatesFilter<"MenuItem"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"MenuItem"> | Date | string
 }
@@ -365,6 +381,7 @@ export type MenuItemCreateInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   admin: Prisma.AdminCreateNestedOneWithoutMenuItemsInput
@@ -382,6 +399,7 @@ export type MenuItemUncheckedCreateInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   CartItem?: Prisma.CartItemUncheckedCreateNestedManyWithoutMenuItemInput
@@ -396,6 +414,7 @@ export type MenuItemUpdateInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.AdminUpdateOneRequiredWithoutMenuItemsNestedInput
@@ -412,6 +431,7 @@ export type MenuItemUncheckedUpdateInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CartItem?: Prisma.CartItemUncheckedUpdateManyWithoutMenuItemNestedInput
@@ -428,6 +448,7 @@ export type MenuItemCreateManyInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -441,6 +462,7 @@ export type MenuItemUpdateManyMutationInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -455,6 +477,7 @@ export type MenuItemUncheckedUpdateManyInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -470,6 +493,7 @@ export type MenuItemCountOrderByAggregateInput = {
   isVeg?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
   metrics?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -477,6 +501,7 @@ export type MenuItemCountOrderByAggregateInput = {
 export type MenuItemAvgOrderByAggregateInput = {
   price?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type MenuItemMaxOrderByAggregateInput = {
@@ -490,6 +515,7 @@ export type MenuItemMaxOrderByAggregateInput = {
   isVeg?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
   metrics?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -505,6 +531,7 @@ export type MenuItemMinOrderByAggregateInput = {
   isVeg?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
   metrics?: Prisma.SortOrder
+  order?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -512,6 +539,7 @@ export type MenuItemMinOrderByAggregateInput = {
 export type MenuItemSumOrderByAggregateInput = {
   price?: Prisma.SortOrder
   qtyPerUnit?: Prisma.SortOrder
+  order?: Prisma.SortOrder
 }
 
 export type MenuItemScalarRelationFilter = {
@@ -611,6 +639,7 @@ export type MenuItemCreateWithoutCartItemInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   admin: Prisma.AdminCreateNestedOneWithoutMenuItemsInput
@@ -627,6 +656,7 @@ export type MenuItemUncheckedCreateWithoutCartItemInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -656,6 +686,7 @@ export type MenuItemUpdateWithoutCartItemInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.AdminUpdateOneRequiredWithoutMenuItemsNestedInput
@@ -671,6 +702,7 @@ export type MenuItemUncheckedUpdateWithoutCartItemInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -685,6 +717,7 @@ export type MenuItemCreateWithoutAdminInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   CartItem?: Prisma.CartItemCreateNestedManyWithoutMenuItemInput
@@ -700,6 +733,7 @@ export type MenuItemUncheckedCreateWithoutAdminInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   CartItem?: Prisma.CartItemUncheckedCreateNestedManyWithoutMenuItemInput
@@ -744,6 +778,7 @@ export type MenuItemScalarWhereInput = {
   isVeg?: Prisma.BoolFilter<"MenuItem"> | boolean
   qtyPerUnit?: Prisma.FloatFilter<"MenuItem"> | number
   metrics?: Prisma.EnumMetricsFilter<"MenuItem"> | $Enums.Metrics
+  order?: Prisma.IntFilter<"MenuItem"> | number
   createdAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"MenuItem"> | Date | string
 }
@@ -758,6 +793,7 @@ export type MenuItemCreateManyAdminInput = {
   isVeg: boolean
   qtyPerUnit?: number
   metrics?: $Enums.Metrics
+  order?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -771,6 +807,7 @@ export type MenuItemUpdateWithoutAdminInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CartItem?: Prisma.CartItemUpdateManyWithoutMenuItemNestedInput
@@ -785,6 +822,7 @@ export type MenuItemUncheckedUpdateWithoutAdminInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   CartItem?: Prisma.CartItemUncheckedUpdateManyWithoutMenuItemNestedInput
@@ -799,6 +837,7 @@ export type MenuItemUncheckedUpdateManyWithoutAdminInput = {
   isVeg?: Prisma.BoolFieldUpdateOperationsInput | boolean
   qtyPerUnit?: Prisma.FloatFieldUpdateOperationsInput | number
   metrics?: Prisma.EnumMetricsFieldUpdateOperationsInput | $Enums.Metrics
+  order?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -845,6 +884,7 @@ export type MenuItemSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   isVeg?: boolean
   qtyPerUnit?: boolean
   metrics?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
@@ -865,11 +905,12 @@ export type MenuItemSelectScalar = {
   isVeg?: boolean
   qtyPerUnit?: boolean
   metrics?: boolean
+  order?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type MenuItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "adminId" | "name" | "description" | "price" | "image" | "category" | "isVeg" | "qtyPerUnit" | "metrics" | "createdAt" | "updatedAt", ExtArgs["result"]["menuItem"]>
+export type MenuItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "adminId" | "name" | "description" | "price" | "image" | "category" | "isVeg" | "qtyPerUnit" | "metrics" | "order" | "createdAt" | "updatedAt", ExtArgs["result"]["menuItem"]>
 export type MenuItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
   CartItem?: boolean | Prisma.MenuItem$CartItemArgs<ExtArgs>
@@ -893,6 +934,7 @@ export type $MenuItemPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     isVeg: boolean
     qtyPerUnit: number
     metrics: $Enums.Metrics
+    order: number
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["menuItem"]>
@@ -1299,6 +1341,7 @@ export interface MenuItemFieldRefs {
   readonly isVeg: Prisma.FieldRef<"MenuItem", 'Boolean'>
   readonly qtyPerUnit: Prisma.FieldRef<"MenuItem", 'Float'>
   readonly metrics: Prisma.FieldRef<"MenuItem", 'Metrics'>
+  readonly order: Prisma.FieldRef<"MenuItem", 'Int'>
   readonly createdAt: Prisma.FieldRef<"MenuItem", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"MenuItem", 'DateTime'>
 }

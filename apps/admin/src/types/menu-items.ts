@@ -6,14 +6,6 @@ export enum Metrics {
 	Litre = "Litre",
 }
 
-export enum Categories {
-	starters = "Starters",
-	mains = "Mains",
-	desserts = "Desserts",
-	beverages = "Beverages",
-	specials = "Specials",
-}
-
 const menuBaseSchema = z.object({
 	name: z
 		.string()
@@ -27,12 +19,13 @@ const menuBaseSchema = z.object({
 		}),
 	price: z.number().positive({ error: "Price must be positive" }),
 	image: z.string().default("/unknown.png"),
-	category: z.enum(Categories, { error: "Category is required" }),
+	category: z.string().nonempty({ error: "Category is required" }),
 	isVeg: z.boolean(),
 	qtyPerUnit: z
 		.number()
 		.positive({ error: "Quantity Per Unit must be positive" }),
-	metrics: z.enum(Metrics, { error: "Metrics is required" }),
+	metrics: z.nativeEnum(Metrics, { error: "Metrics is required" }),
+	order: z.number().int().default(0),
 });
 
 export const menuItem = menuBaseSchema.extend({

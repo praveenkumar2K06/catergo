@@ -1,12 +1,13 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { motion } from "motion/react";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
 	type CreateCartItemRequest,
 	createCartItem,
 	type UpdateCartQuantityRequest,
 	updateCartQuantity,
 } from "@/lib/api/cart";
+import { categoriesQueryOptions } from "@/lib/api/categories";
 import { commonAnimations } from "@/lib/common-animations";
 import {
 	handleMutationError,
@@ -52,7 +53,30 @@ export function MenuPage({
 	blockedDates = [],
 	isUpdatingUserData = false,
 }: MenuPageProps) {
-	const [activeCategory, setActiveCategory] = useState("all");
+	const [activeCategoryId, setActiveCategoryId] = useState("all");
+
+	// Fetch categories from the API
+	const { data: fetchedCategories = [] } = useQuery(
+		categoriesQueryOptions(userData.adminId || null),
+	);
+
+	// Combine "All Items" with fetched categories
+	const categories = useMemo(() => {
+		const allItemsCategory = {
+			id: "all",
+			name: "All Items",
+			icon: "🍽️",
+			order: -1,
+		};
+		return [allItemsCategory, ...fetchedCategories];
+	}, [fetchedCategories]);
+
+	// Get the active category name for filtering menu items
+	const activeCategoryName = useMemo(() => {
+		if (activeCategoryId === "all") return "all";
+		const category = categories.find((c) => c.id === activeCategoryId);
+		return category?.name || "all";
+	}, [activeCategoryId, categories]);
 
 	const addToCartMutation = useMutation<
 		CartItem,
@@ -164,15 +188,16 @@ export function MenuPage({
 			{/* Categories */}
 			<motion.div variants={commonAnimations.item}>
 				<MenuCategories
-					activeCategory={activeCategory}
-					onCategoryChange={setActiveCategory}
+					categories={categories}
+					activeCategory={activeCategoryId}
+					onCategoryChange={setActiveCategoryId}
 				/>
 			</motion.div>
 
 			{/* Menu Items */}
 			<motion.div variants={commonAnimations.item}>
 				<MenuItems
-					activeCategory={activeCategory}
+					activeCategory={activeCategoryName}
 					menuItems={menuItems}
 					cartItems={cartItems}
 					onAddToCart={handleAddToCart}

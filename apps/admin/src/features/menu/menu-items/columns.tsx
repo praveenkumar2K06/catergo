@@ -114,6 +114,14 @@ export const createColumns = ({
 		enableSorting: false,
 	},
 	{
+		accessorKey: "order",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Order Priority" />
+		),
+		cell: ({ row }) => <div>{row.getValue("order")}</div>,
+		enableSorting: false,
+	},
+	{
 		id: "actions",
 		cell: ({ row }) => {
 			const menu = row.original;
