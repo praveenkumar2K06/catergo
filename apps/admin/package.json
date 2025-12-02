@@ -24,7 +24,7 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"date-fns": "^4.1.0",
-		"lucide-react": "^0.545.0",
+		"lucide-react": "^0.555.0",
 		"motion": "^12.23.25",
 		"next-themes": "^0.4.6",
 		"radix-ui": "^1.4.3",
@@ -50,7 +50,7 @@
 		"jsdom": "^27.2.0",
 		"typescript": "^5.9.3",
 		"vite": "^7.2.6",
-		"vitest": "^3.2.4",
+		"vitest": "^4.0.15",
 		"web-vitals": "^5.1.0"
 	}
 }
