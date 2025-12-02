@@ -13,6 +13,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
 	Select,
 	SelectContent,
@@ -178,331 +179,361 @@ export function MenuForm({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-[425px]">
-				<DialogHeader>
-					<DialogTitle>
-						{isEditing ? "Edit Product" : "Add New Product"}
-					</DialogTitle>
-				</DialogHeader>
-				<form.AppForm>
-					<form className="space-y-4" onSubmit={handleSubmit}>
-						<form.AppField name="name">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>Name</field.FormLabel>
-									<field.FormControl>
-										<Input
-											value={field.state.value}
-											onChange={(e) =>
-												field.handleChange(
-													e.target.value,
-												)
-											}
-											onBlur={field.handleBlur}
-										/>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
+			<DialogContent className="max-h-screen sm:max-w-[500px]">
+				<ScrollArea className="max-h-[90vh] overflow-y-auto p-4">
+					<DialogHeader>
+						<DialogTitle>
+							{isEditing ? "Edit Product" : "Add New Product"}
+						</DialogTitle>
+					</DialogHeader>
+					<form.AppForm>
+						<form className="space-y-4" onSubmit={handleSubmit}>
+							<form.AppField name="name">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>Name</field.FormLabel>
+										<field.FormControl>
+											<Input
+												value={field.state.value}
+												onChange={(e) =>
+													field.handleChange(
+														e.target.value,
+													)
+												}
+												onBlur={field.handleBlur}
+											/>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
 
-						<form.AppField name="description">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>
-										Description
-									</field.FormLabel>
-									<field.FormControl>
-										<Input
-											value={field.state.value}
-											onChange={(e) =>
-												field.handleChange(
-													e.target.value,
-												)
-											}
-											onBlur={field.handleBlur}
-										/>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
+							<form.AppField name="description">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Description
+										</field.FormLabel>
+										<field.FormControl>
+											<Input
+												value={field.state.value}
+												onChange={(e) =>
+													field.handleChange(
+														e.target.value,
+													)
+												}
+												onBlur={field.handleBlur}
+											/>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
 
-						<form.AppField name="image">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>Image</field.FormLabel>
-									<field.FormControl>
-										<div className="space-y-2">
-											<div className="relative">
-												<Input
-													type="file"
-													accept="image/*"
-													onChange={(e) =>
-														handleImageChange(
-															e,
-															field,
-														)
-													}
-													onBlur={field.handleBlur}
-													className="sr-only"
-													id="image-upload"
-												/>
-												<label
-													htmlFor="image-upload"
-													className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border border-dashed transition-colors duration-200 hover:border-border/60 hover:bg-muted/50"
-												>
-													<div className="flex flex-col items-center justify-center pt-5 pb-6">
-														<Upload className="mb-3 h-8 w-8 text-muted-foreground" />
-														<p className="mb-1 text-foreground text-sm">
-															<span className="font-medium">
-																Click to upload
-															</span>{" "}
-															or drag and drop
-														</p>
-														<p className="text-muted-foreground text-xs">
-															PNG, JPG, GIF up to
-															10MB
-														</p>
-													</div>
-												</label>
-											</div>
-											{imagePreview && (
-												<div className="mt-2">
-													<img
-														src={imagePreview}
-														alt="Preview"
-														className="h-32 w-32 rounded-md border object-cover"
+							<form.AppField name="image">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>Image</field.FormLabel>
+										<field.FormControl>
+											<div className="space-y-2">
+												<div className="relative">
+													<Input
+														type="file"
+														accept="image/*"
+														onChange={(e) =>
+															handleImageChange(
+																e,
+																field,
+															)
+														}
+														onBlur={
+															field.handleBlur
+														}
+														className="sr-only"
+														id="image-upload"
 													/>
+													<label
+														htmlFor="image-upload"
+														className="flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-border border-dashed transition-colors duration-200 hover:border-border/60 hover:bg-muted/50"
+													>
+														<div className="flex flex-col items-center justify-center pt-5 pb-6">
+															<Upload className="mb-3 h-8 w-8 text-muted-foreground" />
+															<p className="mb-1 text-foreground text-sm">
+																<span className="font-medium">
+																	Click to
+																	upload
+																</span>{" "}
+																or drag and drop
+															</p>
+															<p className="text-muted-foreground text-xs">
+																PNG, JPG, GIF up
+																to 10MB
+															</p>
+														</div>
+													</label>
 												</div>
-											)}
-											{field.state.value &&
-												!imagePreview && (
+												{imagePreview && (
 													<div className="mt-2">
 														<img
-															src={
-																field.state
-																	.value
-															}
-															alt="Current"
-															className="mx-auto h-32 w-32 rounded-md border object-cover"
+															src={imagePreview}
+															alt="Preview"
+															className="h-32 w-32 rounded-md border object-cover"
 														/>
 													</div>
 												)}
-										</div>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="price">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>Price</field.FormLabel>
-									<field.FormControl>
-										<Input
-											type="number"
-											value={field.state.value}
-											onChange={(e) =>
-												field.handleChange(
-													Number(
-														e.target.valueAsNumber,
-													),
-												)
-											}
-											onBlur={field.handleBlur}
-										/>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="category">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>Category</field.FormLabel>
-									<field.FormControl>
-										<Select
-											value={field.state.value}
-											onValueChange={(
-												value: MenuItem["category"],
-											) => {
-												field.handleChange(value);
-											}}
-											onOpenChange={field.handleBlur}
-											disabled={categories.length === 0}
-										>
-											<SelectTrigger>
-												<SelectValue
-													placeholder={
-														categories.length === 0
-															? "No categories available"
-															: "Select a Category"
-													}
-												/>
-											</SelectTrigger>
-											<SelectContent>
-												{categories.map((category) => (
-													<SelectItem
-														key={category.id}
-														value={category.name}
-													>
-														<span className="flex items-center gap-2">
-															<span>
-																{category.icon}
-															</span>
-															<span>
-																{category.name}
-															</span>
-														</span>
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="isVeg">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>
-										Is Vegetarian
-									</field.FormLabel>
-									<field.FormControl>
-										<Checkbox
-											checked={field.state.value}
-											onCheckedChange={(checked) =>
-												checked
-													? field.handleChange(true)
-													: field.handleChange(false)
-											}
-											onBlur={field.handleBlur}
-										/>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="qtyPerUnit">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>
-										Quantity Per Person
-									</field.FormLabel>
-									<field.FormControl>
-										<Input
-											type="number"
-											value={field.state.value}
-											onChange={(e) =>
-												field.handleChange(
-													Number(
-														e.target.valueAsNumber,
-													),
-												)
-											}
-											onBlur={field.handleBlur}
-										/>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="metrics">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>Metrics</field.FormLabel>
-									<field.FormControl>
-										<Select
-											value={field.state.value}
-											onValueChange={(
-												value: MenuItem["metrics"],
-											) => {
-												field.handleChange(value);
-											}}
-											onOpenChange={field.handleBlur}
-										>
-											<SelectTrigger>
-												<SelectValue placeholder="Select a Metric" />
-											</SelectTrigger>
-											<SelectContent>
-												{METRICS.map((metric) => (
-													<SelectItem
-														key={metric.value}
-														value={metric.value}
-													>
-														{metric.label}
-													</SelectItem>
-												))}
-											</SelectContent>
-										</Select>
-									</field.FormControl>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<form.AppField name="order">
-							{(field) => (
-								<field.FormItem>
-									<field.FormLabel>
-										Display Order
-									</field.FormLabel>
-									<field.FormControl>
-										<Input
-											type="number"
-											min={0}
-											value={field.state.value}
-											onChange={(e) =>
-												field.handleChange(
-													Number(
-														e.target.valueAsNumber,
-													) || 0,
-												)
-											}
-											onBlur={field.handleBlur}
-											placeholder="0"
-										/>
-									</field.FormControl>
-									<p className="text-muted-foreground text-xs">
-										Higher numbers appear first. Items with
-										the same order are sorted by date.
-									</p>
-									<FieldInfo field={field} />
-								</field.FormItem>
-							)}
-						</form.AppField>
-
-						<div className="flex justify-end space-x-2 pt-4">
-							<Button
-								type="button"
-								variant="outline"
-								onClick={() => onOpenChange(false)}
-							>
-								Cancel
-							</Button>
-							<Button type="submit">
-								{addItemMutation.isPending ||
-								updateItemMutation.isPending ? (
-									<>
-										<LoaderCircleIcon className="animate-spin" />
-										Loading
-									</>
-								) : isEditing ? (
-									"Update Product"
-								) : (
-									"Add Product"
+												{field.state.value &&
+													!imagePreview && (
+														<div className="mt-2">
+															<img
+																src={
+																	field.state
+																		.value
+																}
+																alt="Current"
+																className="mx-auto h-32 w-32 rounded-md border object-cover"
+															/>
+														</div>
+													)}
+											</div>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
 								)}
-							</Button>
-						</div>
-					</form>
-				</form.AppForm>
+							</form.AppField>
+
+							<form.AppField name="price">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>Price</field.FormLabel>
+										<field.FormControl>
+											<Input
+												type="number"
+												value={field.state.value}
+												onChange={(e) =>
+													field.handleChange(
+														Number(
+															e.target
+																.valueAsNumber,
+														),
+													)
+												}
+												onBlur={field.handleBlur}
+											/>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<form.AppField name="category">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Category
+										</field.FormLabel>
+										<field.FormControl>
+											<Select
+												value={field.state.value}
+												onValueChange={(
+													value: MenuItem["category"],
+												) => {
+													field.handleChange(value);
+												}}
+												onOpenChange={field.handleBlur}
+												disabled={
+													categories.length === 0
+												}
+											>
+												<SelectTrigger>
+													<SelectValue
+														placeholder={
+															categories.length ===
+															0
+																? "No categories available"
+																: "Select a Category"
+														}
+													/>
+												</SelectTrigger>
+												<SelectContent>
+													{categories.map(
+														(category) => (
+															<SelectItem
+																key={
+																	category.id
+																}
+																value={
+																	category.name
+																}
+															>
+																<span className="flex items-center gap-2">
+																	<span>
+																		{
+																			category.icon
+																		}
+																	</span>
+																	<span>
+																		{
+																			category.name
+																		}
+																	</span>
+																</span>
+															</SelectItem>
+														),
+													)}
+												</SelectContent>
+											</Select>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<form.AppField name="isVeg">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Is Vegetarian
+										</field.FormLabel>
+										<field.FormControl>
+											<Checkbox
+												checked={field.state.value}
+												onCheckedChange={(checked) =>
+													checked
+														? field.handleChange(
+																true,
+															)
+														: field.handleChange(
+																false,
+															)
+												}
+												onBlur={field.handleBlur}
+											/>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<form.AppField name="qtyPerUnit">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Quantity Per Person
+										</field.FormLabel>
+										<field.FormControl>
+											<Input
+												type="number"
+												value={field.state.value}
+												onChange={(e) =>
+													field.handleChange(
+														Number(
+															e.target
+																.valueAsNumber,
+														),
+													)
+												}
+												onBlur={field.handleBlur}
+											/>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<form.AppField name="metrics">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Metrics
+										</field.FormLabel>
+										<field.FormControl>
+											<Select
+												value={field.state.value}
+												onValueChange={(
+													value: MenuItem["metrics"],
+												) => {
+													field.handleChange(value);
+												}}
+												onOpenChange={field.handleBlur}
+											>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a Metric" />
+												</SelectTrigger>
+												<SelectContent>
+													{METRICS.map((metric) => (
+														<SelectItem
+															key={metric.value}
+															value={metric.value}
+														>
+															{metric.label}
+														</SelectItem>
+													))}
+												</SelectContent>
+											</Select>
+										</field.FormControl>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<form.AppField name="order">
+								{(field) => (
+									<field.FormItem>
+										<field.FormLabel>
+											Display Order
+										</field.FormLabel>
+										<field.FormControl>
+											<Input
+												type="number"
+												min={0}
+												value={field.state.value}
+												onChange={(e) =>
+													field.handleChange(
+														Number(
+															e.target
+																.valueAsNumber,
+														) || 0,
+													)
+												}
+												onBlur={field.handleBlur}
+												placeholder="0"
+											/>
+										</field.FormControl>
+										<p className="text-muted-foreground text-xs">
+											Higher numbers appear first. Items
+											with the same order are sorted by
+											date.
+										</p>
+										<FieldInfo field={field} />
+									</field.FormItem>
+								)}
+							</form.AppField>
+
+							<div className="flex justify-end space-x-2 pt-4">
+								<Button
+									type="button"
+									variant="outline"
+									onClick={() => onOpenChange(false)}
+								>
+									Cancel
+								</Button>
+								<Button type="submit">
+									{addItemMutation.isPending ||
+									updateItemMutation.isPending ? (
+										<>
+											<LoaderCircleIcon className="animate-spin" />
+											Loading
+										</>
+									) : isEditing ? (
+										"Update Product"
+									) : (
+										"Add Product"
+									)}
+								</Button>
+							</div>
+						</form>
+					</form.AppForm>
+				</ScrollArea>
 			</DialogContent>
 		</Dialog>
 	);
