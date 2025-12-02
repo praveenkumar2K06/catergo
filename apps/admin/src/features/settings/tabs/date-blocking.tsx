@@ -1,3 +1,4 @@
+import { useLoaderData } from "@tanstack/react-router";
 import {
 	CalendarDaysIcon,
 	CalendarIcon,
@@ -39,7 +40,12 @@ import {
 import DateBlockingSkeleton from "../skeleton/date-blocking-skeleton";
 
 export const DateBlockingSettings = () => {
-	const { data: settings, isLoading, isError } = useSettings();
+	const loader = useLoaderData({ from: "/_authed/settings" });
+	const {
+		data: settings,
+		isLoading,
+		isError,
+	} = useSettings(loader.adminId || "");
 	const addBlockedDateMutation = useAddBlockedDate();
 	const removeBlockedDateMutation = useRemoveBlockedDate();
 

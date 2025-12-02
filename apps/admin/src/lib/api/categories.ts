@@ -70,13 +70,3 @@ export const updateCategory = async (
 export const deleteCategory = async (id: string): Promise<void> => {
 	await apiClient.delete(`/api/categories/${id}`);
 };
-
-export const reorderCategories = async (
-	categories: { id: string; order: number }[],
-): Promise<Category[]> => {
-	const response = await apiClient.put<CategoriesResponse>(
-		"/api/categories/reorder",
-		{ categories },
-	);
-	return response.data.data;
-};

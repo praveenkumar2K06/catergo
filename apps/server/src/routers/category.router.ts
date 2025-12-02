@@ -3,7 +3,6 @@ import {
 	createCategory,
 	deleteCategory,
 	getAllCategories,
-	reorderCategories,
 	updateCategory,
 } from "@/controllers/category.controller";
 import { authenticateAdmin } from "@/middleware/auth.middleware";
@@ -16,7 +15,6 @@ router.get("/:id", getAllCategories);
 // Protected routes - require admin authentication
 router.use(authenticateAdmin);
 router.post("/", createCategory);
-router.put("/reorder", reorderCategories);
 router.put("/:id", updateCategory);
 router.delete("/:id", deleteCategory);
 
