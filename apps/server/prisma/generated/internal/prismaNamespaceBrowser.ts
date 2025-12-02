@@ -15,9 +15,38 @@
  */
 
 import * as runtime from "@prisma/client/runtime/index-browser"
+
 export type * from '../models'
 export type * from './prismaNamespace'
+
 export const Decimal = runtime.Decimal
+
+
+export const NullTypes = {
+  DbNull: runtime.objectEnumValues.classes.DbNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.DbNull),
+  JsonNull: runtime.objectEnumValues.classes.JsonNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.JsonNull),
+  AnyNull: runtime.objectEnumValues.classes.AnyNull as (new (secret: never) => typeof runtime.objectEnumValues.instances.AnyNull),
+}
+/**
+ * Helper for filtering JSON entries that have `null` on the database (empty on the db)
+ *
+ * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+ */
+export const DbNull = runtime.objectEnumValues.instances.DbNull
+/**
+ * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
+ *
+ * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+ */
+export const JsonNull = runtime.objectEnumValues.instances.JsonNull
+/**
+ * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
+ *
+ * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
+ */
+export const AnyNull = runtime.objectEnumValues.instances.AnyNull
+
+
 export const ModelName = {
   User: 'User',
   Event: 'Event',
@@ -29,9 +58,10 @@ export const ModelName = {
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
-/**
+/*
  * Enums
  */
+
 export const UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -52,6 +82,7 @@ export const EventScalarFieldEnum = {
   userId: 'userId',
   name: 'name',
   date: 'date',
+  description: 'description',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   adminId: 'adminId'
@@ -108,7 +139,11 @@ export const SettingsScalarFieldEnum = {
   id: 'id',
   maxOrdersPerDay: 'maxOrdersPerDay',
   enableDailyOrderLimit: 'enableDailyOrderLimit',
+  bulkOrderDiscount: 'bulkOrderDiscount',
+  bulkOrderMinPersons: 'bulkOrderMinPersons',
+  hidePrices: 'hidePrices',
   blockedDates: 'blockedDates',
+  tax: 'tax',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   adminId: 'adminId'

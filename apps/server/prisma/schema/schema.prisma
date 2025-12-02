@@ -25,11 +25,12 @@ model User {
 }
 
 model Event {
-  id     String   @id @default(auto()) @map("_id") @db.ObjectId
-  user   User     @relation(fields: [userId], references: [id])
-  userId String   @unique @db.ObjectId
-  name   String
-  date   DateTime
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String   @unique @db.ObjectId
+  name        String
+  date        DateTime
+  description String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -94,7 +95,9 @@ model Settings {
   enableDailyOrderLimit Boolean    @default(true)
   bulkOrderDiscount     Int        @default(10)
   bulkOrderMinPersons   Int        @default(5)
+  hidePrices            Boolean    @default(false)
   blockedDates          DateTime[]
+  tax                   Float      @default(0)
   createdAt             DateTime   @default(now())
   updatedAt             DateTime   @updatedAt
   admin                 Admin      @relation(fields: [adminId], references: [id])

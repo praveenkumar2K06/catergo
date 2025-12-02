@@ -67,6 +67,7 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 			hidePrices,
 			bulkOrderDiscount,
 			bulkOrderMinPersons,
+			tax,
 		} = req.body;
 
 		let settings = await prisma.settings.findUnique({
@@ -84,6 +85,7 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 					blockedDates: blockedDates
 						? blockedDates.map((date: string) => new Date(date))
 						: [],
+					tax: tax || 0,
 					adminId: req.admin.id,
 				},
 			});
@@ -107,6 +109,7 @@ export const updateSettings = async (req: AuthRequest, res: Response) => {
 							(date: string) => new Date(date),
 						),
 					}),
+					...(tax !== undefined && { tax }),
 				},
 			});
 		}

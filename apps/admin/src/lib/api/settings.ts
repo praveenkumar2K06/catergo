@@ -8,6 +8,7 @@ export interface Settings {
 	bulkOrderMinPersons: number;
 	hidePrices: boolean;
 	blockedDates: string[];
+	tax: number;
 	createdAt: string;
 	updatedAt: string;
 }
@@ -19,6 +20,7 @@ export interface SettingsUpdateRequest {
 	bulkOrderDiscount?: number;
 	bulkOrderMinPersons?: number;
 	hidePrices?: boolean;
+	tax?: number;
 }
 
 interface SettingsResponse {

@@ -28,7 +28,7 @@ export const useCartCalculations = (
 					? 0
 					: APP_CONSTANTS.CART.DELIVERY_FEE;
 			const taxes = Math.round(
-				discountedSubtotal * APP_CONSTANTS.CART.TAX_RATE,
+				(discountedSubtotal * (settings?.tax || 0)) / 100,
 			);
 			const total = discountedSubtotal + deliveryFee + taxes;
 

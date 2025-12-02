@@ -24,6 +24,7 @@ export const OrderSettings = () => {
 	const [bulkDiscount, setBulkDiscount] = useState<number>(10);
 	const [bulkDiscountPersons, setBulkDiscountPersons] = useState<number>(5);
 	const [enableDailyLimit, setEnableDailyLimit] = useState<boolean>(true);
+	const [taxPercentage, setTaxPercentage] = useState<number>(0);
 	const [hidePrices, setHidePrices] = useState<boolean>(false);
 	const loader = useLoaderData({ from: "/_authed/settings" });
 	const {
@@ -39,6 +40,7 @@ export const OrderSettings = () => {
 			setBulkDiscount(settings.bulkOrderDiscount);
 			setBulkDiscountPersons(settings.bulkOrderMinPersons);
 			setHidePrices(settings.hidePrices ?? false);
+			setTaxPercentage(settings.tax ?? 0);
 		}
 	}, [settings]);
 
@@ -50,6 +52,7 @@ export const OrderSettings = () => {
 				bulkOrderDiscount: bulkDiscount,
 				bulkOrderMinPersons: bulkDiscountPersons,
 				hidePrices,
+				tax: taxPercentage,
 			});
 			toast.success("Order settings saved successfully");
 		} catch {
@@ -131,7 +134,6 @@ export const OrderSettings = () => {
 								id="bulk-discount"
 								type="number"
 								placeholder="10"
-								min="0"
 								max="100"
 								value={bulkDiscount}
 								onChange={(e) =>
@@ -188,6 +190,40 @@ export const OrderSettings = () => {
 							</div>
 						</div>
 					)}
+				</CardContent>
+			</Card>
+
+			<Card>
+				<CardHeader>
+					<CardTitle>Cart Settings</CardTitle>
+					<CardDescription>
+						User cart related settings
+					</CardDescription>
+				</CardHeader>
+				<CardContent className="space-y-4">
+					<div className="grid grid-cols-2 gap-4">
+						<div className="space-y-2">
+							<Label htmlFor="tax-percentage">
+								Tax Percentage (%)
+							</Label>
+							<Input
+								id="tax-percentage"
+								type="number"
+								placeholder="20"
+								max="100"
+								value={taxPercentage}
+								onChange={(e) => {
+									const value = Number.parseInt(
+										e.target.value,
+										10,
+									);
+									if (value >= 0 && value <= 100) {
+										setTaxPercentage(value || 0);
+									}
+								}}
+							/>
+						</div>
+					</div>
 				</CardContent>
 			</Card>
 

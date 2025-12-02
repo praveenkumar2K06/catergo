@@ -28,6 +28,7 @@ export type EventMinAggregateOutputType = {
   userId: string | null
   name: string | null
   date: Date | null
+  description: string | null
   createdAt: Date | null
   updatedAt: Date | null
   adminId: string | null
@@ -38,6 +39,7 @@ export type EventMaxAggregateOutputType = {
   userId: string | null
   name: string | null
   date: Date | null
+  description: string | null
   createdAt: Date | null
   updatedAt: Date | null
   adminId: string | null
@@ -48,6 +50,7 @@ export type EventCountAggregateOutputType = {
   userId: number
   name: number
   date: number
+  description: number
   createdAt: number
   updatedAt: number
   adminId: number
@@ -60,6 +63,7 @@ export type EventMinAggregateInputType = {
   userId?: true
   name?: true
   date?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -70,6 +74,7 @@ export type EventMaxAggregateInputType = {
   userId?: true
   name?: true
   date?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -80,6 +85,7 @@ export type EventCountAggregateInputType = {
   userId?: true
   name?: true
   date?: true
+  description?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -163,6 +169,7 @@ export type EventGroupByOutputType = {
   userId: string
   name: string
   date: Date
+  description: string | null
   createdAt: Date
   updatedAt: Date
   adminId: string
@@ -194,6 +201,7 @@ export type EventWhereInput = {
   userId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
+  description?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   adminId?: Prisma.StringFilter<"Event"> | string
@@ -206,6 +214,7 @@ export type EventOrderByWithRelationInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -221,6 +230,7 @@ export type EventWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.EventWhereInput | Prisma.EventWhereInput[]
   name?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
+  description?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   adminId?: Prisma.StringFilter<"Event"> | string
@@ -233,6 +243,7 @@ export type EventOrderByWithAggregationInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -249,6 +260,7 @@ export type EventScalarWhereWithAggregatesInput = {
   userId?: Prisma.StringWithAggregatesFilter<"Event"> | string
   name?: Prisma.StringWithAggregatesFilter<"Event"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
+  description?: Prisma.StringNullableWithAggregatesFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Event"> | Date | string
   adminId?: Prisma.StringWithAggregatesFilter<"Event"> | string
@@ -258,6 +270,7 @@ export type EventCreateInput = {
   id?: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEventInput
@@ -269,6 +282,7 @@ export type EventUncheckedCreateInput = {
   userId: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   adminId: string
@@ -277,6 +291,7 @@ export type EventUncheckedCreateInput = {
 export type EventUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEventNestedInput
@@ -287,6 +302,7 @@ export type EventUncheckedUpdateInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -297,6 +313,7 @@ export type EventCreateManyInput = {
   userId: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   adminId: string
@@ -305,6 +322,7 @@ export type EventCreateManyInput = {
 export type EventUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -313,6 +331,7 @@ export type EventUncheckedUpdateManyInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -328,6 +347,7 @@ export type EventCountOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -338,6 +358,7 @@ export type EventMaxOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -348,6 +369,7 @@ export type EventMinOrderByAggregateInput = {
   userId?: Prisma.SortOrder
   name?: Prisma.SortOrder
   date?: Prisma.SortOrder
+  description?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -393,6 +415,11 @@ export type EventUncheckedUpdateOneWithoutUserNestedInput = {
   delete?: Prisma.EventWhereInput | boolean
   connect?: Prisma.EventWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.EventUpdateToOneWithWhereWithoutUserInput, Prisma.EventUpdateWithoutUserInput>, Prisma.EventUncheckedUpdateWithoutUserInput>
+}
+
+export type NullableStringFieldUpdateOperationsInput = {
+  set?: string | null
+  unset?: boolean
 }
 
 export type EventCreateNestedManyWithoutAdminInput = {
@@ -441,6 +468,7 @@ export type EventCreateWithoutUserInput = {
   id?: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   admin: Prisma.AdminCreateNestedOneWithoutEventsInput
@@ -450,6 +478,7 @@ export type EventUncheckedCreateWithoutUserInput = {
   id?: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   adminId: string
@@ -474,6 +503,7 @@ export type EventUpdateToOneWithWhereWithoutUserInput = {
 export type EventUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.AdminUpdateOneRequiredWithoutEventsNestedInput
@@ -482,6 +512,7 @@ export type EventUpdateWithoutUserInput = {
 export type EventUncheckedUpdateWithoutUserInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -491,6 +522,7 @@ export type EventCreateWithoutAdminInput = {
   id?: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutEventInput
@@ -501,6 +533,7 @@ export type EventUncheckedCreateWithoutAdminInput = {
   userId: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -538,6 +571,7 @@ export type EventScalarWhereInput = {
   userId?: Prisma.StringFilter<"Event"> | string
   name?: Prisma.StringFilter<"Event"> | string
   date?: Prisma.DateTimeFilter<"Event"> | Date | string
+  description?: Prisma.StringNullableFilter<"Event"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Event"> | Date | string
   adminId?: Prisma.StringFilter<"Event"> | string
@@ -548,6 +582,7 @@ export type EventCreateManyAdminInput = {
   userId: string
   name: string
   date: Date | string
+  description?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -555,6 +590,7 @@ export type EventCreateManyAdminInput = {
 export type EventUpdateWithoutAdminInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutEventNestedInput
@@ -564,6 +600,7 @@ export type EventUncheckedUpdateWithoutAdminInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -572,6 +609,7 @@ export type EventUncheckedUpdateManyWithoutAdminInput = {
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -583,6 +621,7 @@ export type EventSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = 
   userId?: boolean
   name?: boolean
   date?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   adminId?: boolean
@@ -597,12 +636,13 @@ export type EventSelectScalar = {
   userId?: boolean
   name?: boolean
   date?: boolean
+  description?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   adminId?: boolean
 }
 
-export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "date" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["event"]>
+export type EventOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "name" | "date" | "description" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["event"]>
 export type EventInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
@@ -619,6 +659,7 @@ export type $EventPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs 
     userId: string
     name: string
     date: Date
+    description: string | null
     createdAt: Date
     updatedAt: Date
     adminId: string
@@ -1020,6 +1061,7 @@ export interface EventFieldRefs {
   readonly userId: Prisma.FieldRef<"Event", 'String'>
   readonly name: Prisma.FieldRef<"Event", 'String'>
   readonly date: Prisma.FieldRef<"Event", 'DateTime'>
+  readonly description: Prisma.FieldRef<"Event", 'String'>
   readonly createdAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Event", 'DateTime'>
   readonly adminId: Prisma.FieldRef<"Event", 'String'>

@@ -27,16 +27,26 @@ export type AggregateSettings = {
 
 export type SettingsAvgAggregateOutputType = {
   maxOrdersPerDay: number | null
+  bulkOrderDiscount: number | null
+  bulkOrderMinPersons: number | null
+  tax: number | null
 }
 
 export type SettingsSumAggregateOutputType = {
   maxOrdersPerDay: number | null
+  bulkOrderDiscount: number | null
+  bulkOrderMinPersons: number | null
+  tax: number | null
 }
 
 export type SettingsMinAggregateOutputType = {
   id: string | null
   maxOrdersPerDay: number | null
   enableDailyOrderLimit: boolean | null
+  bulkOrderDiscount: number | null
+  bulkOrderMinPersons: number | null
+  hidePrices: boolean | null
+  tax: number | null
   createdAt: Date | null
   updatedAt: Date | null
   adminId: string | null
@@ -46,6 +56,10 @@ export type SettingsMaxAggregateOutputType = {
   id: string | null
   maxOrdersPerDay: number | null
   enableDailyOrderLimit: boolean | null
+  bulkOrderDiscount: number | null
+  bulkOrderMinPersons: number | null
+  hidePrices: boolean | null
+  tax: number | null
   createdAt: Date | null
   updatedAt: Date | null
   adminId: string | null
@@ -55,7 +69,11 @@ export type SettingsCountAggregateOutputType = {
   id: number
   maxOrdersPerDay: number
   enableDailyOrderLimit: number
+  bulkOrderDiscount: number
+  bulkOrderMinPersons: number
+  hidePrices: number
   blockedDates: number
+  tax: number
   createdAt: number
   updatedAt: number
   adminId: number
@@ -65,16 +83,26 @@ export type SettingsCountAggregateOutputType = {
 
 export type SettingsAvgAggregateInputType = {
   maxOrdersPerDay?: true
+  bulkOrderDiscount?: true
+  bulkOrderMinPersons?: true
+  tax?: true
 }
 
 export type SettingsSumAggregateInputType = {
   maxOrdersPerDay?: true
+  bulkOrderDiscount?: true
+  bulkOrderMinPersons?: true
+  tax?: true
 }
 
 export type SettingsMinAggregateInputType = {
   id?: true
   maxOrdersPerDay?: true
   enableDailyOrderLimit?: true
+  bulkOrderDiscount?: true
+  bulkOrderMinPersons?: true
+  hidePrices?: true
+  tax?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -84,6 +112,10 @@ export type SettingsMaxAggregateInputType = {
   id?: true
   maxOrdersPerDay?: true
   enableDailyOrderLimit?: true
+  bulkOrderDiscount?: true
+  bulkOrderMinPersons?: true
+  hidePrices?: true
+  tax?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -93,7 +125,11 @@ export type SettingsCountAggregateInputType = {
   id?: true
   maxOrdersPerDay?: true
   enableDailyOrderLimit?: true
+  bulkOrderDiscount?: true
+  bulkOrderMinPersons?: true
+  hidePrices?: true
   blockedDates?: true
+  tax?: true
   createdAt?: true
   updatedAt?: true
   adminId?: true
@@ -190,7 +226,11 @@ export type SettingsGroupByOutputType = {
   id: string
   maxOrdersPerDay: number
   enableDailyOrderLimit: boolean
+  bulkOrderDiscount: number
+  bulkOrderMinPersons: number
+  hidePrices: boolean
   blockedDates: Date[]
+  tax: number
   createdAt: Date
   updatedAt: Date
   adminId: string
@@ -223,7 +263,11 @@ export type SettingsWhereInput = {
   id?: Prisma.StringFilter<"Settings"> | string
   maxOrdersPerDay?: Prisma.IntFilter<"Settings"> | number
   enableDailyOrderLimit?: Prisma.BoolFilter<"Settings"> | boolean
+  bulkOrderDiscount?: Prisma.IntFilter<"Settings"> | number
+  bulkOrderMinPersons?: Prisma.IntFilter<"Settings"> | number
+  hidePrices?: Prisma.BoolFilter<"Settings"> | boolean
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
+  tax?: Prisma.FloatFilter<"Settings"> | number
   createdAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   adminId?: Prisma.StringFilter<"Settings"> | string
@@ -234,7 +278,11 @@ export type SettingsOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   maxOrdersPerDay?: Prisma.SortOrder
   enableDailyOrderLimit?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  hidePrices?: Prisma.SortOrder
   blockedDates?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -249,7 +297,11 @@ export type SettingsWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.SettingsWhereInput | Prisma.SettingsWhereInput[]
   maxOrdersPerDay?: Prisma.IntFilter<"Settings"> | number
   enableDailyOrderLimit?: Prisma.BoolFilter<"Settings"> | boolean
+  bulkOrderDiscount?: Prisma.IntFilter<"Settings"> | number
+  bulkOrderMinPersons?: Prisma.IntFilter<"Settings"> | number
+  hidePrices?: Prisma.BoolFilter<"Settings"> | boolean
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
+  tax?: Prisma.FloatFilter<"Settings"> | number
   createdAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Settings"> | Date | string
   admin?: Prisma.XOR<Prisma.AdminScalarRelationFilter, Prisma.AdminWhereInput>
@@ -259,7 +311,11 @@ export type SettingsOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   maxOrdersPerDay?: Prisma.SortOrder
   enableDailyOrderLimit?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  hidePrices?: Prisma.SortOrder
   blockedDates?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -277,7 +333,11 @@ export type SettingsScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Settings"> | string
   maxOrdersPerDay?: Prisma.IntWithAggregatesFilter<"Settings"> | number
   enableDailyOrderLimit?: Prisma.BoolWithAggregatesFilter<"Settings"> | boolean
+  bulkOrderDiscount?: Prisma.IntWithAggregatesFilter<"Settings"> | number
+  bulkOrderMinPersons?: Prisma.IntWithAggregatesFilter<"Settings"> | number
+  hidePrices?: Prisma.BoolWithAggregatesFilter<"Settings"> | boolean
   blockedDates?: Prisma.DateTimeNullableListFilter<"Settings">
+  tax?: Prisma.FloatWithAggregatesFilter<"Settings"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Settings"> | Date | string
   adminId?: Prisma.StringWithAggregatesFilter<"Settings"> | string
@@ -287,7 +347,11 @@ export type SettingsCreateInput = {
   id?: string
   maxOrdersPerDay?: number
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: number
+  bulkOrderMinPersons?: number
+  hidePrices?: boolean
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  tax?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   admin: Prisma.AdminCreateNestedOneWithoutSettingsInput
@@ -297,7 +361,11 @@ export type SettingsUncheckedCreateInput = {
   id?: string
   maxOrdersPerDay?: number
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: number
+  bulkOrderMinPersons?: number
+  hidePrices?: boolean
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  tax?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   adminId: string
@@ -306,7 +374,11 @@ export type SettingsUncheckedCreateInput = {
 export type SettingsUpdateInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   admin?: Prisma.AdminUpdateOneRequiredWithoutSettingsNestedInput
@@ -315,7 +387,11 @@ export type SettingsUpdateInput = {
 export type SettingsUncheckedUpdateInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -325,7 +401,11 @@ export type SettingsCreateManyInput = {
   id?: string
   maxOrdersPerDay?: number
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: number
+  bulkOrderMinPersons?: number
+  hidePrices?: boolean
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  tax?: number
   createdAt?: Date | string
   updatedAt?: Date | string
   adminId: string
@@ -334,7 +414,11 @@ export type SettingsCreateManyInput = {
 export type SettingsUpdateManyMutationInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -342,7 +426,11 @@ export type SettingsUpdateManyMutationInput = {
 export type SettingsUncheckedUpdateManyInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   adminId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -365,7 +453,11 @@ export type SettingsCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   maxOrdersPerDay?: Prisma.SortOrder
   enableDailyOrderLimit?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  hidePrices?: Prisma.SortOrder
   blockedDates?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -373,12 +465,19 @@ export type SettingsCountOrderByAggregateInput = {
 
 export type SettingsAvgOrderByAggregateInput = {
   maxOrdersPerDay?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
 }
 
 export type SettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   maxOrdersPerDay?: Prisma.SortOrder
   enableDailyOrderLimit?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  hidePrices?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -388,6 +487,10 @@ export type SettingsMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   maxOrdersPerDay?: Prisma.SortOrder
   enableDailyOrderLimit?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  hidePrices?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   adminId?: Prisma.SortOrder
@@ -395,6 +498,9 @@ export type SettingsMinOrderByAggregateInput = {
 
 export type SettingsSumOrderByAggregateInput = {
   maxOrdersPerDay?: Prisma.SortOrder
+  bulkOrderDiscount?: Prisma.SortOrder
+  bulkOrderMinPersons?: Prisma.SortOrder
+  tax?: Prisma.SortOrder
 }
 
 export type SettingsCreateNestedOneWithoutAdminInput = {
@@ -442,7 +548,11 @@ export type SettingsCreateWithoutAdminInput = {
   id?: string
   maxOrdersPerDay?: number
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: number
+  bulkOrderMinPersons?: number
+  hidePrices?: boolean
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  tax?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -451,7 +561,11 @@ export type SettingsUncheckedCreateWithoutAdminInput = {
   id?: string
   maxOrdersPerDay?: number
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: number
+  bulkOrderMinPersons?: number
+  hidePrices?: boolean
   blockedDates?: Prisma.SettingsCreateblockedDatesInput | Date[] | string[]
+  tax?: number
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -475,7 +589,11 @@ export type SettingsUpdateToOneWithWhereWithoutAdminInput = {
 export type SettingsUpdateWithoutAdminInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -483,7 +601,11 @@ export type SettingsUpdateWithoutAdminInput = {
 export type SettingsUncheckedUpdateWithoutAdminInput = {
   maxOrdersPerDay?: Prisma.IntFieldUpdateOperationsInput | number
   enableDailyOrderLimit?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  bulkOrderDiscount?: Prisma.IntFieldUpdateOperationsInput | number
+  bulkOrderMinPersons?: Prisma.IntFieldUpdateOperationsInput | number
+  hidePrices?: Prisma.BoolFieldUpdateOperationsInput | boolean
   blockedDates?: Prisma.SettingsUpdateblockedDatesInput | Date[] | string[]
+  tax?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -494,7 +616,11 @@ export type SettingsSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   maxOrdersPerDay?: boolean
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: boolean
+  bulkOrderMinPersons?: boolean
+  hidePrices?: boolean
   blockedDates?: boolean
+  tax?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   adminId?: boolean
@@ -507,13 +633,17 @@ export type SettingsSelectScalar = {
   id?: boolean
   maxOrdersPerDay?: boolean
   enableDailyOrderLimit?: boolean
+  bulkOrderDiscount?: boolean
+  bulkOrderMinPersons?: boolean
+  hidePrices?: boolean
   blockedDates?: boolean
+  tax?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   adminId?: boolean
 }
 
-export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "maxOrdersPerDay" | "enableDailyOrderLimit" | "blockedDates" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["settings"]>
+export type SettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "maxOrdersPerDay" | "enableDailyOrderLimit" | "bulkOrderDiscount" | "bulkOrderMinPersons" | "hidePrices" | "blockedDates" | "tax" | "createdAt" | "updatedAt" | "adminId", ExtArgs["result"]["settings"]>
 export type SettingsInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   admin?: boolean | Prisma.AdminDefaultArgs<ExtArgs>
 }
@@ -527,7 +657,11 @@ export type $SettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: string
     maxOrdersPerDay: number
     enableDailyOrderLimit: boolean
+    bulkOrderDiscount: number
+    bulkOrderMinPersons: number
+    hidePrices: boolean
     blockedDates: Date[]
+    tax: number
     createdAt: Date
     updatedAt: Date
     adminId: string
@@ -927,7 +1061,11 @@ export interface SettingsFieldRefs {
   readonly id: Prisma.FieldRef<"Settings", 'String'>
   readonly maxOrdersPerDay: Prisma.FieldRef<"Settings", 'Int'>
   readonly enableDailyOrderLimit: Prisma.FieldRef<"Settings", 'Boolean'>
+  readonly bulkOrderDiscount: Prisma.FieldRef<"Settings", 'Int'>
+  readonly bulkOrderMinPersons: Prisma.FieldRef<"Settings", 'Int'>
+  readonly hidePrices: Prisma.FieldRef<"Settings", 'Boolean'>
   readonly blockedDates: Prisma.FieldRef<"Settings", 'DateTime[]'>
+  readonly tax: Prisma.FieldRef<"Settings", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Settings", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Settings", 'DateTime'>
   readonly adminId: Prisma.FieldRef<"Settings", 'String'>

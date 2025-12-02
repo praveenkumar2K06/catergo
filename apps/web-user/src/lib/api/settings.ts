@@ -7,6 +7,7 @@ export interface Settings {
 	bulkOrderDiscount: number;
 	bulkOrderMinPersons: number;
 	hidePrices: boolean;
+	tax: number;
 	id: string;
 	createdAt: string;
 	updatedAt: string;
