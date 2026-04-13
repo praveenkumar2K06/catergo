@@ -23,7 +23,7 @@ const config: runtime.GetPrismaClientConfig = {
       "value": "prisma-client"
     },
     "output": {
-      "value": "D:\\Coding\\Web\\cater-go\\apps\\server\\prisma\\generated",
+      "value": "D:\\Coding\\catergo\\apps\\server\\prisma\\generated",
       "fromEnvVar": null
     },
     "config": {
@@ -38,16 +38,17 @@ const config: runtime.GetPrismaClientConfig = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "D:\\Coding\\Web\\cater-go\\apps\\server\\prisma\\schema\\schema.prisma",
+    "sourceFilePath": "D:\\Coding\\catergo\\apps\\server\\prisma\\schema\\schema.prisma",
     "isCustomOutput": true
   },
   "relativePath": "../schema",
-  "clientVersion": "6.19.0",
-  "engineVersion": "2ba551f319ab1df4bc874a89965d8b3641056773",
+  "clientVersion": "6.19.3",
+  "engineVersion": "c2990dca591cba766e3b7ef5d9e8a84796e47ab7",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "mongodb",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
