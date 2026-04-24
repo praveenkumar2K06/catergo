@@ -10,7 +10,16 @@ import {
 	ShoppingCart,
 	User as UserIcon,
 	Users,
+	LoaderCircleIcon,
 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useAuth } from "@/auth";
+import { toast } from "sonner";
+import { createEvent } from "@/lib/api/events";
+import { createCartItem } from "@/lib/api/cart";
+import { EventMenuSelector } from "@/features/users/event-menu-selector";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
 	Card,
@@ -49,6 +58,64 @@ export function UserDetailsDialog({
 	onOpenChange,
 	user,
 }: UserDetailsDialogProps) {
+	const { user: authUser } = useAuth();
+	const queryClient = useQueryClient();
+
+	const [isCreating, setIsCreating] = useState(false);
+	const [eventName, setEventName] = useState("");
+	const [eventDescription, setEventDescription] = useState("");
+	const [selectedMenuItems, setSelectedMenuItems] = useState<
+		Record<string, number>
+	>({});
+
+	useEffect(() => {
+		if (!open) {
+			setIsCreating(false);
+			setEventName("");
+			setEventDescription("");
+			setSelectedMenuItems({});
+		}
+	}, [open]);
+
+	const createEventMutation = useMutation({
+		mutationFn: async () => {
+			if (!user) throw new Error("No user selected");
+			await createEvent({
+				userId: user.id,
+				adminId: authUser?.userId ?? "",
+				name: eventName || `Event for ${user.name}`,
+				date: new Date(user.selectedDate).toISOString(),
+				...(eventDescription && { description: eventDescription }),
+			});
+
+			const promises = Object.entries(selectedMenuItems).map(
+				([menuId, quantity]) => {
+					if (quantity > 0) {
+						return createCartItem({
+							userId: user.id,
+							menuId,
+							quantity,
+						});
+					}
+					return Promise.resolve();
+				},
+			);
+
+			await Promise.all(promises);
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: ["users"] });
+			queryClient.invalidateQueries({ queryKey: ["events"] });
+			toast.success("Event and Menu Items created successfully");
+			setIsCreating(false);
+		},
+		onError: (error: Error) => {
+			toast.error("Failed to create event/menu items", {
+				description: error.message,
+			});
+		},
+	});
+
 	if (!user) return null;
 
 	const hasEvent = !!user.event;
@@ -61,7 +128,7 @@ export function UserDetailsDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="max-h-screen sm:max-w-[600px]">
+			<DialogContent className="max-h-screen sm:max-w-150">
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-2">
 						<UserIcon className="h-5 w-5" />
@@ -166,13 +233,60 @@ export function UserDetailsDialog({
 									</div>
 								</CardContent>
 							)}
-							{!hasEvent && (
-								<CardContent>
+							{!hasEvent && !isCreating && (
+								<CardContent className="space-y-4">
 									<p className="text-muted-foreground text-sm">
 										This user has not booked any event yet.
 										Events are created when users finalize
 										their order.
 									</p>
+									<Button
+										onClick={() => setIsCreating(true)}
+										variant="outline"
+									>
+										Create Event & Menu
+									</Button>
+								</CardContent>
+							)}
+							{!hasEvent && isCreating && (
+								<CardContent className="space-y-4 animate-in fade-in zoom-in-95">
+									<EventMenuSelector 
+										data={{
+											eventName,
+											eventDescription,
+											selectedMenuItems
+										}}
+										onChange={(data) => {
+											setEventName(data.eventName ?? "");
+											setEventDescription(data.eventDescription ?? "");
+											setSelectedMenuItems(data.selectedMenuItems);
+										}}
+										disabled={createEventMutation.isPending}
+									/>
+									<div className="flex justify-end gap-2 pt-4">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() => setIsCreating(false)}
+											disabled={createEventMutation.isPending}
+										>
+											Cancel
+										</Button>
+										<Button
+											type="button"
+											onClick={() => createEventMutation.mutate()}
+											disabled={createEventMutation.isPending}
+										>
+											{createEventMutation.isPending ? (
+												<>
+													<LoaderCircleIcon className="mr-2 h-4 w-4 animate-spin" />
+													Creating...
+												</>
+											) : (
+												"Create"
+											)}
+										</Button>
+									</div>
 								</CardContent>
 							)}
 						</Card>

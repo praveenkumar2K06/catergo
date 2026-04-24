@@ -52,3 +52,16 @@ export const fetchEventByIdQuery = (id: string) =>
 
 		throwOnError: true,
 	});
+
+export interface CreateEventRequest {
+	userId: string;
+	adminId: string;
+	name: string;
+	date: string;
+	description?: string;
+}
+
+export const createEvent = async (event: CreateEventRequest) => {
+	const response = await apiClient.post<UserEvent>("/api/events", event);
+	return response.data;
+};

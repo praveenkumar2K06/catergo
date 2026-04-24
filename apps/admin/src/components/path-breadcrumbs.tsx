@@ -12,8 +12,8 @@ export function PathBreadcrumbs() {
 	const matches = useMatches();
 
 	if (matches.some((match) => match.status === "pending")) return null;
-
 	const matchesWithCrumbs = matches.filter(
+		// @ts-ignore
 		(match) => match.loaderData?.crumb,
 	);
 
@@ -38,6 +38,7 @@ export function PathBreadcrumbs() {
 						<BreadcrumbItem>
 							<BreadcrumbLink asChild>
 								<Link to={match.pathname}>
+									{/* @ts-ignore */}
 									{match.loaderData?.crumb}
 								</Link>
 							</BreadcrumbLink>
